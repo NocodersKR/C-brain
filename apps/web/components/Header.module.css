@@ -7,9 +7,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
 }
 
 .left {
@@ -22,6 +19,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  gap: 6px;
   width: 167px;
   height: 24px;
 }
@@ -35,7 +33,6 @@
 .logoType {
   width: 136.435px;
   height: 19.125px;
-  margin-left: 6px;
   flex: 0 0 auto;
 }
 
@@ -55,7 +52,7 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
-  letter-spacing: -0.24px;
+  letter-spacing: 0;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -75,19 +72,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.iconAction {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
 }
 
 .outsourceButton,
@@ -124,8 +108,8 @@
   );
 }
 
-.outsourceButton img,
-.quickButton img {
+.outsourceButton svg,
+.quickButton svg {
   width: 24px;
   height: 24px;
   flex: 0 0 auto;

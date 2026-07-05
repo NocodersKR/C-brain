@@ -1,0 +1,46 @@
+:root {
+  --zs-glass-bg: rgb(255 255 255 / 12%);
+  --zs-glass-bg-hover: rgb(255 255 255 / 18%);
+  --zs-glass-bg-fallback: rgb(255 255 255 / 86%);
+  --zs-glass-border: rgb(255 255 255 / 64%);
+  --zs-glass-shadow: 0 12px 32px rgb(15 23 42 / 8%);
+  --zs-glass-blur-soft: 12px;
+  --zs-glass-blur-strong: 24px;
+}
+
+.glassSurface {
+  position: relative;
+  background: var(--zs-glass-bg);
+  border: 1px solid var(--zs-glass-border);
+  box-shadow: var(--zs-glass-shadow);
+  backdrop-filter: blur(var(--zs-glass-blur-soft));
+  -webkit-backdrop-filter: blur(var(--zs-glass-blur-soft));
+}
+
+.glassSurfaceStrong {
+  backdrop-filter: blur(var(--zs-glass-blur-strong));
+  -webkit-backdrop-filter: blur(var(--zs-glass-blur-strong));
+}
+
+.glassSurfacePill {
+  border-radius: 999px;
+}
+
+.glassSurfaceInteractive {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.glassSurfaceInteractive:hover {
+  background: var(--zs-glass-bg-hover);
+}
+
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .glassSurface {
+    background: var(--zs-glass-bg-fallback);
+  }
+}

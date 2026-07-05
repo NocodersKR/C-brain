@@ -1,9 +1,9 @@
-import styles from "./Header.module.css";
-import { ArrowCurveLeftDownIcon } from "./icons";
+import Image from "next/image";
+import Link from "next/link";
 
-const imgMessageTyping = "/figma-assets/message-typing.svg";
-const imgEdit03 = "/figma-assets/edit-03.svg";
-const imgChevronDown = "/figma-assets/chevron-down.svg";
+import { Icon } from "./Icon";
+import styles from "./Header.module.css";
+
 const imgLogoMark = "/figma-assets/logo-mark.svg";
 const imgLogoType = "/figma-assets/logo-type.svg";
 
@@ -11,41 +11,59 @@ const navItems = ["About", "Service", "Blog", "Portfolio", "FAQ"];
 
 export function Header() {
   return (
-    <header className={styles.header} data-node-id="269:32520">
+    <header
+      className={`${styles.header} glassSurface glassSurfaceStrong glassSurfacePill`}
+      data-node-id="269:32520"
+    >
       <div className={styles.left}>
-        <a className={styles.logo} href="/" aria-label="ZeroSourcing home">
-          <img className={styles.logoMark} src={imgLogoMark} alt="" />
-          <img className={styles.logoType} src={imgLogoType} alt="zeroSourcing" />
-        </a>
+        <Link className={styles.logo} href="/" aria-label="ZeroSourcing home">
+          <Image
+            className={styles.logoMark}
+            src={imgLogoMark}
+            alt=""
+            width={24}
+            height={24}
+          />
+          <Image
+            className={styles.logoType}
+            src={imgLogoType}
+            alt="zeroSourcing"
+            width={137}
+            height={20}
+          />
+        </Link>
 
         <nav className={styles.nav} aria-label="Primary navigation">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item}
-              className={item === "About" ? styles.activeNavLink : styles.navLink}
+              className={
+                item === "About" ? styles.activeNavLink : styles.navLink
+              }
               href="/"
             >
               {item}
               {item === "Service" ? (
-                <img className={styles.chevron} src={imgChevronDown} alt="" />
+                <Icon
+                  className={styles.chevron}
+                  name="chevron-down"
+                  size={20}
+                />
               ) : null}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
 
       <div className={styles.actions}>
-        <a className={styles.iconAction} href="/" aria-label="arrow curve left down">
-          <ArrowCurveLeftDownIcon className={styles.icon} />
-        </a>
-        <a className={styles.outsourceButton} href="/">
-          <img src={imgEdit03} alt="" />
+        <Link className={styles.outsourceButton} href="/">
+          <Icon name="edit-03" size={24} />
           외주 문의하기
-        </a>
-        <a className={styles.quickButton} href="/">
-          <img src={imgMessageTyping} alt="" />
+        </Link>
+        <Link className={styles.quickButton} href="/">
+          <Icon name="message-typing" size={24} />
           간편 문의하기
-        </a>
+        </Link>
       </div>
     </header>
   );
