@@ -5,29 +5,34 @@ import {
   forwardRef,
 } from "react";
 
-type ButtonVariant = "solid" | "outline";
-type ButtonSize = "md" | "sm";
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: ButtonSize;
-  variant?: ButtonVariant;
+export interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  fontFamily?: CSSProperties["fontFamily"];
+  fontSize?: CSSProperties["fontSize"];
+  fontWeight?: CSSProperties["fontWeight"];
   leftIcon?: ReactNode;
+  letterSpacing?: CSSProperties["letterSpacing"];
+  lineHeight?: CSSProperties["lineHeight"];
   rightIcon?: ReactNode;
+  textColor?: CSSProperties["color"];
+  underline?: boolean;
 }
 
 const baseStyle: CSSProperties = {
-  height: 52,
-  padding: "8px 16px",
+  maxWidth: 390,
+  padding: 0,
+  border: 0,
   borderRadius: 16,
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
   gap: 4,
+  background: "transparent",
+  color: "#0360ef",
   fontFamily: "var(--font-sans)",
   fontSize: 14,
-  fontWeight: 700,
+  fontWeight: 500,
   lineHeight: "21px",
-  letterSpacing: 0,
+  letterSpacing: "-0.21px",
   whiteSpace: "nowrap",
   cursor: "pointer",
 };
@@ -41,40 +46,23 @@ const iconStyle: CSSProperties = {
   flex: "0 0 auto",
 };
 
-const sizeStyles = {
-  md: {
-    height: 52,
-  },
-  sm: {
-    height: 40,
-  },
-} satisfies Record<ButtonSize, CSSProperties>;
-
-const variantStyles = {
-  solid: {
-    color: "#f8faff",
-    background: "#0360ef",
-    border: "1px solid #0360ef",
-  },
-  outline: {
-    color: "#0360ef",
-    background: "#ffffff",
-    border: "1px solid #0360ef",
-  },
-} satisfies Record<ButtonVariant, CSSProperties>;
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
   (
     {
       children,
       className,
       disabled,
+      fontFamily,
+      fontSize,
+      fontWeight,
       leftIcon,
+      letterSpacing,
+      lineHeight,
       rightIcon,
-      size = "md",
       style,
+      textColor,
       type = "button",
-      variant = "solid",
+      underline = false,
       ...props
     },
     ref,
@@ -88,10 +76,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         style={{
           ...baseStyle,
-          ...sizeStyles[size],
-          ...variantStyles[variant],
+          color: textColor ?? baseStyle.color,
+          fontFamily: fontFamily ?? baseStyle.fontFamily,
+          fontSize: fontSize ?? baseStyle.fontSize,
+          fontWeight: fontWeight ?? baseStyle.fontWeight,
+          lineHeight: lineHeight ?? baseStyle.lineHeight,
+          letterSpacing: letterSpacing ?? baseStyle.letterSpacing,
           opacity: disabled ? 0.4 : undefined,
           cursor: disabled ? "not-allowed" : baseStyle.cursor,
+          textDecoration: underline ? "underline" : "none",
+          textUnderlineOffset: underline ? 3 : undefined,
           ...style,
         }}
       >
@@ -103,4 +97,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-Button.displayName = "Button";
+TextButton.displayName = "TextButton";

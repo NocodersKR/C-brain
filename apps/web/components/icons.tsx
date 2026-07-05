@@ -422,7 +422,7 @@ export function ArrowCurveLeftDownIcon(props: SVGProps<SVGSVGElement>) {
       <g id="arrow-curve-left-down">
         <path
           d="M8.91401 9.17198L3.6 14.486L8.91401 19.8M3.6 14.486H16.4C18.6091 14.486 20.4 12.6951 20.4 10.486V4.2"
-          stroke="var(--stroke-0, #1B1F2A)"
+          stroke="currentColor"
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -571,7 +571,7 @@ export function SavedIcon({
       <g id={iconName}>
         <path
           d={pathData ?? ""}
-          stroke="var(--stroke-0, #1B1F2A)"
+          stroke="currentColor"
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
