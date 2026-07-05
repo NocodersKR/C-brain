@@ -1,50 +1,92 @@
+import { Button } from "@repo/ui/button";
+import { Header } from "../components/Header";
+import {
+  SavedArrowCurveLeftDownIcon,
+  SavedArrowCurveLeftRightIcon,
+  SavedArrowCurveLeftUpIcon,
+  SavedArrowDownLeftIcon,
+  SavedArrowCurveUpLeftIcon,
+  SavedArrowCurveRightUpIcon,
+  SavedArrowDownSquareContainedIcon,
+  SavedArrowLeftSquareContainedIcon,
+  SavedArrowRightSquareContainedIcon,
+  SavedArrowUpSquareContainedIcon,
+} from "../components/icons";
 import styles from "./page.module.css";
 
-const imgMessageTyping = "/figma-assets/message-typing.svg";
-const imgEdit03 = "/figma-assets/edit-03.svg";
-const imgChevronDown = "/figma-assets/chevron-down.svg";
-const imgLogoMark = "/figma-assets/logo-mark.svg";
-const imgLogoType = "/figma-assets/logo-type.svg";
+const arrowIcons = [
+  SavedArrowCurveLeftDownIcon,
+  SavedArrowCurveLeftRightIcon,
+  SavedArrowCurveLeftUpIcon,
+  SavedArrowDownLeftIcon,
+  SavedArrowCurveUpLeftIcon,
+  SavedArrowCurveRightUpIcon,
+  SavedArrowLeftSquareContainedIcon,
+  SavedArrowRightSquareContainedIcon,
+  SavedArrowUpSquareContainedIcon,
+  SavedArrowDownSquareContainedIcon,
+];
 
-const navItems = ["About", "Service", "Blog", "Portfolio", "FAQ"];
+function ButtonIcon({ name }: { name: string }) {
+  return (
+    <img
+      alt=""
+      aria-hidden="true"
+      className={styles.buttonIcon}
+      src={`/icons/button/${name}.svg`}
+    />
+  );
+}
 
 export default function Home() {
   return (
     <main className={styles.page}>
-      <header className={styles.header} data-node-id="269:32520">
-        <div className={styles.left}>
-          <a className={styles.logo} href="/" aria-label="ZeroSourcing home">
-            <img className={styles.logoMark} src={imgLogoMark} alt="" />
-            <img className={styles.logoType} src={imgLogoType} alt="zeroSourcing" />
-          </a>
-
-          <nav className={styles.nav} aria-label="Primary navigation">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                className={item === "About" ? styles.activeNavLink : styles.navLink}
-                href="/"
-              >
-                {item}
-                {item === "Service" ? (
-                  <img className={styles.chevron} src={imgChevronDown} alt="" />
-                ) : null}
-              </a>
-            ))}
-          </nav>
+      <Header />
+      <section className={styles.buttonSection}>
+        <div className={styles.buttonGrid}>
+          <Button
+            leftIcon={<ButtonIcon name="arrow-left-solid" />}
+            rightIcon={<ButtonIcon name="arrow-right-solid" />}
+          >
+            button
+          </Button>
+          <Button
+            leftIcon={<ButtonIcon name="arrow-left-outline" />}
+            rightIcon={<ButtonIcon name="arrow-right-outline" />}
+            variant="outline"
+          >
+            button
+          </Button>
+          <Button
+            disabled
+            leftIcon={<ButtonIcon name="arrow-left-solid" />}
+            rightIcon={<ButtonIcon name="arrow-right-solid" />}
+          >
+            button
+          </Button>
+          <Button
+            disabled
+            leftIcon={<ButtonIcon name="arrow-left-outline" />}
+            rightIcon={<ButtonIcon name="arrow-right-outline" />}
+            variant="outline"
+          >
+            button
+          </Button>
+          <Button rightIcon={<ButtonIcon name="arrow-right-solid" />}>button</Button>
+          <Button leftIcon={<ButtonIcon name="arrow-left-outline" />} variant="outline">
+            button
+          </Button>
         </div>
-
-        <div className={styles.actions}>
-          <a className={styles.outsourceButton} href="/">
-            <img src={imgEdit03} alt="" />
-            외주 문의하기
-          </a>
-          <a className={styles.quickButton} href="/">
-            <img src={imgMessageTyping} alt="" />
-            간편 문의하기
-          </a>
-        </div>
-      </header>
+      </section>
+      <section className={styles.iconSection}>
+        <ul className={styles.iconGrid}>
+          {arrowIcons.map((Icon, index) => (
+            <li className={styles.iconItem} key={index}>
+              <Icon />
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }
