@@ -1,5 +1,5 @@
 {
-  "name": "zerosourcing-v2",
+  "name": "c-brain",
   "private": true,
   "scripts": {
     "build": "turbo run build",

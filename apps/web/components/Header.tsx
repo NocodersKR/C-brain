@@ -16,7 +16,7 @@ export function Header() {
       data-node-id="269:32520"
     >
       <div className={styles.left}>
-        <Link className={styles.logo} href="/" aria-label="ZeroSourcing home">
+        <Link className={styles.logo} href="/" aria-label="C-Brain home">
           <Image
             className={styles.logoMark}
             src={imgLogoMark}
@@ -27,7 +27,7 @@ export function Header() {
           <Image
             className={styles.logoType}
             src={imgLogoType}
-            alt="zeroSourcing"
+            alt="C-Brain"
             width={137}
             height={20}
           />
