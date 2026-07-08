@@ -56,7 +56,6 @@
 
 .typographyGrid,
 .colorGrid,
-.iconGrid,
 .componentGrid {
   display: grid;
   gap: 12px;
@@ -154,7 +153,6 @@
 }
 
 .colorItem,
-.iconItem,
 .componentPanel {
   border: 1px solid var(--color-gray-100);
   border-radius: 8px;
@@ -193,40 +191,6 @@
 .inlineCode {
   padding: 2px 6px;
   overflow-wrap: anywhere;
-}
-
-.iconGrid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-
-.iconItem {
-  min-width: 0;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-gray-800);
-}
-
-.iconName {
-  composes: pretendard-medium-12 from global;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  color: var(--color-gray-700);
-}
-
-.glassPreview {
-  width: min(520px, 100%);
-  min-height: 80px;
-  padding: 0 24px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-gray-900);
-}
-
-.glassText {
-  composes: pretendard-bold-16 from global;
 }
 
 .componentGrid {

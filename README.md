@@ -1,200 +1,239 @@
 # C-Brain
 
-## 1. 현재 상태 요약
+C-Brain 프론트엔드 모노레포입니다. 현재는 디자인 시스템 기반 작업과 Supabase 접근 패키지 구성이 완료된 상태이며, 실제 서비스 화면과 도메인 기능 개발은 아직 시작 전입니다.
 
-이 저장소는 C-Brain 프로젝트의 웹 프론트엔드 모노레포입니다. 현재는 **디자인 시스템 기반 작업까지 완료**된 상태이며, 실제 서비스 화면과 기능 개발은 아직 시작 전입니다.
+현재 구성된 범위:
 
-지금까지 만들어진 것: 디자인 토큰(색상·타이포그래피), 공용 UI 컴포넌트 14종, 아이콘 시스템, 글라스모피즘 스타일.
+- 디자인 토큰: `design-system.css`
+- 공용 UI 컴포넌트 14종
+- user/admin Next.js 앱
+- 공용 Supabase access package
 
-### 기술 스택
+## 1. Tech Stack
 
-| 기술 | 역할 | 한 줄 설명 |
+| 기술 | 역할 | 설명 |
 | --- | --- | --- |
-| **Next.js** | 웹 프레임워크 | 화면(페이지)을 만드는 도구. 이 프로젝트의 몸통 |
-| **Turborepo** | 모노레포 관리 | 여러 프로젝트(user, admin 등)를 한 폴더에서 함께 관리·실행해주는 정리함 |
-| **pnpm** | 패키지 매니저 | 외부 라이브러리를 설치·관리하는 도구. `npm`의 빠른 버전 |
-| **TypeScript** | 언어 | 자바스크립트에 타입 검사를 더한 언어. 실수를 미리 잡아줌 |
-| **React 19** | UI 라이브러리 | 화면을 컴포넌트(부품) 단위로 조립하는 도구 |
+| **Next.js** | App Framework | App Router 기반 user/admin 애플리케이션 |
+| **React 19** | UI Layer | 컴포넌트 렌더링 및 인터랙션 구성 |
+| **TypeScript** | Language | 정적 타입 기반 개발 |
+| **Turborepo** | Monorepo Orchestration | 앱/패키지 작업 실행 및 캐싱 |
+| **pnpm** | Package Manager | workspace 의존성 관리 |
+| **Supabase** | Backend Platform | 인증, DB, 스토리지 연동 예정 |
+| **ESLint / Prettier** | Code Quality | 정적 분석 및 포맷팅 |
 
-## 2. 실행 방법
+## 2. Local Development
 
-### 2.1 개발 환경
+### Requirements
 
-- **Node.js 18 이상** — [nodejs.org](https://nodejs.org)에서 LTS 버전 설치
-- **pnpm 9** — Node 설치 후 터미널에서:
+- Node.js 18 이상
+- pnpm 9 이상
 
-  ```sh
-  npm install -g pnpm@9
-  ```
+### Install
 
-설치 확인:
-
-```sh
-node -v   # v18 이상이면 OK
-pnpm -v   # 9.x면 OK
-```
-
-### 2.2 설치 & 실행
-
-```sh
+```bash
 pnpm install
 ```
 
-```sh
+### Run
+
+```bash
 pnpm dev
 ```
 
-```sh
-pnpm dev --filter=user    # user 앱만
-pnpm dev --filter=admin   # admin 앱만
+전체 workspace dev task를 실행합니다.
+
+앱 단위 실행:
+
+```bash
+pnpm dev --filter=user
+pnpm dev --filter=admin
 ```
 
-실행 후 브라우저에서 확인:
+기본 로컬 주소:
 
-| 앱 | 주소 | 설명 |
-| --- | --- | --- |
-| user | http://localhost:3000 | 실제 서비스가 될 메인 앱 |
-| admin | http://localhost:3001 | 관리자 앱 (현재 스타터 상태) |
-
-끌 때는 터미널에서 `Ctrl + C`.
-
-## 3. 폴더 구조와 현재 구현 현황
-
-### 3.1 폴더 지도
-
-```
-c-brain/
-├── apps/
-│   ├── user/                 # 메인 사용자 앱 (실제 개발은 여기서)
-│   │   ├── app/              #   페이지들 (URL 하나 = 폴더 하나)
-│   │   │   ├── color/        #   색상 팔레트 확인용 페이지
-│   │   │   └── glass.css     #   글라스모피즘 공용 스타일
-│   │   ├── components/       #   user 전용 컴포넌트 (Icon 등)
-│   │   └── public/           #   이미지·SVG 등 정적 파일
-│   └── admin/                # 관리자 앱 (아직 스타터 그대로)
-├── packages/
-│   ├── supabase/src/         # Supabase client, auth, data access helpers
-│   ├── ui/src/               # 공용 UI 부품 (버튼, 인풋, 다이얼로그 …)
-│   ├── eslint-config/        # 코드 검사 설정 (건드릴 일 거의 없음)
-│   └── typescript-config/    # 타입스크립트 설정 (건드릴 일 거의 없음)
-├── design.md                 # ★ 디자인 시스템 규칙 원본 (작업 전 필독)
-├── design-system.css         # ★ 디자인 토큰 (색상·타이포 CSS 변수)
-└── AGENTS.md                 # AI 도구가 자동으로 읽는 작업 지침
-```
-
-**"이걸 바꾸고 싶으면 여기를 보세요"**
-
-| 하려는 일 | 위치 |
+| 앱 | 주소 |
 | --- | --- |
-| 페이지 추가/수정 | `apps/user/app/` |
-| Supabase 조회/저장 로직 수정 | `packages/supabase/src/` |
-| 버튼·인풋 같은 공용 부품 수정 | `packages/ui/src/` |
-| 아이콘 추가 | `apps/user/components/Icon.tsx` (먼저 중복 확인) |
-| 색상·글꼴 토큰 변경 | `design-system.css` |
+| user | http://localhost:3000 |
+| admin | http://localhost:3001 |
+
+서버 종료는 실행 중인 터미널에서 `Ctrl+C`를 사용합니다.
+
+## 3. Repository Layout
+
+```txt
+c-brain
+├─ apps
+│  ├─ user
+│  │  ├─ app
+│  │  │  ├─ page.tsx
+│  │  │  ├─ page.module.css
+│  │  │  └─ layout.tsx
+│  │  └─ components
+│  │     ├─ Icon.tsx
+│  │     └─ icons.tsx
+│  └─ admin
+│     └─ app
+│        ├─ page.tsx
+│        └─ layout.tsx
+├─ packages
+│  ├─ supabase
+│  │  └─ src
+│  ├─ ui
+│  │  └─ src
+│  ├─ eslint-config
+│  └─ typescript-config
+├─ design.md
+├─ design-system.css
+├─ AGENTS.md
+├─ package.json
+├─ pnpm-workspace.yaml
+├─ turbo.json
+└─ README.md
+```
+
+| 경로 | 용도 |
+| --- | --- |
+| `apps/user` | 사용자-facing Next.js 앱 |
+| `apps/admin` | 관리자용 Next.js 앱 |
+| `packages/ui` | 공용 UI primitive |
+| `packages/supabase` | Supabase client/server/admin access layer |
+| `packages/eslint-config` | workspace ESLint 설정 |
+| `packages/typescript-config` | workspace TypeScript 설정 |
+| `design.md` | 디자인 시스템 규칙 |
+| `design-system.css` | 색상/타이포그래피 CSS token |
+| `AGENTS.md` | 작업 에이전트 지침 |
+
+작업 위치 기준:
+
+| 작업 | 위치 |
+| --- | --- |
+| user 화면/라우트 | `apps/user/app` |
+| admin 화면/라우트 | `apps/admin/app` |
+| 공용 UI 컴포넌트 | `packages/ui/src` |
+| 디자인 토큰 | `design-system.css` |
+| 아이콘 추가 | `apps/user/components/Icon.tsx`, `apps/user/components/icons.tsx` |
+| Supabase 접근 로직 | `packages/supabase/src` |
 | 디자인 규칙 확인 | `design.md` |
 
-### 3.2 구현된 것 목록
+## 4. Current Surfaces
 
-- **디자인 토큰** (`design-system.css`) — Pretendard 폰트, 색상 스케일 6종(brand / gray / error / warning / success / info, 각 50~900 단계), 타이포그래피 토큰(`pretendard-medium-12` ~ `pretendard-bold-32`)
-- **공용 UI 컴포넌트 14종** (`packages/ui/src`) — accordion, button, card, category, checkbox, code, dialog, input, radio, search-input, select, tabs, text-button, toggle. 가져다 쓸 때는 `import { Button } from "@repo/ui/button"` 형태
-- **Supabase 접근 패키지** (`packages/supabase/src`) — user/admin 양쪽 앱에서 쓰는 Supabase client 생성, auth guard, 콘텐츠/포트폴리오/서비스/FAQ/문의/파일/설정 데이터 접근 함수
-- **아이콘 시스템** — `apps/user/components/Icon.tsx`에 등록된 아이콘을 `<Icon name="arrow-left" size={16} />` 형태로 사용. 원본 백업은 `icons.tsx`
-- **글라스모피즘 스타일** (`apps/user/app/glass.css`) — `glassSurface`, `glassSurfaceStrong`, `glassSurfacePill`, `glassSurfaceInteractive` 4종
-- **색상 팔레트 페이지** (`apps/user/app/color`) — 토큰 색상을 눈으로 확인하는 페이지
+### `apps/user`
 
-### 3.3 주의사항: zeroSourcing 잔재
+현재 user 앱은 디자인 시스템 쇼케이스 역할을 합니다.
 
-이 저장소는 **zeroSourcing 프로젝트의 기본 세팅을 그대로 가져와서** 시작했습니다. 이름·문구는 c-brain으로 정리했지만, 아직 잔재가 남아 있을 수 있습니다.
+- typography scale
+- color token swatches
+- UI 컴포넌트 예시 14종
 
-- 파일·에셋·설정에서 zeroSourcing 흔적을 발견하면 그대로 두지 말고 정리하거나 팀에 공유해 주세요
+### `apps/admin`
 
-## 4. 작업 규칙
+현재 admin 앱은 초기 Next.js shell 수준입니다. 본격적인 관리자 화면은 아직 구현되지 않았습니다.
 
-> 상세 규칙 원본은 [design.md](design.md)입니다. 아래는 요약이며, 충돌 시 원본이 우선입니다.
+### `packages/ui`
 
-### 4.1 디자인 시스템 준수
+구성된 항목:
 
-- 글꼴은 **Pretendard 토큰만** 사용 — Medium(500)/Bold(700), 12~32px 정해진 조합만 (`design.md`의 표 참고)
-- 색상은 임의의 색상코드를 쓰지 말고 `design-system.css`의 **CSS 변수 토큰** 사용 (예: `var(--color-brand-500)`)
+- `accordion.tsx`
+- `button.tsx`
+- `card.tsx`
+- `category.tsx`
+- `checkbox.tsx`
+- `code.tsx`
+- `dialog.tsx`
+- `input.tsx`
+- `radio.tsx`
+- `search-input.tsx`
+- `select.tsx`
+- `tabs.tsx`
+- `text-button.tsx`
+- `toggle.tsx`
 
-### 4.2 아이콘 규칙
+### `packages/supabase`
 
-- 아이콘은 **SVG만** 사용 (PNG, 이모지, 아이콘 폰트 금지)
-- 반드시 `Icon.tsx`에 등록하고 `<Icon name="..." />` 컴포넌트로 렌더링
-- 색상은 `currentColor`로 — 부모의 글자색을 따라가게 하고, 색상별 아이콘 파일을 따로 만들지 않기
-- **추가 전에 `Icon.tsx`와 `icons.tsx`에 같은 이름이 있는지 먼저 확인**, 있으면 재사용
-- `ButtonIcon`, `HeaderIcon` 같은 로컬 래퍼 컴포넌트 만들지 않기
-- 예외(고정색 허용): 로고, 브랜드마크, 파트너 로고, 국기, 일러스트
+user/admin 앱에서 공통으로 사용하는 Supabase 접근 패키지입니다.
 
-### 4.3 컴포넌트·레이아웃 규칙
+구성된 항목:
 
-- **공용 부품**은 `packages/ui/src`에, **user 전용 컴포넌트**는 `apps/user/components`에
-- 간격은 부모의 `flex/grid` + `gap`으로 — 자식 요소에 `margin`으로 간격 만들지 않기
-- 반투명·블러 효과는 직접 `backdrop-filter`를 쓰지 말고 `glass.css`의 `glassSurface` 유틸리티 사용 (헤더·툴바·오버레이 등 떠 있는 UI에만)
+- browser/server/admin client factory
+- auth/profile helper
+- content/portfolio/service/FAQ/inquiry/file/settings data access helper
+- database type placeholder
+- public package export
 
-### 4.4 Supabase 사용 규칙
+현재 data access helper는 초기 부트스트랩 범위입니다. C-Brain 최종 도메인 모델이 확정되면 `packages/supabase/src/types.ts`와 각 data module을 실제 schema 기준으로 재정리해야 합니다.
 
-- `apps/user`와 `apps/admin`에서는 `@supabase/*`를 직접 import하지 않습니다.
-- Supabase 관련 client 생성, auth, 조회/저장/삭제 함수는 모두 `@repo/supabase`에서 가져옵니다.
-- 앱은 화면, 라우팅, Server Action/Route Handler 연결만 담당합니다.
-- 공개 조회 함수는 `listPublished*`, 관리자 함수는 `listAdmin*`, 사용자 본인 범위 함수는 `listMy*` 이름을 사용합니다.
-- 관리자 함수는 `packages/supabase/src/auth.ts`의 `requireAdmin()`을 거쳐야 합니다.
-- `SUPABASE_SECRET_KEY`를 쓰는 admin client는 서버 전용이며 브라우저 코드에서 사용하면 안 됩니다.
+## 5. Development Rules
 
-환경변수는 루트 `.env.local`에 둡니다. 샘플은 `.env.example`을 참고합니다.
+### Design System
 
-```env
+UI 작업 전에는 `design.md`를 먼저 확인합니다.
+
+현재 디자인 방향:
+
+- dark base
+- turquoise / green / purple accent
+- Pretendard typography 기준
+- 8px 이하 radius 우선
+- card-in-card 레이아웃 지양
+
+### Layout / CSS
+
+앱 화면 스타일은 각 앱의 CSS Module에서 관리합니다.
+
+공통 스타일이 필요한 경우:
+
+1. `design.md`에서 규칙 확인
+2. `design-system.css`에서 token 확인
+3. 재사용 범위가 명확할 때만 `packages/ui`로 이동
+
+### Supabase
+
+Supabase 접근은 앱별로 직접 client를 생성하지 않고 `@repo/supabase`를 통해 사용합니다.
+
+사용 기준:
+
+- 클라이언트 컴포넌트: `createBrowserSupabaseClient`
+- 서버 컴포넌트 / route handler: `createServerSupabaseClient`
+- service role 전용 작업: `createAdminSupabaseClient`
+- 인증/권한 helper: `getCurrentUser`, `getCurrentProfile`, `requireUser`, `requireAdmin`
+
+환경 변수:
+
+```bash
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SECRET_KEY=
 ```
 
-사용 예시:
+`SUPABASE_SECRET_KEY`는 서버 전용입니다. 클라이언트 컴포넌트에서 import하거나 노출하지 않습니다.
 
-```ts
-import { listPublishedPosts } from "@repo/supabase/content";
-import { createServerSupabaseClient } from "@repo/supabase/server";
-```
+## 6. Common Commands
 
-## 5. 자주 쓰는 명령어
-
-루트 폴더에서 실행합니다.
-
-| 명령어 | 하는 일 | 언제 쓰나 |
-| --- | --- | --- |
-| `pnpm dev` | 개발 서버 실행 | 작업하면서 화면 확인할 때 (항상) |
-| `pnpm build` | 배포용 빌드 | 배포 전, 빌드가 깨지지 않는지 확인할 때 |
-| `pnpm lint` | 코드 검사 | 작업 마무리 후 규칙 위반 확인 |
-| `pnpm check-types` | 타입 검사 | 작업 마무리 후 타입 오류 확인 |
-| `pnpm format` | 코드 정리 | 들여쓰기 등 스타일 자동 정돈 |
-
-> `--filter=user` 을 붙이면 특정 앱에만 실행됩니다. 예: `pnpm build --filter=user`
-
-## 6. 부록
-
-### 6.1 용어 사전
-
-| 용어 | 뜻 |
+| 명령어 | 용도 |
 | --- | --- |
-| 모노레포 | 여러 프로젝트를 저장소 하나에 모아 관리하는 방식 |
-| 패키지 | 기능 묶음 단위. `apps/`와 `packages/` 아래 폴더 하나하나가 패키지 |
-| 의존성 | 프로젝트가 빌려 쓰는 외부 라이브러리. `pnpm install`로 설치되어 `node_modules`에 저장됨 |
-| 개발 서버 | 코드를 고치면 즉시 브라우저에 반영해주는 로컬 서버 (`pnpm dev`) |
-| 빌드 | 코드를 실제 배포 가능한 형태로 변환·검증하는 과정 |
-| 린트 | 코드 규칙 위반을 자동으로 잡아주는 검사 |
-| 타입 체크 | 데이터 종류가 어긋나는 실수를 미리 찾는 검사 |
-| 컴포넌트 | 버튼·헤더처럼 화면을 구성하는 재사용 가능한 부품 |
-| 디자인 토큰 | 색상·글꼴 값을 변수로 정해둔 것. 토큰만 쓰면 디자인이 일관돼짐 |
-| CSS 변수 | `var(--color-brand-500)`처럼 토큰을 코드에서 불러 쓰는 방법 |
+| `pnpm install` | workspace 의존성 설치 |
+| `pnpm dev` | 전체 dev task 실행 |
+| `pnpm dev --filter=user` | user 앱만 실행 |
+| `pnpm dev --filter=admin` | admin 앱만 실행 |
+| `pnpm build` | 전체 build task 실행 |
+| `pnpm lint` | 전체 lint 실행 |
+| `pnpm check-types` | 전체 TypeScript 검사 |
+| `pnpm --filter @repo/ui lint` | UI 패키지 lint |
+| `pnpm --filter @repo/supabase check-types` | Supabase 패키지 타입 검사 |
 
-### 6.2 프로젝트 링크
+## 7. Project Links
 
-| 항목 | 링크 |
-| --- | --- |
-| Figma 디자인 파일 | _(채워주세요)_ |
-| GitHub 저장소 | _(채워주세요)_ |
-| 배포 환경 | _(채워주세요)_ |
+- zeroSourcing Notion: https://www.notion.so/zeroSourcing-1f6d10b6c8838060ab56e877a1affb03
 
----
+## 8. Bootstrap Note
 
-⚠️ **주의**: `node_modules/`, `pnpm-lock.yaml`, `packages/eslint-config`, `packages/typescript-config`는 직접 수정하지 마세요.
+이 저장소는 zeroSourcing 프로젝트 세팅을 기반으로 시작했습니다. 코드, 에셋, 문서에 legacy naming이 남아 있을 수 있으므로 발견 시 C-Brain 기준으로 정리합니다.
+
+## 9. Maintenance Notes
+
+다음 항목은 목적이 명확할 때만 수정합니다.
+
+- `pnpm-lock.yaml`: 의존성 변경 시 갱신
+- `packages/eslint-config`: lint 정책 변경 시 수정
+- `packages/typescript-config`: TypeScript 정책 변경 시 수정
+- `node_modules`: 직접 수정하지 않음

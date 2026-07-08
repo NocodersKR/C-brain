@@ -13,7 +13,6 @@ import { Tabs } from "@repo/ui/tabs";
 import { TextButton } from "@repo/ui/text-button";
 import { Toggle } from "@repo/ui/toggle";
 
-import { Icon } from "../components/Icon";
 import styles from "./page.module.css";
 
 const typographySamples = [
@@ -45,24 +44,6 @@ const colorSamples = [
   { name: "Success", token: "--color-success-500" },
   { name: "Info", token: "--color-info-500" },
 ];
-
-const iconNames = [
-  "arrow-left",
-  "arrow-right",
-  "chevron-down",
-  "edit-03",
-  "message-typing",
-  "arrow-curve-left-down",
-  "arrow-curve-left-right",
-  "arrow-curve-left-up",
-  "arrow-down-left",
-  "arrow-curve-up-left",
-  "arrow-curve-right-up",
-  "arrow-left-square-contained",
-  "arrow-right-square-contained",
-  "arrow-up-square-contained",
-  "arrow-down-square-contained",
-] as const;
 
 const selectOptions = [
   { label: "브랜드 사이트", value: "brand-site" },
@@ -124,34 +105,6 @@ export default function Home() {
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <p className={styles.kicker}>Icons</p>
-            <h2 className={styles.sectionTitle}>Registered SVG icons</h2>
-          </div>
-          <div className={styles.iconGrid}>
-            {iconNames.map((name) => (
-              <div className={styles.iconItem} key={name}>
-                <Icon name={name} size={24} />
-                <span className={styles.iconName}>{name}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.kicker}>Glass</p>
-            <h2 className={styles.sectionTitle}>Shared glass surface</h2>
-          </div>
-          <div
-            className={`${styles.glassPreview} glassSurface glassSurfaceStrong glassSurfacePill`}
-          >
-            <Icon name="message-typing" size={24} />
-            <span className={styles.glassText}>glassSurfaceStrong pill</span>
-          </div>
-        </section>
-
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
             <p className={styles.kicker}>Components</p>
             <h2 className={styles.sectionTitle}>Shared UI examples</h2>
           </div>
@@ -159,24 +112,15 @@ export default function Home() {
             <article className={styles.componentPanel}>
               <h3 className={styles.panelTitle}>Button</h3>
               <div className={styles.controlRow}>
-                <Button leftIcon={<Icon name="edit-03" size={16} />}>
-                  Solid
-                </Button>
-                <Button
-                  rightIcon={<Icon name="arrow-right" size={16} />}
-                  variant="outline"
-                >
-                  Outline
-                </Button>
+                <Button>Solid</Button>
+                <Button variant="outline">Outline</Button>
               </div>
             </article>
 
             <article className={styles.componentPanel}>
               <h3 className={styles.panelTitle}>TextButton</h3>
               <div className={styles.controlRow}>
-                <TextButton rightIcon={<Icon name="arrow-right" size={16} />}>
-                  자세히 보기
-                </TextButton>
+                <TextButton>자세히 보기</TextButton>
                 <TextButton underline>밑줄 버튼</TextButton>
               </div>
             </article>
