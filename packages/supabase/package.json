@@ -1,0 +1,36 @@
+{
+  "name": "@repo/supabase",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./admin": "./src/admin.ts",
+    "./auth": "./src/auth.ts",
+    "./client": "./src/client.ts",
+    "./content": "./src/content.ts",
+    "./faqs": "./src/faqs.ts",
+    "./files": "./src/files.ts",
+    "./inquiries": "./src/inquiries.ts",
+    "./portfolio": "./src/portfolio.ts",
+    "./server": "./src/server.ts",
+    "./services": "./src/services.ts",
+    "./settings": "./src/settings.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.89.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "eslint": "^9.39.1",
+    "typescript": "5.9.2"
+  }
+}

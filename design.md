@@ -39,13 +39,13 @@ weights:
 
 Icons must be implemented as SVG only. Do not use PNG, JPG, webfont, emoji, or rasterized icon sources for product UI icons.
 
-Product UI icons must be registered in `apps/web/components/Icon.tsx` and rendered through the shared `Icon` component. Every product UI icon must use `currentColor` for stroke/fill by default.
+Product UI icons must be registered in `apps/user/components/Icon.tsx` and rendered through the shared `Icon` component. Every product UI icon must use `currentColor` for stroke/fill by default.
 
 Do not decide from a static Figma frame that an icon color is fixed. UI icons can later change by variant, hover, active, disabled, theme, dark mode, CTA style, or parent text color, so they must inherit color from their parent.
 
 Fixed-color SVG assets are allowed only for non-UI graphics where color carries brand or semantic identity: logos, brand marks, partner/payment logos, flags, illustrations, and multi-color decorative graphics. These exceptions must remain asset SVGs and should not be registered as normal product UI icons.
 
-Before adding a new icon, always check `apps/web/components/Icon.tsx` and `apps/web/components/icons.tsx` first. If an icon with the same name already exists, reuse the existing icon instead of downloading, duplicating, or creating another copy.
+Before adding a new icon, always check `apps/user/components/Icon.tsx` and `apps/user/components/icons.tsx` first. If an icon with the same name already exists, reuse the existing icon instead of downloading, duplicating, or creating another copy.
 
 Do not create local wrapper components such as `ButtonIcon` or `HeaderIcon` inside pages/components.
 
@@ -55,7 +55,7 @@ Do not create local wrapper components such as `ButtonIcon` or `HeaderIcon` insi
 
 ## 아이콘 규칙
 
-- 모든 제품 UI 아이콘은 `apps/web/components/Icon.tsx`의 `Icon` 컴포넌트로 렌더링한다.
+- 모든 제품 UI 아이콘은 `apps/user/components/Icon.tsx`의 `Icon` 컴포넌트로 렌더링한다.
 - 모든 제품 UI 아이콘은 기본적으로 `stroke="currentColor"` 또는 `fill="currentColor"`를 사용한다.
 - 정적 Figma 화면만 보고 아이콘 색상이 고정이라고 판단하지 않는다.
 - 고정색 예외는 로고, 브랜드마크, 파트너/결제사 로고, 국기, 일러스트, 다색 장식 그래픽으로 제한한다.
@@ -67,17 +67,17 @@ Do not create local wrapper components such as `ButtonIcon` or `HeaderIcon` insi
 
 ## Icons 규격
 
-- 아이콘 registry 위치: `apps/web/components/Icon.tsx`
-- Figma에서 받은 원본/백업 벡터 위치: `apps/web/components/icons.tsx`
-- 신규 아이콘 추가 전 `apps/web/components/Icon.tsx`와 `apps/web/components/icons.tsx`에 동일 이름 아이콘이 있는지 먼저 확인한다.
+- 아이콘 registry 위치: `apps/user/components/Icon.tsx`
+- Figma에서 받은 원본/백업 벡터 위치: `apps/user/components/icons.tsx`
+- 신규 아이콘 추가 전 `apps/user/components/Icon.tsx`와 `apps/user/components/icons.tsx`에 동일 이름 아이콘이 있는지 먼저 확인한다.
 - 동일 이름 아이콘이 이미 있으면 기존 아이콘을 꺼내서 사용하고, 중복 SVG 파일이나 색상별 아이콘을 만들지 않는다.
-- UI에서 아이콘을 사용할 때는 `apps/web/components/Icon.tsx`의 `Icon` 컴포넌트를 사용한다.
+- UI에서 아이콘을 사용할 때는 `apps/user/components/Icon.tsx`의 `Icon` 컴포넌트를 사용한다.
 - 특정 화면이나 컴포넌트 안에 `ButtonIcon`, `HeaderIcon` 같은 로컬 아이콘 래퍼를 만들지 않는다.
 - 제품 UI용 색상별 아이콘 파일을 따로 만들지 않는다. `Icon`은 `currentColor`를 따르고, 색상은 부모 컴포넌트의 `color`로 제어한다.
 - Figma SVG를 가져올 때 고정 `stroke`/`fill` 색상은 `currentColor`로 변환해 등록한다.
 - 고정색 asset SVG는 제품 UI 아이콘 registry에 넣지 않고, 해당 그래픽을 쓰는 컴포넌트에서 명시적으로 사용한다.
 - 사용 예시: `<Icon name="arrow-right" size={16} />`
-- 원본/백업 파일 규격: `apps/web/components/icons.tsx`
+- 원본/백업 파일 규격: `apps/user/components/icons.tsx`
 - 파일 내 항목
   - 아이콘 타입: `FigmaIconAsset`
   - 아이콘 데이터 배열: `figmaArrowIcons`
@@ -104,7 +104,7 @@ Use `margin` only for page-level exceptions where `gap` cannot express the layou
 
 # Glassmorphism
 
-Glassmorphism styles must use the shared `glassSurface` utilities from `apps/web/app/glass.css`. Do not write one-off `backdrop-filter`, translucent background, border, or shadow values directly in page or component CSS when the shared glass style covers the case.
+Glassmorphism styles must use the shared `glassSurface` utilities from `apps/user/app/glass.css`. Do not write one-off `backdrop-filter`, translucent background, border, or shadow values directly in page or component CSS when the shared glass style covers the case.
 
 Use glass surfaces only for floating UI layers such as headers, toolbars, overlays, and panels. Keep component-specific CSS focused on layout, size, typography, and spacing.
 
@@ -115,4 +115,4 @@ Use glass surfaces only for floating UI layers such as headers, toolbars, overla
 - pill 형태의 header/toolbar: `glassSurfacePill`
 - hover 반응이 필요한 glass surface: `glassSurfaceInteractive`
 - `backdrop-filter`는 반투명 배경과 함께 써야 효과가 보인다.
-- 새 glass 변형이 필요하면 먼저 `apps/web/app/glass.css`의 토큰으로 해결 가능한지 확인한다.
+- 새 glass 변형이 필요하면 먼저 `apps/user/app/glass.css`의 토큰으로 해결 가능한지 확인한다.

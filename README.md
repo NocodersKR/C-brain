@@ -4,21 +4,21 @@
 
 이 저장소는 C-Brain 프로젝트의 웹 프론트엔드 모노레포입니다. 현재는 **디자인 시스템 기반 작업까지 완료**된 상태이며, 실제 서비스 화면과 기능 개발은 아직 시작 전입니다.
 
-지금까지 만들어진 것: 디자인 토큰(색상·타이포그래피), 공용 UI 컴포넌트 14종, 아이콘 시스템, 글라스모피즘 스타일, 헤더 컴포넌트.
+지금까지 만들어진 것: 디자인 토큰(색상·타이포그래피), 공용 UI 컴포넌트 14종, 아이콘 시스템, 글라스모피즘 스타일.
 
 ### 기술 스택
 
 | 기술 | 역할 | 한 줄 설명 |
 | --- | --- | --- |
 | **Next.js** | 웹 프레임워크 | 화면(페이지)을 만드는 도구. 이 프로젝트의 몸통 |
-| **Turborepo** | 모노레포 관리 | 여러 프로젝트(web, docs 등)를 한 폴더에서 함께 관리·실행해주는 정리함 |
+| **Turborepo** | 모노레포 관리 | 여러 프로젝트(user, admin 등)를 한 폴더에서 함께 관리·실행해주는 정리함 |
 | **pnpm** | 패키지 매니저 | 외부 라이브러리를 설치·관리하는 도구. `npm`의 빠른 버전 |
 | **TypeScript** | 언어 | 자바스크립트에 타입 검사를 더한 언어. 실수를 미리 잡아줌 |
 | **React 19** | UI 라이브러리 | 화면을 컴포넌트(부품) 단위로 조립하는 도구 |
 
 ## 2. 실행 방법
 
-### 2.1 준비물
+### 2.1 개발 환경
 
 - **Node.js 18 이상** — [nodejs.org](https://nodejs.org)에서 LTS 버전 설치
 - **pnpm 9** — Node 설치 후 터미널에서:
@@ -36,33 +36,25 @@ pnpm -v   # 9.x면 OK
 
 ### 2.2 설치 & 실행
 
-처음 받았을 때 한 번만:
-
 ```sh
 pnpm install
 ```
-
-> 프로젝트가 사용하는 외부 라이브러리를 전부 내려받는 명령입니다. 몇 분 걸릴 수 있습니다.
-
-**전체 동시 실행** (web + docs 모두 켜기):
 
 ```sh
 pnpm dev
 ```
 
-**개별 실행** (필요한 것만 켜기):
-
 ```sh
-pnpm dev --filter=web    # web 앱만
-pnpm dev --filter=docs   # docs 앱만
+pnpm dev --filter=user    # user 앱만
+pnpm dev --filter=admin   # admin 앱만
 ```
 
 실행 후 브라우저에서 확인:
 
 | 앱 | 주소 | 설명 |
 | --- | --- | --- |
-| web | http://localhost:3000 | 실제 서비스가 될 메인 앱 |
-| docs | http://localhost:3001 | 문서용 앱 (현재 스타터 상태) |
+| user | http://localhost:3000 | 실제 서비스가 될 메인 앱 |
+| admin | http://localhost:3001 | 관리자 앱 (현재 스타터 상태) |
 
 끌 때는 터미널에서 `Ctrl + C`.
 
@@ -73,14 +65,15 @@ pnpm dev --filter=docs   # docs 앱만
 ```
 c-brain/
 ├── apps/
-│   ├── web/                  # 메인 앱 (실제 개발은 여기서)
+│   ├── user/                 # 메인 사용자 앱 (실제 개발은 여기서)
 │   │   ├── app/              #   페이지들 (URL 하나 = 폴더 하나)
 │   │   │   ├── color/        #   색상 팔레트 확인용 페이지
 │   │   │   └── glass.css     #   글라스모피즘 공용 스타일
-│   │   ├── components/       #   web 전용 컴포넌트 (Header, Icon 등)
+│   │   ├── components/       #   user 전용 컴포넌트 (Icon 등)
 │   │   └── public/           #   이미지·SVG 등 정적 파일
-│   └── docs/                 # 문서용 앱 (아직 스타터 그대로)
+│   └── admin/                # 관리자 앱 (아직 스타터 그대로)
 ├── packages/
+│   ├── supabase/src/         # Supabase client, auth, data access helpers
 │   ├── ui/src/               # 공용 UI 부품 (버튼, 인풋, 다이얼로그 …)
 │   ├── eslint-config/        # 코드 검사 설정 (건드릴 일 거의 없음)
 │   └── typescript-config/    # 타입스크립트 설정 (건드릴 일 거의 없음)
@@ -93,9 +86,10 @@ c-brain/
 
 | 하려는 일 | 위치 |
 | --- | --- |
-| 페이지 추가/수정 | `apps/web/app/` |
+| 페이지 추가/수정 | `apps/user/app/` |
+| Supabase 조회/저장 로직 수정 | `packages/supabase/src/` |
 | 버튼·인풋 같은 공용 부품 수정 | `packages/ui/src/` |
-| 아이콘 추가 | `apps/web/components/Icon.tsx` (먼저 중복 확인) |
+| 아이콘 추가 | `apps/user/components/Icon.tsx` (먼저 중복 확인) |
 | 색상·글꼴 토큰 변경 | `design-system.css` |
 | 디자인 규칙 확인 | `design.md` |
 
@@ -103,17 +97,16 @@ c-brain/
 
 - **디자인 토큰** (`design-system.css`) — Pretendard 폰트, 색상 스케일 6종(brand / gray / error / warning / success / info, 각 50~900 단계), 타이포그래피 토큰(`pretendard-medium-12` ~ `pretendard-bold-32`)
 - **공용 UI 컴포넌트 14종** (`packages/ui/src`) — accordion, button, card, category, checkbox, code, dialog, input, radio, search-input, select, tabs, text-button, toggle. 가져다 쓸 때는 `import { Button } from "@repo/ui/button"` 형태
-- **아이콘 시스템** — `apps/web/components/Icon.tsx`에 등록된 아이콘을 `<Icon name="arrow-left" size={16} />` 형태로 사용. 원본 백업은 `icons.tsx`
-- **글라스모피즘 스타일** (`apps/web/app/glass.css`) — `glassSurface`, `glassSurfaceStrong`, `glassSurfacePill`, `glassSurfaceInteractive` 4종
-- **헤더 컴포넌트** (`apps/web/components/Header.tsx`) — 글라스 스타일 적용된 상단 내비게이션
-- **색상 팔레트 페이지** (`apps/web/app/color`) — 토큰 색상을 눈으로 확인하는 페이지
+- **Supabase 접근 패키지** (`packages/supabase/src`) — user/admin 양쪽 앱에서 쓰는 Supabase client 생성, auth guard, 콘텐츠/포트폴리오/서비스/FAQ/문의/파일/설정 데이터 접근 함수
+- **아이콘 시스템** — `apps/user/components/Icon.tsx`에 등록된 아이콘을 `<Icon name="arrow-left" size={16} />` 형태로 사용. 원본 백업은 `icons.tsx`
+- **글라스모피즘 스타일** (`apps/user/app/glass.css`) — `glassSurface`, `glassSurfaceStrong`, `glassSurfacePill`, `glassSurfaceInteractive` 4종
+- **색상 팔레트 페이지** (`apps/user/app/color`) — 토큰 색상을 눈으로 확인하는 페이지
 
 ### 3.3 주의사항: zeroSourcing 잔재
 
 이 저장소는 **zeroSourcing 프로젝트의 기본 세팅을 그대로 가져와서** 시작했습니다. 이름·문구는 c-brain으로 정리했지만, 아직 잔재가 남아 있을 수 있습니다.
 
-- 헤더의 **로고 이미지**(`apps/web/public/figma-assets/logo-mark.svg`, `logo-type.svg`)는 아직 zeroSourcing 그래픽입니다. C-Brain 로고가 나오면 파일 교체 필요
-- 그 외 파일·에셋·설정에서 zeroSourcing 흔적을 발견하면 그대로 두지 말고 정리하거나 팀에 공유해 주세요
+- 파일·에셋·설정에서 zeroSourcing 흔적을 발견하면 그대로 두지 말고 정리하거나 팀에 공유해 주세요
 
 ## 4. 작업 규칙
 
@@ -135,9 +128,33 @@ c-brain/
 
 ### 4.3 컴포넌트·레이아웃 규칙
 
-- **공용 부품**은 `packages/ui/src`에, **web 전용 컴포넌트**는 `apps/web/components`에
+- **공용 부품**은 `packages/ui/src`에, **user 전용 컴포넌트**는 `apps/user/components`에
 - 간격은 부모의 `flex/grid` + `gap`으로 — 자식 요소에 `margin`으로 간격 만들지 않기
 - 반투명·블러 효과는 직접 `backdrop-filter`를 쓰지 말고 `glass.css`의 `glassSurface` 유틸리티 사용 (헤더·툴바·오버레이 등 떠 있는 UI에만)
+
+### 4.4 Supabase 사용 규칙
+
+- `apps/user`와 `apps/admin`에서는 `@supabase/*`를 직접 import하지 않습니다.
+- Supabase 관련 client 생성, auth, 조회/저장/삭제 함수는 모두 `@repo/supabase`에서 가져옵니다.
+- 앱은 화면, 라우팅, Server Action/Route Handler 연결만 담당합니다.
+- 공개 조회 함수는 `listPublished*`, 관리자 함수는 `listAdmin*`, 사용자 본인 범위 함수는 `listMy*` 이름을 사용합니다.
+- 관리자 함수는 `packages/supabase/src/auth.ts`의 `requireAdmin()`을 거쳐야 합니다.
+- `SUPABASE_SECRET_KEY`를 쓰는 admin client는 서버 전용이며 브라우저 코드에서 사용하면 안 됩니다.
+
+환경변수는 루트 `.env.local`에 둡니다. 샘플은 `.env.example`을 참고합니다.
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+```
+
+사용 예시:
+
+```ts
+import { listPublishedPosts } from "@repo/supabase/content";
+import { createServerSupabaseClient } from "@repo/supabase/server";
+```
 
 ## 5. 자주 쓰는 명령어
 
@@ -151,7 +168,7 @@ c-brain/
 | `pnpm check-types` | 타입 검사 | 작업 마무리 후 타입 오류 확인 |
 | `pnpm format` | 코드 정리 | 들여쓰기 등 스타일 자동 정돈 |
 
-> `--filter=web` 을 붙이면 특정 앱에만 실행됩니다. 예: `pnpm build --filter=web`
+> `--filter=user` 을 붙이면 특정 앱에만 실행됩니다. 예: `pnpm build --filter=user`
 
 ## 6. 부록
 
