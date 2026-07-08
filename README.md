@@ -221,15 +221,11 @@ SUPABASE_SECRET_KEY=
 | `pnpm --filter @repo/ui lint` | UI 패키지 lint |
 | `pnpm --filter @repo/supabase check-types` | Supabase 패키지 타입 검사 |
 
-## 7. Project Links
-
-- zeroSourcing Notion: https://www.notion.so/zeroSourcing-1f6d10b6c8838060ab56e877a1affb03
-
-## 8. Bootstrap Note
+## 7. Bootstrap Note
 
 이 저장소는 zeroSourcing 프로젝트 세팅을 기반으로 시작했습니다. 코드, 에셋, 문서에 legacy naming이 남아 있을 수 있으므로 발견 시 C-Brain 기준으로 정리합니다.
 
-## 9. Maintenance Notes
+## 8. Maintenance Notes
 
 다음 항목은 목적이 명확할 때만 수정합니다.
 
