@@ -27,15 +27,17 @@
 }
 
 .header {
-  width: 100%;
-  height: 72px;
-  padding: 0 20px;
+  width: min(calc(100% - 40px), 1360px);
+  height: 80px;
+  margin: 20px auto -100px;
+  padding: 0 20px 0 40px;
   position: sticky;
-  top: 0;
-  z-index: 10;
-  border-bottom: 1px solid rgba(241, 245, 249, 0.78);
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(10px);
+  top: 20px;
+  z-index: 20;
+  border: 0;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,16 +63,15 @@
 .logoMain,
 .logoTagline {
   display: block;
-  width: 100%;
   height: auto;
 }
 
 .logoMain {
-  max-height: 21px;
+  width: 77px;
 }
 
 .logoTagline {
-  max-height: 4px;
+  width: 76px;
 }
 
 .desktopNav,
@@ -81,10 +82,10 @@
 .mobileMenuButton {
   width: 40px;
   height: 40px;
-  border: 1px solid var(--landing-gray-200);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 8px;
-  background: #ffffff;
-  color: var(--landing-gray-800);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--landing-gray-50);
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -133,7 +134,7 @@
 
 .heroContent {
   width: min(100%, 390px);
-  padding: 72px 20px;
+  padding: 132px 20px 72px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -809,7 +810,7 @@
 @media (min-width: 640px) {
   .header {
     height: 80px;
-    padding: 0 20px;
+    padding: 0 20px 0 40px;
   }
 
   .hero {
@@ -827,7 +828,7 @@
   }
 
   .heroContent {
-    padding-top: 96px;
+    padding-top: 144px;
     padding-bottom: 96px;
   }
 
@@ -899,7 +900,7 @@
   }
 
   .heroContent {
-    padding-top: 104px;
+    padding-top: 152px;
     padding-bottom: 104px;
   }
 
@@ -954,7 +955,7 @@
 
 @media (min-width: 1440px) {
   .header {
-    padding: 0 40px;
+    padding: 0 20px 0 40px;
   }
 
   .desktopNav,
@@ -964,7 +965,7 @@
   }
 
   .desktopNav {
-    gap: 28px;
+    gap: 32px;
   }
 
   .headerActions {
@@ -980,7 +981,8 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-    color: var(--landing-gray-800);
+    letter-spacing: -0.24px;
+    color: var(--landing-gray-50);
     white-space: nowrap;
   }
 
@@ -998,7 +1000,7 @@
   }
 
   .heroContent {
-    padding-top: 104px;
+    padding-top: 152px;
     padding-bottom: 104px;
   }
 

@@ -16,21 +16,23 @@ const navItems = [
 ];
 
 const priceButtonStyle: CSSProperties = {
+  height: 52,
   width: 148,
   borderRadius: 32,
-  borderColor: "#ffffff",
+  border: "1px solid #ffffff",
   background: "linear-gradient(90deg, #30bac3 0%, #269aa3 100%)",
   color: "#fefefe",
-  padding: "8px 20px",
+  padding: "8px 24px",
 };
 
 const kakaoButtonStyle: CSSProperties = {
+  height: 52,
   width: 148,
   borderRadius: 32,
-  borderColor: "#ffffff",
+  border: "1px solid #ffffff",
   background: "linear-gradient(105deg, #fae100 0%, #fac800 100%)",
   color: "#3b1d1d",
-  padding: "8px 20px",
+  padding: "8px 24px",
 };
 
 export function Header() {
