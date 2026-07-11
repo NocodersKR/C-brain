@@ -683,6 +683,8 @@
 }
 
 .faqSection {
+  --faq-card-bg: #f8fafc;
+  --faq-card-border: #f1f5f9;
   background: #ffffff;
 }
 
@@ -694,6 +696,23 @@
 .faqHeader {
   align-items: center;
   text-align: center;
+}
+
+.faqKicker {
+  border: 1px solid var(--landing-brand-500);
+  background: rgba(48, 186, 195, 0.1);
+  color: var(--landing-brand-500);
+}
+
+.faqHeader .sectionTitle {
+  letter-spacing: -0.42px;
+}
+
+.faqHeader .sectionDescription {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  color: var(--landing-gray-800);
 }
 
 .faqList {
@@ -712,10 +731,27 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  color: var(--landing-gray-800);
 }
 
 .faqQuestion strong {
-  color: var(--landing-brand-500);
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+  background: var(--landing-brand-500);
+  color: var(--landing-gray-50);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.18px;
 }
 
 .footer {

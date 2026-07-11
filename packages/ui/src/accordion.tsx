@@ -24,10 +24,10 @@ const detailsStyle: CSSProperties = {
   width: 350,
   boxSizing: "border-box",
   padding: "16px 20px",
-  border: "1px solid #e9ecf2",
-  borderRadius: 16,
-  background: "#ffffff",
-  color: "#1b1f2a",
+  border: "1px solid var(--accordion-border-color, #e9ecf2)",
+  borderRadius: "var(--accordion-radius, 16px)",
+  background: "var(--accordion-background, #ffffff)",
+  color: "var(--accordion-color, #1b1f2a)",
   fontFamily: "var(--font-sans)",
 };
 
@@ -46,9 +46,10 @@ const questionStyle: CSSProperties = {
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
   fontSize: 14,
-  fontWeight: 700,
-  lineHeight: "21px",
-  letterSpacing: 0,
+  fontWeight: "var(--accordion-question-font-weight, 700)",
+  lineHeight: "var(--accordion-question-line-height, 21px)",
+  letterSpacing: "var(--accordion-question-letter-spacing, 0)",
+  color: "var(--accordion-question-color, inherit)",
 };
 
 const iconStyle: CSSProperties = {
@@ -64,15 +65,15 @@ const contentStyle: CSSProperties = {
 
 const dividerStyle: CSSProperties = {
   width: "100%",
-  borderTop: "1px solid #e9ecf2",
+  borderTop: "1px solid var(--accordion-divider-color, #e9ecf2)",
 };
 
 const answerStyle: CSSProperties = {
-  color: "#1b1f2a",
+  color: "var(--accordion-answer-color, #1b1f2a)",
   fontSize: 14,
   fontWeight: 500,
-  lineHeight: "21px",
-  letterSpacing: "-0.21px",
+  lineHeight: "var(--accordion-answer-line-height, 21px)",
+  letterSpacing: "var(--accordion-answer-letter-spacing, -0.21px)",
 };
 
 function ChevronIcon({ open }: { open: boolean }) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { Accordion } from "@repo/ui/accordion";
+import type { CSSProperties } from "react";
 
 import styles from "../page.module.css";
 
@@ -32,12 +33,34 @@ const faqs = [
   },
 ];
 
+const faqAccordionStyle = {
+  width: "100%",
+  background: "var(--faq-card-bg)",
+  border: "1px solid var(--faq-card-border)",
+  borderRadius: 12,
+  color: "var(--landing-gray-800)",
+  "--accordion-background": "var(--faq-card-bg)",
+  "--accordion-border-color": "var(--faq-card-border)",
+  "--accordion-radius": "12px",
+  "--accordion-color": "var(--landing-gray-800)",
+  "--accordion-question-color": "var(--landing-gray-800)",
+  "--accordion-question-font-weight": "500",
+  "--accordion-question-line-height": "20px",
+  "--accordion-question-letter-spacing": "-0.21px",
+  "--accordion-answer-color": "var(--landing-gray-800)",
+  "--accordion-answer-line-height": "20px",
+  "--accordion-answer-letter-spacing": "-0.21px",
+  "--accordion-divider-color": "var(--faq-card-border)",
+} as CSSProperties;
+
 export function FaqSection() {
   return (
     <section className={styles.faqSection} id="faq">
       <div className={styles.faqInner}>
         <div className={styles.faqHeader}>
-          <p className={styles.sectionKicker}>자주 묻는 질문</p>
+          <p className={`${styles.sectionKicker} ${styles.faqKicker}`}>
+            자주 묻는 질문
+          </p>
           <h2 className={styles.sectionTitle}>
             홍보물 제작, 궁금한 점이 있으신가요?
           </h2>
@@ -58,7 +81,7 @@ export function FaqSection() {
                   {item.question}
                 </span>
               }
-              style={{ width: "100%" }}
+              style={faqAccordionStyle}
             />
           ))}
         </div>
