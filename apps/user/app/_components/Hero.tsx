@@ -4,7 +4,9 @@ import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const kakaoButtonStyle = createGradientBorderButtonStyle({ tone: "kakao" });
+const kakaoButtonStyle = createGradientBorderButtonStyle({
+  tone: "contactKakao",
+});
 
 const priceButtonStyle = createGradientBorderButtonStyle();
 
