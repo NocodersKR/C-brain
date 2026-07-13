@@ -705,6 +705,13 @@
   position: relative;
 }
 
+.faqHeadingText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
 .faqHeader .sectionTitle {
   letter-spacing: -0.42px;
 }

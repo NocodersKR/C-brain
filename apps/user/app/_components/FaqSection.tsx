@@ -58,15 +58,17 @@ export function FaqSection() {
     <section className={styles.faqSection} id="faq">
       <div className={styles.faqInner}>
         <div className={styles.faqHeader}>
-          <p className={`${styles.sectionKicker} ${styles.faqKicker}`}>
+          <h1 className={`${styles.sectionKicker} ${styles.faqKicker}`}>
             자주 묻는 질문
-          </p>
-          <h2 className={styles.sectionTitle}>
-            홍보물 제작, 궁금한 점이 있으신가요?
-          </h2>
-          <p className={styles.sectionDescription}>
-            주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다.
-          </p>
+          </h1>
+          <div className={styles.faqHeadingText}>
+            <h2 className={styles.sectionTitle}>
+              홍보물 제작, 궁금한 점이 있으신가요?
+            </h2>
+            <p className={styles.sectionDescription}>
+              주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다.
+            </p>
+          </div>
         </div>
 
         <div className={styles.faqList}>
