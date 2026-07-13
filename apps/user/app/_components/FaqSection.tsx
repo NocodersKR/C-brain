@@ -52,6 +52,7 @@ const faqAccordionStyle = {
   "--accordion-answer-line-height": "20px",
   "--accordion-answer-letter-spacing": "-0.21px",
   "--accordion-divider-color": "var(--faq-card-border)",
+  "--accordion-divider-background": "var(--faq-accordion-divider-gradient)",
 } as CSSProperties;
 
 export function FaqSection() {

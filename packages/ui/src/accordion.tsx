@@ -65,7 +65,9 @@ const contentStyle: CSSProperties = {
 
 const dividerStyle: CSSProperties = {
   width: "100%",
-  borderTop: "1px solid var(--accordion-divider-color, #e9ecf2)",
+  height: 1,
+  background:
+    "var(--accordion-divider-background, var(--accordion-divider-color, #e9ecf2))",
 };
 
 const answerStyle: CSSProperties = {

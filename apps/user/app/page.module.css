@@ -739,6 +739,12 @@
 .faqSection {
   --faq-card-bg: #f8fafc;
   --faq-card-border: #f1f5f9;
+  --faq-accordion-divider-gradient: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0) 0%,
+    rgba(30, 41, 59, 0.2) 50%,
+    rgba(30, 41, 59, 0) 100%
+  );
   background: #ffffff;
 }
 
