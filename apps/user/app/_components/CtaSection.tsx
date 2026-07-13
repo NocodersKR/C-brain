@@ -1,12 +1,24 @@
 import { Button } from "@repo/ui/button";
+import type { CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const kakaoButtonStyle = createGradientBorderButtonStyle({ tone: "kakao" });
+const contactButtonPadding = "8px 23px";
 
-const priceButtonStyle = createGradientBorderButtonStyle();
+const kakaoButtonStyle = createGradientBorderButtonStyle({
+  padding: contactButtonPadding,
+  tone: "contactKakao",
+});
+
+const priceButtonStyle = createGradientBorderButtonStyle({
+  padding: contactButtonPadding,
+});
+
+const ctaButtonIconStyle: CSSProperties = {
+  flex: "0 0 auto",
+};
 
 export function CtaSection() {
   return (
@@ -24,17 +36,13 @@ export function CtaSection() {
           <p>빠른 상담 · 전국 납품 · 소량부터 대량까지</p>
         </div>
         <div className={styles.ctaRow}>
-          <Button
-            rightIcon={<Icon name="message-typing" size={16} />}
-            style={kakaoButtonStyle}
-          >
-            실시간 카톡상담
+          <Button style={kakaoButtonStyle}>
+            <span>실시간 카톡상담</span>
+            <Icon name="message-typing" size={24} style={ctaButtonIconStyle} />
           </Button>
-          <Button
-            rightIcon={<Icon name="arrow-right" size={16} />}
-            style={priceButtonStyle}
-          >
-            정찰제 가격 보기
+          <Button style={priceButtonStyle}>
+            <span>정찰제 가격 보기</span>
+            <Icon name="arrow-right" size={24} style={ctaButtonIconStyle} />
           </Button>
         </div>
       </div>

@@ -8,6 +8,8 @@
   --landing-kakao-dark: #3b1d1d;
   --landing-button-brand-fill: linear-gradient(90deg, var(--landing-brand-500) 0%, var(--landing-brand-600) 100%);
   --landing-button-kakao-fill: linear-gradient(103.542563deg, var(--landing-kakao) 0%, var(--landing-kakao) 49.519%, var(--landing-kakao-strong) 100%);
+  --landing-button-contact-kakao-fill: linear-gradient(104.944112deg, var(--landing-kakao) 0%, var(--landing-kakao) 49.519%, var(--landing-kakao-strong) 100%);
+  --landing-button-contact-kakao-underlay: linear-gradient(90deg, #3d82f5 0%, #0360ef 100%);
   --landing-button-border-start: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.08) 30%, rgba(255, 255, 255, 0.08) 100%);
   --landing-button-border-end: linear-gradient(to bottom right, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 70%, rgba(255, 255, 255, 0.8) 100%);
   --landing-brand-border-start: linear-gradient(to bottom right, rgba(48, 186, 195, 0.8) 0%, rgba(48, 186, 195, 0.08) 30%, rgba(48, 186, 195, 0.08) 100%);
