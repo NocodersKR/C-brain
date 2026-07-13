@@ -786,8 +786,9 @@
 
 .footer {
   padding: 52px 20px;
-  background: var(--landing-gray-50);
-  color: var(--landing-gray-600);
+  border-top: 1px solid #f3f2ef;
+  background: #f8fafc;
+  color: #2a2928;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -820,28 +821,64 @@
 }
 
 .socialLinks a {
-  min-height: 40px;
-  padding: 10px 16px;
-  border-radius: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #f3f2ef;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #2a2928;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
 }
 
-.socialLinks span {
+.socialIcon {
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 20px;
   width: 20px;
   height: 20px;
-  border-radius: 50%;
-  background: var(--landing-brand-500);
+}
+
+.socialIconImage {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.socialIconImageInstagram {
+  inset: 0;
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
+.socialIconImageBlog {
+  top: -4.25px;
+  left: -9px;
+  width: 38px;
+  height: 28.5px;
+}
+
+.socialIconImageYoutube {
+  top: 3.08px;
+  left: 0;
+  width: 20px;
+  height: 13.84px;
 }
 
 .footerDivider {
   height: 1px;
-  background: var(--landing-gray-200);
+  background: #f3f2ef;
 }
 
 .footerInfo {
@@ -870,7 +907,11 @@
 }
 
 .customerCenter strong {
-  color: var(--landing-gray-800);
+  color: #2a2928;
+}
+
+.policyStrong {
+  font-weight: 700;
 }
 
 .companyInfo {

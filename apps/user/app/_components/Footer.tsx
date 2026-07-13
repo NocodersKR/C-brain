@@ -2,8 +2,38 @@ import Image from "next/image";
 
 import styles from "../page.module.css";
 
-const socials = ["인스타그램", "네이버 블로그", "유튜브"];
-const policies = ["이용약관", "개인정보처리방침", "취소 및 환불 규정"];
+const socials = [
+  {
+    href: "#",
+    icon: "/figma-assets/footer-instagram.png",
+    imageClassName: styles.socialIconImageInstagram,
+    imageHeight: 20,
+    imageWidth: 20,
+    label: "인스타그램",
+  },
+  {
+    href: "#",
+    icon: "/figma-assets/footer-naver-blog.png",
+    imageClassName: styles.socialIconImageBlog,
+    imageHeight: 29,
+    imageWidth: 38,
+    label: "네이버 블로그",
+  },
+  {
+    href: "#",
+    icon: "/figma-assets/footer-youtube.png",
+    imageClassName: styles.socialIconImageYoutube,
+    imageHeight: 14,
+    imageWidth: 20,
+    label: "유튜브",
+  },
+];
+
+const policies = [
+  { href: "#", label: "이용약관" },
+  { href: "#", isStrong: true, label: "개인정보처리방침" },
+  { href: "#", label: "취소 및 환불 규정" },
+];
 
 export function Footer() {
   return (
@@ -25,9 +55,17 @@ export function Footer() {
         </a>
         <div className={styles.socialLinks}>
           {socials.map((social) => (
-            <a href="#" key={social}>
-              <span aria-hidden="true" />
-              {social}
+            <a href={social.href} key={social.label}>
+              <span aria-hidden="true" className={styles.socialIcon}>
+                <Image
+                  alt=""
+                  className={`${styles.socialIconImage} ${social.imageClassName}`}
+                  height={social.imageHeight}
+                  src={social.icon}
+                  width={social.imageWidth}
+                />
+              </span>
+              {social.label}
             </a>
           ))}
         </div>
@@ -38,8 +76,12 @@ export function Footer() {
       <div className={styles.footerInfo}>
         <div className={styles.policyLinks}>
           {policies.map((policy) => (
-            <a href="#" key={policy}>
-              {policy}
+            <a
+              className={policy.isStrong ? styles.policyStrong : undefined}
+              href={policy.href}
+              key={policy.label}
+            >
+              {policy.label}
             </a>
           ))}
         </div>
