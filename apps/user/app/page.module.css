@@ -618,7 +618,7 @@
 }
 
 .blogInner {
-  gap: 0;
+  gap: 52px;
 }
 
 .blogHeadingText {
@@ -647,7 +647,6 @@
 }
 
 .blogGrid {
-  margin-block: 52px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
