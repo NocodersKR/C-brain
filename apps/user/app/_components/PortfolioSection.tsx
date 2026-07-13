@@ -2,6 +2,7 @@ import { Button } from "@repo/ui/button";
 import Image from "next/image";
 
 import { Icon } from "../../components/Icon";
+import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -41,74 +42,68 @@ const buttonStyle = createGradientBorderButtonStyle();
 
 export function PortfolioSection() {
   return (
-    <section className={styles.section} id="portfolio">
-      <div className={`${styles.sectionInner} ${styles.portfolioInner}`}>
-        <div className={styles.portfolioHeader}>
-          <p className={`${styles.sectionKicker} ${styles.portfolioKicker}`}>
-            포트폴리오
-          </p>
-          <div className={styles.portfolioHeadingText}>
-            <h2 className={styles.sectionTitle}>
-              4,000건+ 대표 디자인 제작 사례
-            </h2>
-            <p
-              className={`${styles.sectionDescription} ${styles.portfolioDescription}`}
+    <SectionLayout
+      badge="포트폴리오"
+      badgeClassName={styles.portfolioKicker}
+      description={
+        <>
+          브로슈어 · 카탈로그 · 리플렛 · 포스터 · 명함 등 씨브레인
+          <br />의 실제 디자인 제작물을 확인하세요.
+        </>
+      }
+      descriptionClassName={styles.portfolioDescription}
+      id="portfolio"
+      innerClassName={styles.portfolioInner}
+      title="4,000건+ 대표 디자인 제작 사례"
+    >
+      <div className={styles.portfolioContent}>
+        <div aria-label="포트폴리오 카테고리" className={styles.categoryRail}>
+          {categories.map((category, index) => (
+            <button
+              aria-pressed={index === 0}
+              className={`${styles.categoryChip} ${
+                index === 0 ? styles.categoryChipActive : ""
+              }`}
+              key={category}
+              type="button"
             >
-              브로슈어 · 카탈로그 · 리플렛 · 포스터 · 명함 등 씨브레인
-              <br />의 실제 디자인 제작물을 확인하세요.
-            </p>
-          </div>
+              {category}
+            </button>
+          ))}
         </div>
 
-        <div className={styles.portfolioContent}>
-          <div aria-label="포트폴리오 카테고리" className={styles.categoryRail}>
-            {categories.map((category, index) => (
-              <button
-                aria-pressed={index === 0}
-                className={`${styles.categoryChip} ${
-                  index === 0 ? styles.categoryChipActive : ""
-                }`}
-                key={category}
-                type="button"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          <div className={styles.portfolioGrid}>
-            {portfolioItems.map((item) => (
-              <article
-                aria-label={`${item.title} 포트폴리오`}
-                className={styles.portfolioCard}
-                key={item.src}
-                tabIndex={0}
-              >
-                <Image
-                  alt={item.title}
-                  className={styles.coverImage}
-                  fill
-                  sizes="(min-width: 1440px) 325px, (min-width: 1080px) 33vw, (min-width: 640px) 50vw, 300px"
-                  src={item.src}
-                />
-                <div className={styles.portfolioOverlay}>
-                  <h3>{item.title}</h3>
-                  {item.description ? <p>{item.description}</p> : null}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.centerAction}>
-          <Button
-            rightIcon={<Icon name="arrow-right" size={16} />}
-            style={buttonStyle}
-          >
-            더 많은 포트폴리오
-          </Button>
+        <div className={styles.portfolioGrid}>
+          {portfolioItems.map((item) => (
+            <article
+              aria-label={`${item.title} 포트폴리오`}
+              className={styles.portfolioCard}
+              key={item.src}
+              tabIndex={0}
+            >
+              <Image
+                alt={item.title}
+                className={styles.coverImage}
+                fill
+                sizes="(min-width: 1440px) 325px, (min-width: 1080px) 33vw, (min-width: 640px) 50vw, 300px"
+                src={item.src}
+              />
+              <div className={styles.portfolioOverlay}>
+                <h3>{item.title}</h3>
+                {item.description ? <p>{item.description}</p> : null}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
-    </section>
+
+      <div className={styles.centerAction}>
+        <Button
+          rightIcon={<Icon name="arrow-right" size={16} />}
+          style={buttonStyle}
+        >
+          더 많은 포트폴리오
+        </Button>
+      </div>
+    </SectionLayout>
   );
 }

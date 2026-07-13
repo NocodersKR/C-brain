@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
 
 const reviews = [
@@ -148,76 +149,74 @@ const clientRows = [
 
 export function CustomerReviewSection() {
   return (
-    <section
-      className={`${styles.section} ${styles.reviewSection}`}
+    <SectionLayout
+      badge="고객 후기"
+      badgeClassName={styles.reviewKicker}
+      className={styles.reviewSection}
       id="reviews"
+      innerClassName={styles.reviewInner}
+      title={
+        <>
+          <span>왜 다양한 산업군의 기업들이</span>
+          <span>씨브레인을 다시 찾을까요?</span>
+        </>
+      }
+      titleClassName={styles.reviewTitle}
     >
-      <div className={`${styles.sectionInner} ${styles.reviewInner}`}>
-        <div className={`${styles.sectionHeader} ${styles.reviewHeader}`}>
-          <p className={`${styles.sectionKicker} ${styles.reviewKicker}`}>
-            고객 후기
-          </p>
-          <h2 className={`${styles.sectionTitle} ${styles.reviewTitle}`}>
-            <span>왜 다양한 산업군의 기업들이</span>
-            <span>씨브레인을 다시 찾을까요?</span>
-          </h2>
-        </div>
+      <div className={styles.reviewGrid}>
+        {reviews.map((review) => (
+          <article className={styles.reviewCard} key={review.name}>
+            <div className={styles.reviewContent}>
+              <p className={styles.reviewStars} aria-label="별점 5점">
+                ★★★★★
+              </p>
+              <p className={styles.reviewBody}>{review.body}</p>
+            </div>
+            <span className={styles.reviewDivider} aria-hidden="true" />
+            <div className={styles.reviewMeta}>
+              <p>{review.name}</p>
+              <span>{review.company}</span>
+            </div>
+          </article>
+        ))}
+      </div>
 
-        <div className={styles.reviewGrid}>
-          {reviews.map((review) => (
-            <article className={styles.reviewCard} key={review.name}>
-              <div className={styles.reviewContent}>
-                <p className={styles.reviewStars} aria-label="별점 5점">
-                  ★★★★★
-                </p>
-                <p className={styles.reviewBody}>{review.body}</p>
-              </div>
-              <span className={styles.reviewDivider} aria-hidden="true" />
-              <div className={styles.reviewMeta}>
-                <p>{review.name}</p>
-                <span>{review.company}</span>
-              </div>
-            </article>
+      <div className={styles.reviewLogoCloud} aria-label="고객사 로고">
+        <div className={styles.featuredClientLogos}>
+          {featuredClients.map((client) => (
+            <span className={styles.featuredClientLogo} key={client.src}>
+              <Image
+                alt={client.alt}
+                className={styles.partnerLogoImage}
+                height={client.height}
+                loading="eager"
+                src={client.src}
+                unoptimized
+                width={client.width}
+              />
+            </span>
           ))}
         </div>
-
-        <div className={styles.reviewLogoCloud} aria-label="고객사 로고">
-          <div className={styles.featuredClientLogos}>
-            {featuredClients.map((client) => (
-              <span className={styles.featuredClientLogo} key={client.src}>
-                <Image
-                  alt={client.alt}
-                  className={styles.partnerLogoImage}
-                  height={client.height}
-                  loading="eager"
-                  src={client.src}
-                  unoptimized
-                  width={client.width}
-                />
-              </span>
-            ))}
-          </div>
-          <div className={styles.reviewClientLogoRows}>
-            {clientRows.map((row) => (
-              <div className={styles.reviewClientLogoRow} key={row[0].src}>
-                {row.map((client) => (
-                  <span className={styles.reviewClientLogo} key={client.src}>
-                    <Image
-                      alt={client.alt}
-                      className={styles.partnerLogoImage}
-                      height={client.height}
-                      loading="eager"
-                      src={client.src}
-                      unoptimized
-                      width={client.width}
-                    />
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
+        <div className={styles.reviewClientLogoRows}>
+          {clientRows.map((row) => (
+            <div className={styles.reviewClientLogoRow} key={row[0].src}>
+              {row.map((client) => (
+                <span className={styles.reviewClientLogo} key={client.src}>
+                  <Image
+                    alt={client.alt}
+                    className={styles.partnerLogoImage}
+                    height={client.height}
+                    loading="eager"
+                    src={client.src}
+                    unoptimized
+                    width={client.width}
+                  />
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </SectionLayout>
   );
 }

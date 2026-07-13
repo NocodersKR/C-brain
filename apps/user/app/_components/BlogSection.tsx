@@ -2,6 +2,7 @@ import { Button } from "@repo/ui/button";
 import Image from "next/image";
 
 import { Icon } from "../../components/Icon";
+import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -36,59 +37,53 @@ const buttonStyle = createGradientBorderButtonStyle();
 
 export function BlogSection() {
   return (
-    <section className={styles.section} id="blog">
-      <div className={`${styles.sectionInner} ${styles.blogInner}`}>
-        <div className={styles.sectionHeader}>
-          <p className={`${styles.sectionKicker} ${styles.blogKicker}`}>
-            블로그
-          </p>
-          <div className={styles.blogHeadingText}>
-            <h2 className={`${styles.sectionTitle} ${styles.blogTitle}`}>
-              <span>26년 현장에서 검증된</span>
-              <span>홍보물 제작 · 디자인 · 인쇄 가이드</span>
-            </h2>
-            <p
-              className={`${styles.sectionDescription} ${styles.blogDescription}`}
-            >
-              26년 경력 전문가 씨브레인이 직접 작성하는 브로슈어 · 카탈로그 ·
-              인쇄물 제작 실전 정보
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.blogGrid}>
-          {posts.map((post) => (
-            <article className={styles.blogCard} key={post.title}>
-              <div className={styles.blogImage}>
-                <Image
-                  alt=""
-                  className={styles.coverImage}
-                  fill
-                  sizes="(min-width: 1440px) 440px, (min-width: 1080px) 33vw, (min-width: 640px) 400px, 350px"
-                  src={post.image}
-                />
+    <SectionLayout
+      badge="블로그"
+      badgeClassName={styles.blogKicker}
+      description="26년 경력 전문가 씨브레인이 직접 작성하는 브로슈어 · 카탈로그 · 인쇄물 제작 실전 정보"
+      descriptionClassName={styles.blogDescription}
+      id="blog"
+      innerClassName={styles.blogInner}
+      title={
+        <>
+          <span>26년 현장에서 검증된</span>
+          <span>홍보물 제작 · 디자인 · 인쇄 가이드</span>
+        </>
+      }
+      titleClassName={styles.blogTitle}
+    >
+      <div className={styles.blogGrid}>
+        {posts.map((post) => (
+          <article className={styles.blogCard} key={post.title}>
+            <div className={styles.blogImage}>
+              <Image
+                alt=""
+                className={styles.coverImage}
+                fill
+                sizes="(min-width: 1440px) 440px, (min-width: 1080px) 33vw, (min-width: 640px) 400px, 350px"
+                src={post.image}
+              />
+            </div>
+            <div className={styles.blogCardBody}>
+              <div className={styles.blogCopy}>
+                <p className={styles.blogCategory}>{post.category}</p>
+                <h3>{post.title}</h3>
+                <p>{post.description}</p>
               </div>
-              <div className={styles.blogCardBody}>
-                <div className={styles.blogCopy}>
-                  <p className={styles.blogCategory}>{post.category}</p>
-                  <h3>{post.title}</h3>
-                  <p>{post.description}</p>
-                </div>
-                <time>{post.date}</time>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className={styles.centerAction}>
-          <Button
-            rightIcon={<Icon name="arrow-right" size={16} />}
-            style={buttonStyle}
-          >
-            블로그 전체 보기
-          </Button>
-        </div>
+              <time>{post.date}</time>
+            </div>
+          </article>
+        ))}
       </div>
-    </section>
+
+      <div className={styles.centerAction}>
+        <Button
+          rightIcon={<Icon name="arrow-right" size={16} />}
+          style={buttonStyle}
+        >
+          블로그 전체 보기
+        </Button>
+      </div>
+    </SectionLayout>
   );
 }

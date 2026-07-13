@@ -2,6 +2,7 @@ import { Button } from "@repo/ui/button";
 import { type CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
+import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
 
 const services = [
@@ -44,7 +45,8 @@ const services = [
   {
     icon: "pen-tool",
     title: "로고",
-    description: "브랜드의 첫인상을 결정하는 로고. 전략적 기획 + 감각적 디자인.",
+    description:
+      "브랜드의 첫인상을 결정하는 로고. 전략적 기획 + 감각적 디자인.",
     isQuote: false,
     price: "160,000원 ~",
   },
@@ -58,8 +60,7 @@ const services = [
   {
     icon: "camera",
     title: "촬영",
-    description:
-      "제품·공간·인물 등 홍보물에 필요한 사진 촬영.\n견적 후 진행.",
+    description: "제품·공간·인물 등 홍보물에 필요한 사진 촬영.\n견적 후 진행.",
     isQuote: true,
     price: "상담 후 견적",
   },
@@ -103,68 +104,54 @@ const consultButtonStyle: CSSProperties = {
 
 export function ServicesSection() {
   return (
-    <section className={styles.section} id="services">
-      <div className={`${styles.sectionInner} ${styles.serviceInner}`}>
-        <div className={`${styles.sectionHeader} ${styles.serviceHeader}`}>
-          <p className={`${styles.sectionKicker} ${styles.serviceKicker}`}>
-            서비스
-          </p>
-          <div className={styles.serviceHeadingText}>
-            <h2 className={`${styles.sectionTitle} ${styles.serviceTitle}`}>
-              어떤 홍보물 제작이 필요하신가요?
-            </h2>
-            <p
-              className={`${styles.sectionDescription} ${styles.serviceDescription}`}
-            >
-              투명한 정찰 견적으로 바로 주문하거나, 맞춤 견적 상담 후, 제작할 수
-              있습니다.
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.serviceGrid}>
-          {services.map((service) => (
-            <article className={styles.serviceCard} key={service.title}>
-              <div className={styles.serviceContent}>
-                <span
-                  className={`${styles.serviceIcon} ${service.isQuote ? styles.serviceQuoteIcon : ""}`}
-                >
-                  <Icon name={service.icon} size={24} />
-                </span>
-                <div className={styles.serviceCopy}>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </div>
-              </div>
-              <div
-                className={`${styles.serviceMeta} ${service.isQuote ? styles.serviceMetaQuote : ""}`}
+    <SectionLayout
+      badge="서비스"
+      badgeClassName={styles.serviceKicker}
+      description="투명한 정찰 견적으로 바로 주문하거나, 맞춤 견적 상담 후, 제작할 수 있습니다."
+      descriptionClassName={styles.serviceDescription}
+      id="services"
+      innerClassName={styles.serviceInner}
+      title="어떤 홍보물 제작이 필요하신가요?"
+      titleClassName={styles.serviceTitle}
+    >
+      <div className={styles.serviceGrid}>
+        {services.map((service) => (
+          <article className={styles.serviceCard} key={service.title}>
+            <div className={styles.serviceContent}>
+              <span
+                className={`${styles.serviceIcon} ${service.isQuote ? styles.serviceQuoteIcon : ""}`}
               >
-                {service.isQuote ? null : <strong>{service.price}</strong>}
-                <Button
-                  rightIcon={<Icon name="arrow-right" size={16} />}
-                  style={
-                    service.isQuote ? quoteButtonStyle : serviceButtonStyle
-                  }
-                >
-                  {service.isQuote
-                    ? "견적 후 주문(카카오톡)"
-                    : "정찰제 즉시결제"}
-                </Button>
+                <Icon name={service.icon} size={24} />
+              </span>
+              <div className={styles.serviceCopy}>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
               </div>
-            </article>
-          ))}
-        </div>
-
-        <div className={styles.consultBox}>
-          <p className={styles.consultPrompt}>주문 전 상담이 필요하신가요?</p>
-          <Button
-            rightIcon={<Icon name="arrow-right" size={16} />}
-            style={consultButtonStyle}
-          >
-            실시간 카톡상담
-          </Button>
-        </div>
+            </div>
+            <div
+              className={`${styles.serviceMeta} ${service.isQuote ? styles.serviceMetaQuote : ""}`}
+            >
+              {service.isQuote ? null : <strong>{service.price}</strong>}
+              <Button
+                rightIcon={<Icon name="arrow-right" size={16} />}
+                style={service.isQuote ? quoteButtonStyle : serviceButtonStyle}
+              >
+                {service.isQuote ? "견적 후 주문(카카오톡)" : "정찰제 즉시결제"}
+              </Button>
+            </div>
+          </article>
+        ))}
       </div>
-    </section>
+
+      <div className={styles.consultBox}>
+        <p className={styles.consultPrompt}>주문 전 상담이 필요하신가요?</p>
+        <Button
+          rightIcon={<Icon name="arrow-right" size={16} />}
+          style={consultButtonStyle}
+        >
+          실시간 카톡상담
+        </Button>
+      </div>
+    </SectionLayout>
   );
 }

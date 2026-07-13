@@ -4,6 +4,7 @@ import { Accordion } from "@repo/ui/accordion";
 import type { CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
+import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
 
 const faqs = [
@@ -57,44 +58,40 @@ const faqAccordionStyle = {
 
 export function FaqSection() {
   return (
-    <section className={styles.faqSection} id="faq">
-      <div className={styles.faqInner}>
-        <div className={styles.faqHeader}>
-          <h1 className={`${styles.sectionKicker} ${styles.faqKicker}`}>
-            자주 묻는 질문
-          </h1>
-          <div className={styles.faqHeadingText}>
-            <h2 className={styles.sectionTitle}>
-              홍보물 제작, 궁금한 점이 있으신가요?
-            </h2>
-            <p className={styles.sectionDescription}>
-              주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다.
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.faqList}>
-          {faqs.map((item) => (
-            <Accordion
-              answer={item.answer}
-              className={styles.faqItem}
-              key={item.question}
-              question={
-                <span className={styles.faqQuestion}>
-                  <strong>Q</strong>
-                  {item.question}
-                </span>
-              }
-              style={faqAccordionStyle}
-            />
-          ))}
-        </div>
-
-        <a className={styles.faqMoreButton} href="/faq">
-          더 많은 FAQ 보기
-          <Icon name="arrow-right" size={16} />
-        </a>
+    <SectionLayout
+      align="center"
+      badge="자주 묻는 질문"
+      badgeAs="h1"
+      badgeClassName={styles.faqKicker}
+      className={styles.faqSection}
+      description="주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다."
+      descriptionClassName={styles.faqDescription}
+      id="faq"
+      innerClassName={styles.faqInner}
+      title="홍보물 제작, 궁금한 점이 있으신가요?"
+      titleClassName={styles.faqTitle}
+    >
+      <div className={styles.faqList}>
+        {faqs.map((item) => (
+          <Accordion
+            answer={item.answer}
+            className={styles.faqItem}
+            key={item.question}
+            question={
+              <span className={styles.faqQuestion}>
+                <strong>Q</strong>
+                {item.question}
+              </span>
+            }
+            style={faqAccordionStyle}
+          />
+        ))}
       </div>
-    </section>
+
+      <a className={styles.faqMoreButton} href="/faq">
+        더 많은 FAQ 보기
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </SectionLayout>
   );
 }
