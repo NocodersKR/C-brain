@@ -3,6 +3,7 @@
   --landing-brand-100: #d5f1f3;
   --landing-brand-500: #30bac3;
   --landing-brand-600: #269aa3;
+  --landing-brand-800: #1c656c;
   --landing-kakao: #fae100;
   --landing-kakao-strong: #fac800;
   --landing-kakao-dark: #3b1d1d;
@@ -560,7 +561,9 @@
     color 160ms ease;
 }
 
-.serviceCard:is(:hover, :active) {
+.serviceCard[data-interactive="true"],
+.serviceCard:hover,
+.serviceCard:active {
   box-shadow: none;
   background: linear-gradient(
     106.92deg,
@@ -569,12 +572,18 @@
   );
 }
 
-.serviceCard:is(:hover, :active) .serviceCopy h3,
-.serviceCard:is(:hover, :active) .serviceMeta strong {
+.serviceCard[data-interactive="true"] .serviceCopy h3,
+.serviceCard[data-interactive="true"] .serviceMeta strong,
+.serviceCard:hover .serviceCopy h3,
+.serviceCard:hover .serviceMeta strong,
+.serviceCard:active .serviceCopy h3,
+.serviceCard:active .serviceMeta strong {
   color: #f8fafc;
 }
 
-.serviceCard:is(:hover, :active) .serviceCopy p {
+.serviceCard[data-interactive="true"] .serviceCopy p,
+.serviceCard:hover .serviceCopy p,
+.serviceCard:active .serviceCopy p {
   color: var(--landing-gray-200);
 }
 
@@ -617,6 +626,7 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.21px;
+  white-space: pre-line;
   color: var(--landing-gray-600);
 }
 

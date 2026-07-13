@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@repo/ui/button";
-import type { CSSProperties } from "react";
+import { type CSSProperties, useState } from "react";
 
 import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
@@ -8,7 +10,8 @@ const services = [
   {
     icon: "book-open",
     title: "브로슈어 · 카탈로그",
-    description: "기업소개, 제품 카탈로그 등 핵심 홍보물. 기획부터 인쇄까지 원스톱",
+    description:
+      "기업소개, 제품 카탈로그 등 핵심 홍보물.\n기획부터 인쇄까지 원스톱",
     price: "160,000원 ~",
   },
   {
@@ -78,6 +81,9 @@ const serviceButtonStyle: CSSProperties = {
 };
 
 export function ServicesSection() {
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [pressedService, setPressedService] = useState<string | null>(null);
+
   return (
     <section className={styles.section} id="services">
       <div className={`${styles.sectionInner} ${styles.serviceInner}`}>
@@ -99,28 +105,46 @@ export function ServicesSection() {
         </div>
 
         <div className={styles.serviceGrid}>
-          {services.map((service) => (
-            <article className={styles.serviceCard} key={service.title}>
-              <div className={styles.serviceContent}>
-                <span className={styles.serviceIcon}>
-                  <Icon name={service.icon} size={24} />
-                </span>
-                <div className={styles.serviceCopy}>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
+          {services.map((service) => {
+            const isInteractive =
+              hoveredService === service.title ||
+              pressedService === service.title;
+
+            return (
+              <article
+                className={styles.serviceCard}
+                data-interactive={isInteractive ? "true" : undefined}
+                key={service.title}
+                onPointerCancel={() => setPressedService(null)}
+                onPointerDown={() => setPressedService(service.title)}
+                onPointerEnter={() => setHoveredService(service.title)}
+                onPointerLeave={() => {
+                  setHoveredService(null);
+                  setPressedService(null);
+                }}
+                onPointerUp={() => setPressedService(null)}
+              >
+                <div className={styles.serviceContent}>
+                  <span className={styles.serviceIcon}>
+                    <Icon name={service.icon} size={24} />
+                  </span>
+                  <div className={styles.serviceCopy}>
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div className={styles.serviceMeta}>
-                <strong>{service.price}</strong>
-                <Button
-                  rightIcon={<Icon name="arrow-right" size={16} />}
-                  style={serviceButtonStyle}
-                >
-                  자세히 보기
-                </Button>
-              </div>
-            </article>
-          ))}
+                <div className={styles.serviceMeta}>
+                  <strong>{service.price}</strong>
+                  <Button
+                    rightIcon={<Icon name="arrow-right" size={16} />}
+                    style={serviceButtonStyle}
+                  >
+                    정찰제 즉시결제
+                  </Button>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         <div className={styles.consultBox}>
