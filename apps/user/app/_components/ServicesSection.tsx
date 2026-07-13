@@ -71,6 +71,12 @@ const textButtonStyle: CSSProperties = {
   fontSize: 14,
 };
 
+const serviceButtonStyle: CSSProperties = {
+  ...textButtonStyle,
+  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  letterSpacing: "-0.21px",
+};
+
 export function ServicesSection() {
   return (
     <section className={styles.section} id="services">
@@ -107,8 +113,8 @@ export function ServicesSection() {
               <div className={styles.serviceMeta}>
                 <strong>{service.price}</strong>
                 <Button
-                  rightIcon={<Icon name="arrow-right" size={14} />}
-                  style={textButtonStyle}
+                  rightIcon={<Icon name="arrow-right" size={16} />}
+                  style={serviceButtonStyle}
                 >
                   자세히 보기
                 </Button>

@@ -23,7 +23,7 @@
 - Modify: `apps/user/app/_components/ServicesSection.tsx`
 - Modify: `apps/user/app/page.module.css`
 
-- [ ] **Step 1: Establish the current baseline**
+- [x] **Step 1: Establish the current baseline**
 
 Run:
 
@@ -34,7 +34,7 @@ pnpm --filter user check-types
 
 Expected: both commands exit with code `0` before the interaction edits.
 
-- [ ] **Step 2: Give service-card actions their Figma-specific typography and icon size**
+- [x] **Step 2: Give service-card actions their Figma-specific typography and icon size**
 
 Add a dedicated style object without changing `textButtonStyle`, because that object is also used by the consultation button:
 
@@ -57,7 +57,7 @@ Use `serviceButtonStyle` only for the cards and change their arrow icon from `14
 </Button>
 ```
 
-- [ ] **Step 3: Make the resting stroke non-layout-affecting**
+- [x] **Step 3: Make the resting stroke non-layout-affecting**
 
 In `.serviceCard`, replace the real border with an inset stroke and transition that stroke:
 
@@ -72,7 +72,7 @@ transition:
 
 Expected: the default card still has a 1px gray outline, while its content padding is no longer reduced by the border.
 
-- [ ] **Step 4: Match the shared hover and press appearance**
+- [x] **Step 4: Match the shared hover and press appearance**
 
 Update the existing state selector so both states have the same stroke-free Figma gradient:
 
@@ -89,7 +89,7 @@ Update the existing state selector so both states have the same stroke-free Figm
 
 Keep the active title and price at `#f8fafc`, description at gray-200, and icon tile unchanged.
 
-- [ ] **Step 5: Scope and match service-card typography**
+- [x] **Step 5: Scope and match service-card typography**
 
 Separate service-card rules from the grouped reason-card rules, then apply the Figma tracking:
 
@@ -114,7 +114,7 @@ Separate service-card rules from the grouped reason-card rules, then apply the F
 
 Retain equivalent standalone rules for `.reasonItem h3` and `.reasonItem p` so that section does not regress.
 
-- [ ] **Step 6: Run static verification**
+- [x] **Step 6: Run static verification**
 
 Run:
 
@@ -125,7 +125,7 @@ pnpm --filter user check-types
 
 Expected: both commands exit with code `0`.
 
-- [ ] **Step 7: Verify in the browser at the desktop breakpoint**
+- [x] **Step 7: Verify in the browser at the desktop breakpoint**
 
 Open `http://localhost:3000` at `1440px` width and inspect the service cards.
 
@@ -137,7 +137,7 @@ Expected:
 - Moving the pointer away restores the white card and 1px gray inset outline without moving content.
 - The consultation button and reason section typography remain unchanged.
 
-- [ ] **Step 8: Commit the implementation**
+- [x] **Step 8: Commit the implementation**
 
 ```bash
 git add apps/user/app/_components/ServicesSection.tsx apps/user/app/page.module.css docs/superpowers/plans/2026-07-13-service-card-interaction.md

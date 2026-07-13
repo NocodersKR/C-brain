@@ -545,9 +545,10 @@
 .serviceCard {
   min-width: 0;
   min-height: 216px;
-  border: 1px solid var(--landing-gray-100);
+  border: 0;
   border-radius: 16px;
   background: #ffffff;
+  box-shadow: inset 0 0 0 1px var(--landing-gray-100);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -555,12 +556,12 @@
   gap: 28px;
   transition:
     background 160ms ease,
-    border-color 160ms ease,
+    box-shadow 160ms ease,
     color 160ms ease;
 }
 
 .serviceCard:is(:hover, :active) {
-  border-color: transparent;
+  box-shadow: none;
   background: linear-gradient(
     106.92deg,
     var(--landing-brand-800) 0%,
@@ -601,20 +602,21 @@
 }
 
 .serviceCopy h3,
-.reasonItem h3 {
-  font-family: var(--font-sans);
+.serviceMeta strong {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 26px;
+  letter-spacing: -0.27px;
   color: var(--landing-gray-800);
 }
 
-.serviceCopy p,
-.reasonItem p {
-  font-family: var(--font-sans);
+.serviceCopy p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
+  letter-spacing: -0.21px;
   color: var(--landing-gray-600);
 }
 
@@ -625,12 +627,20 @@
   gap: 16px;
 }
 
-.serviceMeta strong {
+.reasonItem h3 {
   font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 26px;
   color: var(--landing-gray-800);
+}
+
+.reasonItem p {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--landing-gray-600);
 }
 
 .consultBox {
