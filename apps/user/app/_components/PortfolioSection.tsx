@@ -77,8 +77,13 @@ export function PortfolioSection() {
           </div>
 
           <div className={styles.portfolioGrid}>
-            {portfolioItems.map((item, index) => (
-              <article className={styles.portfolioCard} key={item.src}>
+            {portfolioItems.map((item) => (
+              <article
+                aria-label={`${item.title} 포트폴리오`}
+                className={styles.portfolioCard}
+                key={item.src}
+                tabIndex={0}
+              >
                 <Image
                   alt={item.title}
                   className={styles.coverImage}
@@ -86,12 +91,10 @@ export function PortfolioSection() {
                   sizes="(min-width: 1440px) 325px, (min-width: 1080px) 33vw, (min-width: 640px) 50vw, 300px"
                   src={item.src}
                 />
-                {index === 0 ? (
-                  <div className={styles.portfolioOverlay}>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                ) : null}
+                <div className={styles.portfolioOverlay}>
+                  <h3>{item.title}</h3>
+                  {item.description ? <p>{item.description}</p> : null}
+                </div>
               </article>
             ))}
           </div>
