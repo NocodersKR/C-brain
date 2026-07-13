@@ -691,6 +691,7 @@
 .faqInner {
   margin: 0 auto;
   align-items: center;
+  gap: 52px;
 }
 
 .faqHeader {
@@ -760,6 +761,27 @@
   font-weight: 700;
   line-height: 16px;
   letter-spacing: 0.18px;
+}
+
+.faqMoreButton {
+  width: 164px;
+  height: 52px;
+  border: 1px solid #ffffff;
+  border-radius: 32px;
+  background: linear-gradient(90deg, var(--landing-brand-500) 0%, var(--landing-brand-600) 100%);
+  color: #fefefe;
+  padding: 8px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .footer {

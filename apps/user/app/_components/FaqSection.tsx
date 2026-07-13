@@ -3,6 +3,7 @@
 import { Accordion } from "@repo/ui/accordion";
 import type { CSSProperties } from "react";
 
+import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
 
 const faqs = [
@@ -87,6 +88,11 @@ export function FaqSection() {
             />
           ))}
         </div>
+
+        <a className={styles.faqMoreButton} href="/faq">
+          더 많은 FAQ 보기
+          <Icon name="arrow-right" size={16} />
+        </a>
       </div>
     </section>
   );
