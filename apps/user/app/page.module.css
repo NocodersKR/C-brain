@@ -296,7 +296,6 @@
 
 .metrics {
   background: #ffffff;
-  border-bottom: 1px solid var(--landing-gray-100);
 }
 
 .metricGrid {
@@ -309,6 +308,7 @@
 
 .metricItem {
   min-width: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1402,6 +1402,23 @@
     padding-bottom: 52px;
   }
 
+  .metricItem:not(:first-child)::before {
+    content: "";
+    width: 1px;
+    height: 72px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background: linear-gradient(
+      180deg,
+      rgba(226, 232, 240, 0) 0%,
+      rgba(226, 232, 240, 0.75) 50%,
+      rgba(226, 232, 240, 0) 100%
+    );
+    pointer-events: none;
+  }
+
   .section,
   .aboutSection,
   .faqSection {
@@ -1512,11 +1529,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    border-right: 1px solid var(--landing-gray-200);
-  }
-
-  .metricItem:last-child {
-    border-right: 0;
   }
 
   .section,
