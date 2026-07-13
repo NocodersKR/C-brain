@@ -5,35 +5,18 @@ import type { CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
+import type { FaqItem } from "../_content/faqs";
 import styles from "../page.module.css";
 
-const faqs = [
-  {
-    question: "성남 외 지역도 납품 가능한가요?",
-    answer:
-      "씨브레인에서 제작하는 모든 홍보물은 전국 어디든 안전하게 납품이 가능합니다. 여러 지점으로 분할 발송도 지원하오니, 필요하신 경우 카카오톡 1:1 상담으로 문의해 주세요.",
-  },
-  {
-    question: "소량 주문도 가능한가요?",
-    answer:
-      "씨브레인은 소량 주문도 진행이 가능합니다. 제품 사양에 따라 최소 주문 수량이 상이할 수 있으니, 카카오톡 1:1 상담으로 문의 주시면 정확한 최소 수량을 안내해 드립니다.",
-  },
-  {
-    question: "기획 · 디자인 · 인쇄를 한 곳에서 맡기면 뭐가 좋나요?",
-    answer:
-      "씨브레인은 기획부터 디자인·인쇄·납품까지 한 곳에서 원스톱으로 처리합니다. 별도 디자인 에이전시와 인쇄소를 각각 섭외할 필요가 없어 시간·비용·소통 비용이 모두 절감됩니다. 1:1 전담 디자이너가 처음부터 끝까지 책임 진행합니다.",
-  },
-  {
-    question: "제작 기간(납기)은 얼마나 걸리나요?",
-    answer:
-      "기본 명함은 영업일 기준 1~2일, 브로슈어·리플렛 소량은 3~5일, 대량(1,000부 이상)은 5~7일입니다. 후가공이 추가되면 일정이 달라질 수 있으니 카카오톡으로 문의 주세요.",
-  },
-  {
-    question: "견적은 어떻게 받나요?",
-    answer:
-      "카카오톡 1:1 상담으로 제품 종류·수량·사양·납기를 알려주시면 빠르게 견적을 드립니다. 홈페이지 견적 폼으로도 요청하실 수 있습니다.",
-  },
-];
+type FaqSectionProps = {
+  badge?: string;
+  description?: string;
+  id?: string;
+  items: readonly FaqItem[];
+  moreHref?: string | null;
+  moreLabel?: string;
+  title?: string;
+};
 
 const faqAccordionStyle = {
   width: "100%",
@@ -56,23 +39,31 @@ const faqAccordionStyle = {
   "--accordion-divider-background": "var(--faq-accordion-divider-gradient)",
 } as CSSProperties;
 
-export function FaqSection() {
+export function FaqSection({
+  badge = "자주 묻는 질문",
+  description = "주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다.",
+  id = "faq",
+  items,
+  moreHref = "/faq",
+  moreLabel = "더 많은 FAQ 보기",
+  title = "홍보물 제작, 궁금한 점이 있으신가요?",
+}: FaqSectionProps) {
   return (
     <SectionLayout
       align="center"
-      badge="자주 묻는 질문"
+      badge={badge}
       badgeAs="h1"
       badgeClassName={styles.faqKicker}
       className={styles.faqSection}
-      description="주문 · 납기 · 디자인에 관해 자주 묻는 질문을 모았습니다."
+      description={description}
       descriptionClassName={styles.faqDescription}
-      id="faq"
+      id={id}
       innerClassName={styles.faqInner}
-      title="홍보물 제작, 궁금한 점이 있으신가요?"
+      title={title}
       titleClassName={styles.faqTitle}
     >
       <div className={styles.faqList}>
-        {faqs.map((item) => (
+        {items.map((item) => (
           <Accordion
             answer={item.answer}
             className={styles.faqItem}
@@ -88,10 +79,12 @@ export function FaqSection() {
         ))}
       </div>
 
-      <a className={styles.faqMoreButton} href="/faq">
-        더 많은 FAQ 보기
-        <Icon name="arrow-right" size={16} />
-      </a>
+      {moreHref ? (
+        <a className={styles.faqMoreButton} href={moreHref}>
+          {moreLabel}
+          <Icon name="arrow-right" size={16} />
+        </a>
+      ) : null}
     </SectionLayout>
   );
 }

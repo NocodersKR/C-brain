@@ -7,6 +7,7 @@ import { Hero } from "../_components/Hero";
 import { Metrics } from "../_components/Metrics";
 import { PortfolioSection } from "../_components/PortfolioSection";
 import { ServicesSection } from "../_components/ServicesSection";
+import { landingFaqs } from "../_content/faqs";
 
 export default function Home() {
   return (
@@ -19,7 +20,7 @@ export default function Home() {
       <CustomerReviewSection />
       <BlogSection />
       <CtaSection />
-      <FaqSection />
+      <FaqSection items={landingFaqs} />
     </>
   );
 }
