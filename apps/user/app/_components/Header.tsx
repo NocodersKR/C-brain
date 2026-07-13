@@ -18,25 +18,36 @@ const navItems = [
   { label: "공지사항", href: "#notice" },
 ];
 
-const priceButtonStyle: CSSProperties = {
-  height: 52,
-  width: 148,
-  borderRadius: 32,
-  border: "1px solid #ffffff",
-  background: "linear-gradient(90deg, #30bac3 0%, #269aa3 100%)",
-  color: "#fefefe",
-  padding: "8px 24px",
-};
+const headerButtonBorderStart =
+  "linear-gradient(to bottom right, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.08) 30%, rgba(255, 255, 255, 0.08) 100%)";
+const headerButtonBorderEnd =
+  "linear-gradient(to bottom right, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 70%, rgba(255, 255, 255, 0.8) 100%)";
 
-const kakaoButtonStyle: CSSProperties = {
+const createHeaderButtonStyle = (
+  fillGradient: string,
+  color: string,
+): CSSProperties => ({
   height: 52,
   width: 148,
   borderRadius: 32,
-  border: "1px solid #ffffff",
-  background: "linear-gradient(105deg, #fae100 0%, #fac800 100%)",
-  color: "#3b1d1d",
+  border: "1px solid transparent",
+  backgroundClip: "padding-box, border-box, border-box",
+  backgroundColor: "transparent",
+  backgroundImage: `${fillGradient}, ${headerButtonBorderEnd}, ${headerButtonBorderStart}`,
+  backgroundOrigin: "padding-box, border-box, border-box",
+  color,
   padding: "8px 24px",
-};
+});
+
+const priceButtonStyle = createHeaderButtonStyle(
+  "linear-gradient(90deg, #30bac3 0%, #269aa3 100%)",
+  "#fefefe",
+);
+
+const kakaoButtonStyle = createHeaderButtonStyle(
+  "linear-gradient(103.542563deg, #fae100 0%, #fae100 49.519%, #fac800 100%)",
+  "#3b1d1d",
+);
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
