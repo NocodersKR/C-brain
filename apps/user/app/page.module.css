@@ -877,8 +877,8 @@
 }
 
 .footerDivider {
-  height: 1px;
-  background: #f3f2ef;
+  height: 0;
+  border-top: 1px dotted #f3f2ef;
 }
 
 .footerInfo {
