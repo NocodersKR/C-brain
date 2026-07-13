@@ -37,12 +37,14 @@ export function Hero() {
         </div>
         <div className={styles.ctaRow}>
           <Button
+            className={styles.heroGradientButton}
             rightIcon={<Icon name="message-typing" size={16} />}
             style={kakaoButtonStyle}
           >
             실시간 카톡상담
           </Button>
           <Button
+            className={styles.heroGradientButton}
             rightIcon={<Icon name="arrow-right" size={16} />}
             style={priceButtonStyle}
           >

@@ -190,9 +190,42 @@
 }
 
 .heroBadge {
-  border: 1px solid var(--landing-brand-500);
-  background: rgba(48, 186, 195, 0.1);
+  border: 1px solid transparent;
+  background-color: rgba(48, 186, 195, 0.1);
+  background-clip: padding-box;
   color: var(--landing-brand-500);
+  position: relative;
+}
+
+.heroBadge::before,
+.heroGradientButton::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#ffffff 0 0) content-box,
+    linear-gradient(#ffffff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.heroBadge::before {
+  background:
+    var(--landing-brand-border-end),
+    var(--landing-brand-border-start);
+}
+
+.heroGradientButton {
+  position: relative;
+}
+
+.heroGradientButton::before {
+  background:
+    var(--landing-button-border-end),
+    var(--landing-button-border-start);
 }
 
 .heroText,
