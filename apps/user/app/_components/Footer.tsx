@@ -86,7 +86,7 @@ export function Footer() {
           ))}
         </div>
         <div className={styles.customerCenter}>
-          <strong>고객센터</strong>
+          <p className={styles.customerCenterLabel}>고객센터</p>
           <p>전화번호 : 010-3242-8118</p>
           <p>주중 09~18시 (점심시간 12~13시 30분 / 주말 및 공휴일 제외)</p>
         </div>
@@ -95,15 +95,19 @@ export function Footer() {
       <div className={styles.footerDivider} />
 
       <div className={styles.companyInfo}>
-        <p>씨브레인 | 사업자등록번호 : 000-00-00000 | 대표 : 홍길동</p>
-        <p>개인정보처리담당자 : 홍길동</p>
+        <p>
+          씨브레인 | 사업자등록번호 : 000-00-00000 | 대표 : 홍길동 |
+          개인정보처리담당자 : 홍길동
+        </p>
         <p>
           주소 : 경기도 고양시 덕양구 동축로70, A동 9층 901호(동산동,
           현대프리미어캠퍼스)
         </p>
         <p>통신판매업신고번호 : 고양-0000-0000</p>
         <p>메일 : contact@zerofee.kr</p>
-        <p>Copyright ⓒ 2026 C-Brain. All rights reserved.</p>
+        <p className={styles.copyrightText}>
+          Copyright ⓒ 2026 C-Brain. All rights reserved.
+        </p>
       </div>
     </footer>
   );
