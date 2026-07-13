@@ -189,7 +189,9 @@ export function CustomerReviewSection() {
                   alt={client.alt}
                   className={styles.partnerLogoImage}
                   height={client.height}
+                  loading="eager"
                   src={client.src}
+                  unoptimized
                   width={client.width}
                 />
               </span>
@@ -204,7 +206,9 @@ export function CustomerReviewSection() {
                       alt={client.alt}
                       className={styles.partnerLogoImage}
                       height={client.height}
+                      loading="eager"
                       src={client.src}
+                      unoptimized
                       width={client.width}
                     />
                   </span>
