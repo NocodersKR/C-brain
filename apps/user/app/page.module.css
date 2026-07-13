@@ -374,6 +374,35 @@
   color: var(--landing-gray-800);
 }
 
+.serviceHeader {
+  width: min(100%, 371px);
+}
+
+.serviceKicker {
+  border: 1px solid transparent;
+  background-color: rgba(48, 186, 195, 0.1);
+  background-clip: padding-box;
+  color: var(--landing-brand-500);
+  position: relative;
+}
+
+.serviceKicker::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    var(--landing-brand-border-end),
+    var(--landing-brand-border-start);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#ffffff 0 0) content-box,
+    linear-gradient(#ffffff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
 .sectionTitle {
   max-width: 410px;
   font-family: var(--font-sans);
@@ -382,6 +411,11 @@
   line-height: 36px;
   letter-spacing: 0;
   color: var(--landing-gray-800);
+}
+
+.serviceTitle,
+.sectionDescription.serviceDescription {
+  max-width: 371px;
 }
 
 .sectionDescription,
@@ -506,6 +540,28 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 28px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.serviceCard:is(:hover, :active) {
+  border-color: transparent;
+  background: linear-gradient(
+    106.92deg,
+    var(--landing-brand-800) 0%,
+    var(--landing-gray-800) 100%
+  );
+}
+
+.serviceCard:is(:hover, :active) .serviceCopy h3,
+.serviceCard:is(:hover, :active) .serviceMeta strong {
+  color: #f8fafc;
+}
+
+.serviceCard:is(:hover, :active) .serviceCopy p {
+  color: var(--landing-gray-200);
 }
 
 .serviceContent {

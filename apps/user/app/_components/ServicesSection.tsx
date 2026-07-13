@@ -75,12 +75,16 @@ export function ServicesSection() {
   return (
     <section className={styles.section} id="services">
       <div className={styles.sectionInner}>
-        <div className={styles.sectionHeader}>
-          <p className={styles.sectionKicker}>서비스</p>
-          <h2 className={styles.sectionTitle}>
+        <div className={`${styles.sectionHeader} ${styles.serviceHeader}`}>
+          <p className={`${styles.sectionKicker} ${styles.serviceKicker}`}>
+            서비스
+          </p>
+          <h2 className={`${styles.sectionTitle} ${styles.serviceTitle}`}>
             어떤 홍보물 제작이 필요하신가요?
           </h2>
-          <p className={styles.sectionDescription}>
+          <p
+            className={`${styles.sectionDescription} ${styles.serviceDescription}`}
+          >
             투명한 정찰 견적으로 바로 주문하거나, 맞춤 견적 상담 후 제작할 수
             있습니다.
           </p>
