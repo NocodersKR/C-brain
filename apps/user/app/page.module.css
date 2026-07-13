@@ -539,6 +539,10 @@
   background: var(--landing-gray-50);
 }
 
+.reviewSection {
+  background: #ffffff;
+}
+
 .aboutHeader {
   gap: 16px;
 }
@@ -590,7 +594,16 @@
   letter-spacing: 0.06em;
 }
 
-.blogKicker {
+.sectionInner.reviewInner {
+  gap: 52px;
+}
+
+.reviewHeader {
+  gap: 16px;
+}
+
+.blogKicker,
+.reviewKicker {
   border: 1px solid transparent;
   background-color: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
@@ -600,7 +613,8 @@
   position: relative;
 }
 
-.blogKicker::before {
+.blogKicker::before,
+.reviewKicker::before {
   content: "";
   position: absolute;
   inset: -1px;
@@ -615,6 +629,141 @@
     linear-gradient(#ffffff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+}
+
+.reviewTitle {
+  max-width: 309px;
+  letter-spacing: -0.42px;
+}
+
+.reviewTitle span {
+  display: block;
+}
+
+.reviewGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.reviewCard {
+  min-width: 0;
+  border: 1px solid var(--landing-gray-100);
+  border-radius: 16px;
+  background: var(--landing-gray-50);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reviewStars {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  color: #ffa91f;
+}
+
+.reviewBody {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  color: var(--landing-gray-600);
+}
+
+.reviewDivider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0) 0%,
+    rgba(30, 41, 59, 0.2) 50%,
+    rgba(30, 41, 59, 0) 100%
+  );
+}
+
+.reviewMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reviewMeta p {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--landing-gray-800);
+}
+
+.reviewMeta span {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.18px;
+  color: var(--landing-gray-600);
+}
+
+.reviewLogoCloud {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.featuredClientLogos,
+.reviewClientLogoGrid {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+
+.featuredClientLogos {
+  grid-template-columns: 1fr;
+}
+
+.reviewClientLogoGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.featuredClientLogo,
+.reviewClientLogo {
+  min-width: 0;
+  border-radius: 8px;
+  color: var(--landing-gray-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.featuredClientLogo {
+  min-height: 72px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.reviewClientLogo {
+  min-height: 52px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.12px;
 }
 
 .sectionInner.blogInner {
@@ -1121,6 +1270,32 @@
     grid-template-columns: repeat(4, 1fr);
   }
 
+  .reviewGrid {
+    overflow-x: auto;
+    grid-auto-flow: column;
+    grid-auto-columns: 400px;
+    grid-template-columns: unset;
+    scrollbar-width: none;
+  }
+
+  .reviewGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .featuredClientLogos {
+    width: min(100%, 826px);
+    grid-template-columns: repeat(3, minmax(0, 270px));
+    justify-content: center;
+  }
+
+  .featuredClientLogo {
+    min-height: 90px;
+  }
+
+  .reviewClientLogoGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .blogGrid {
     overflow-x: auto;
     grid-auto-flow: column;
@@ -1196,6 +1371,27 @@
 
   .serviceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reviewGrid {
+    overflow: visible;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .reviewCard {
+    min-height: 262px;
+  }
+
+  .reviewClientLogoGrid {
+    grid-template-columns: repeat(5, minmax(0, 180px));
+    justify-content: center;
+    row-gap: 12px;
+  }
+
+  .reviewClientLogo {
+    min-height: 60px;
   }
 
   .blogGrid {

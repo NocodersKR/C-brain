@@ -1,6 +1,7 @@
 import { AboutSection } from "./_components/AboutSection";
 import { BlogSection } from "./_components/BlogSection";
 import { CtaSection } from "./_components/CtaSection";
+import { CustomerReviewSection } from "./_components/CustomerReviewSection";
 import { FaqSection } from "./_components/FaqSection";
 import { Footer } from "./_components/Footer";
 import { Header } from "./_components/Header";
@@ -19,6 +20,7 @@ export default function Home() {
       <PortfolioSection />
       <ServicesSection />
       <AboutSection />
+      <CustomerReviewSection />
       <BlogSection />
       <CtaSection />
       <FaqSection />
