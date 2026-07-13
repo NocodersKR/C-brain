@@ -37,7 +37,7 @@ const buttonStyle = createGradientBorderButtonStyle();
 export function BlogSection() {
   return (
     <section className={styles.section} id="blog">
-      <div className={styles.sectionInner}>
+      <div className={`${styles.sectionInner} ${styles.blogInner}`}>
         <div className={styles.sectionHeader}>
           <p className={`${styles.sectionKicker} ${styles.blogKicker}`}>
             블로그

@@ -617,6 +617,10 @@
   mask-composite: exclude;
 }
 
+.blogInner {
+  gap: 52px;
+}
+
 .blogHeadingText {
   max-width: 371px;
   display: flex;
