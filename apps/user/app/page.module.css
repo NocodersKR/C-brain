@@ -658,19 +658,21 @@
 }
 
 .reasonItem h3 {
-  font-family: var(--font-sans);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 26px;
-  color: var(--landing-gray-800);
+  letter-spacing: -0.27px;
+  color: var(--landing-gray-50);
 }
 
 .reasonItem p {
-  font-family: var(--font-sans);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  color: var(--landing-gray-600);
+  letter-spacing: -0.21px;
+  color: var(--landing-gray-200);
 }
 
 .consultBox {
@@ -691,7 +693,11 @@
 }
 
 .aboutSection {
-  background: var(--landing-gray-50);
+  background: linear-gradient(
+    111.8deg,
+    var(--landing-brand-800) 0%,
+    var(--landing-gray-800) 100%
+  );
 }
 
 .reviewSection {
@@ -702,16 +708,67 @@
   gap: 16px;
 }
 
+.aboutHeadingText {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.aboutKicker {
+  border: 1px solid #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--landing-gray-50);
+}
+
+.aboutTitle {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.36px;
+  color: var(--landing-gray-50);
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutTitle span {
+  white-space: nowrap;
+}
+
+.aboutDescription {
+  max-width: none;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.24px;
+  color: var(--landing-gray-50);
+}
+
+.aboutDesktopBreak {
+  display: none;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .reasonGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  row-gap: 32px;
+  column-gap: 8px;
 }
 
 .reasonItem {
   min-width: 0;
   display: flex;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .reasonItem > div {
@@ -722,31 +779,26 @@
 }
 
 .reasonIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-}
-
-.clientLogoPanel {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.clientLogo {
-  min-height: 54px;
-  border: 1px solid var(--landing-gray-100);
+  width: 24px;
+  height: 24px;
   border-radius: 8px;
   background: #ffffff;
-  color: var(--landing-gray-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  letter-spacing: 0.06em;
+}
+
+.reasonIcon img {
+  display: block;
+}
+
+.aboutMedia {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.aboutImage {
+  object-fit: cover;
 }
 
 .sectionInner.reviewInner {
@@ -1431,8 +1483,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .clientLogoPanel {
-    grid-template-columns: repeat(4, 1fr);
+  .aboutContent {
+    gap: 52px;
   }
 
   .reviewGrid {
@@ -1551,6 +1603,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .reasonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .reviewGrid {
     overflow: visible;
     grid-auto-flow: row;
@@ -1665,13 +1721,35 @@
     padding: 32px;
   }
 
-  .reasonGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .aboutInner {
+    gap: 52px;
   }
 
-  .clientLogoPanel {
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
+  .aboutTitle {
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: -0.42px;
+  }
+
+  .aboutDesktopBreak {
+    display: block;
+  }
+
+  .aboutContent {
+    display: grid;
+    grid-template-columns: minmax(0, 628px) 680px;
+    align-items: center;
+    gap: 52px;
+  }
+
+  .reasonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutMedia {
+    width: 680px;
+    height: 383px;
+    aspect-ratio: auto;
   }
 
   .ctaSection {
