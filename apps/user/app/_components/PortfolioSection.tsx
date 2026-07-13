@@ -42,50 +42,59 @@ const buttonStyle = createGradientBorderButtonStyle();
 export function PortfolioSection() {
   return (
     <section className={styles.section} id="portfolio">
-      <div className={styles.sectionInner}>
-        <div className={styles.sectionHeader}>
-          <p className={styles.sectionKicker}>포트폴리오</p>
-          <h2 className={styles.sectionTitle}>
-            4,000건+ 대표 디자인 제작 사례
-          </h2>
-          <p className={styles.sectionDescription}>
-            브로슈어 · 카탈로그 · 리플렛 · 포스터 · 명함 등 씨브레인의 실제
-            디자인 제작물을 확인하세요.
+      <div className={`${styles.sectionInner} ${styles.portfolioInner}`}>
+        <div className={styles.portfolioHeader}>
+          <p className={`${styles.sectionKicker} ${styles.portfolioKicker}`}>
+            포트폴리오
           </p>
-        </div>
-
-        <div aria-label="포트폴리오 카테고리" className={styles.categoryRail}>
-          {categories.map((category, index) => (
-            <button
-              className={`${styles.categoryChip} ${
-                index === 0 ? styles.categoryChipActive : ""
-              }`}
-              key={category}
-              type="button"
+          <div className={styles.portfolioHeadingText}>
+            <h2 className={styles.sectionTitle}>
+              4,000건+ 대표 디자인 제작 사례
+            </h2>
+            <p
+              className={`${styles.sectionDescription} ${styles.portfolioDescription}`}
             >
-              {category}
-            </button>
-          ))}
+              브로슈어 · 카탈로그 · 리플렛 · 포스터 · 명함 등 씨브레인의 실제
+              디자인 제작물을 확인하세요.
+            </p>
+          </div>
         </div>
 
-        <div className={styles.portfolioGrid}>
-          {portfolioItems.map((item, index) => (
-            <article className={styles.portfolioCard} key={item.src}>
-              <Image
-                alt={item.title}
-                className={styles.coverImage}
-                fill
-                sizes="(min-width: 1440px) 325px, (min-width: 1080px) 33vw, (min-width: 640px) 50vw, 300px"
-                src={item.src}
-              />
-              {index === 0 ? (
-                <div className={styles.portfolioOverlay}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
-              ) : null}
-            </article>
-          ))}
+        <div className={styles.portfolioContent}>
+          <div aria-label="포트폴리오 카테고리" className={styles.categoryRail}>
+            {categories.map((category, index) => (
+              <button
+                aria-pressed={index === 0}
+                className={`${styles.categoryChip} ${
+                  index === 0 ? styles.categoryChipActive : ""
+                }`}
+                key={category}
+                type="button"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.portfolioGrid}>
+            {portfolioItems.map((item, index) => (
+              <article className={styles.portfolioCard} key={item.src}>
+                <Image
+                  alt={item.title}
+                  className={styles.coverImage}
+                  fill
+                  sizes="(min-width: 1440px) 325px, (min-width: 1080px) 33vw, (min-width: 640px) 50vw, 300px"
+                  src={item.src}
+                />
+                {index === 0 ? (
+                  <div className={styles.portfolioOverlay}>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
         </div>
 
         <div className={styles.centerAction}>

@@ -390,7 +390,8 @@
   gap: 4px;
 }
 
-.serviceKicker {
+.serviceKicker,
+.portfolioKicker {
   border: 1px solid transparent;
   background-color: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
@@ -398,7 +399,8 @@
   position: relative;
 }
 
-.serviceKicker::before {
+.serviceKicker::before,
+.portfolioKicker::before {
   content: "";
   position: absolute;
   inset: -1px;
@@ -446,6 +448,35 @@
   color: var(--landing-gray-600);
 }
 
+.sectionInner.portfolioInner {
+  gap: 52px;
+}
+
+.portfolioHeader,
+.portfolioHeadingText,
+.portfolioContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.portfolioHeader {
+  gap: 16px;
+}
+
+.portfolioHeadingText {
+  gap: 4px;
+}
+
+.sectionDescription.portfolioDescription {
+  max-width: 358px;
+}
+
+.portfolioContent {
+  width: 100%;
+  gap: 32px;
+}
+
 .categoryRail {
   width: 100%;
   overflow-x: auto;
@@ -460,23 +491,24 @@
 
 .categoryChip {
   height: 40px;
-  border: 1px solid transparent;
-  border-radius: 32px;
-  background: transparent;
-  color: var(--landing-gray-600);
-  padding: 8px 20px;
+  border: 0;
+  border-radius: 40px;
+  background: #effcfd;
+  color: #30bac3;
+  padding: 0 32px;
   flex: 0 0 auto;
   font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
   white-space: nowrap;
   cursor: pointer;
 }
 
 .categoryChipActive {
-  background: var(--landing-brand-50);
-  color: var(--landing-brand-500);
+  background: #30bac3;
+  color: #f8fafc;
+  font-weight: 700;
 }
 
 .portfolioGrid {
