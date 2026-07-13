@@ -86,7 +86,7 @@ export function ServicesSection() {
             <p
               className={`${styles.sectionDescription} ${styles.serviceDescription}`}
             >
-              투명한 정찰 견적으로 바로 주문하거나, 맞춤 견적 상담 후 제작할 수
+              투명한 정찰 견적으로 바로 주문하거나, 맞춤 견적 상담 후, 제작할 수
               있습니다.
             </p>
           </div>
