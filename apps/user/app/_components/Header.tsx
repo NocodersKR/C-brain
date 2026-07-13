@@ -1,6 +1,9 @@
+"use client";
+
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../page.module.css";
 
@@ -36,8 +39,27 @@ const kakaoButtonStyle: CSSProperties = {
 };
 
 export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateHeaderBackground = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    updateHeaderBackground();
+    window.addEventListener("scroll", updateHeaderBackground, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", updateHeaderBackground);
+    };
+  }, []);
+
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""}`}
+    >
       <a aria-label="씨브레인 홈" className={styles.logoLink} href="#">
         <span className={styles.logoMark}>
           <Image
