@@ -168,7 +168,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
+  gap: 52px;
 }
 
 .heroBadge,
@@ -229,6 +229,8 @@
 }
 
 .heroText,
+.heroHeadlineGroup,
+.heroCopy,
 .sectionHeader,
 .aboutHeader,
 .ctaText,
@@ -243,7 +245,19 @@
 }
 
 .heroText {
-  gap: 12px;
+  width: min(100%, 538px);
+  gap: 20px;
+}
+
+.heroHeadlineGroup {
+  width: 100%;
+  gap: 8px;
+}
+
+.heroCopy {
+  width: 100%;
+  max-width: 538px;
+  gap: 4px;
 }
 
 .heroTitle {
