@@ -26,9 +26,9 @@
 
 **Interfaces:**
 - Consumes: React `ReactNode` and `CSSProperties` types.
-- Produces: `PageHero` with `variant`, `tone`, `badge`, `title`, `description`, `backgroundImage`, `backgroundPosition`, `actions`, and class-name extension props.
+- Produces: `PageHero` with `variant`, `tone`, `badge`, `title`, `description`, `backgroundImage`, `backgroundPosition`, and `actions` props.
 
-- [ ] **Step 1: Establish the current baseline**
+- [x] **Step 1: Establish the current baseline**
 
 Run:
 
@@ -39,15 +39,15 @@ pnpm --filter user check-types
 
 Expected: both commands exit with code `0`.
 
-- [ ] **Step 2: Define the configurable component API**
+- [x] **Step 2: Define the configurable component API**
 
 Create a server-compatible component whose defaults are `variant="subpage"`, `tone="light"`, and centered background positioning. Render the optional action group only when `actions` is provided.
 
-- [ ] **Step 3: Implement shared and variant styles**
+- [x] **Step 3: Implement shared and variant styles**
 
 Create CSS for the background and readability overlay, responsive container widths, badge, `36px/48px` desktop title, `16px/24px` description, light/dark tones, and the landing `632px` desktop minimum height and `52px` action gap.
 
-- [ ] **Step 4: Run static verification**
+- [x] **Step 4: Run static verification**
 
 Run:
 
@@ -70,15 +70,15 @@ Expected: both commands exit with code `0`.
 - Consumes: `PageHero` and the existing gradient-border button helper.
 - Produces: the same landing content and action buttons through `variant="landing"`.
 
-- [ ] **Step 1: Replace duplicated structure with PageHero**
+- [x] **Step 1: Replace duplicated structure with PageHero**
 
 Keep the landing title and description as React nodes so the Figma line breaks and highlighted text remain explicit. Pass the two existing buttons through `actions`.
 
-- [ ] **Step 2: Remove migrated structural CSS**
+- [x] **Step 2: Remove migrated structural CSS**
 
 Delete hero shell, background, overlay, container, badge, typography, and responsive rules from `page.module.css`. Retain only landing button pseudo-element styles needed by the wrapper.
 
-- [ ] **Step 3: Run full static verification**
+- [x] **Step 3: Run full static verification**
 
 Run:
 
@@ -91,7 +91,7 @@ git diff --check
 
 Expected: every command exits with code `0`.
 
-- [ ] **Step 4: Verify the desktop landing hero in the browser**
+- [x] **Step 4: Verify the desktop landing hero in the browser**
 
 At `1920x1080`, inspect `http://localhost:3000/`.
 

@@ -1,6 +1,7 @@
 import { Button } from "@repo/ui/button";
 
 import { Icon } from "../../components/Icon";
+import { PageHero } from "../../components/PageHero";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -12,35 +13,9 @@ const priceButtonStyle = createGradientBorderButtonStyle();
 
 export function Hero() {
   return (
-    <section className={styles.hero}>
-      <div className={styles.heroBackground} />
-      <div className={styles.heroGradient} />
-      <div className={styles.heroContent}>
-        <div className={styles.heroText}>
-          <p className={styles.heroBadge}>
-            홍보물 기획 · 디자인 · 인쇄 원스톱 전문 회사
-          </p>
-          <div className={styles.heroHeadlineGroup}>
-            <h1 className={styles.heroTitle}>
-              <span>26년 · 1,200개 기업이 선택한</span>
-              <span>
-                <strong>편집디자인 업체,</strong> 씨브레인
-              </span>
-            </h1>
-            <div className={styles.heroCopy}>
-              <p className={styles.heroDescription}>
-                1:1 전담 디자이너가 제작부터 납품까지, 처음부터 끝까지 빠른
-                소통으로 책임집니다.
-              </p>
-              <p className={styles.heroDescription}>
-                박람회 · 전시회 참가 기업 / 신규 브랜드 런칭 / 기업 IR 제안서 ·
-                브로슈어 제작이 필요한
-                <br />모든 기업에
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className={styles.ctaRow}>
+    <PageHero
+      actions={
+        <>
           <Button
             className={styles.heroGradientButton}
             rightIcon={<Icon name="message-typing" size={16} />}
@@ -55,8 +30,33 @@ export function Hero() {
           >
             정찰제 가격 보기
           </Button>
-        </div>
-      </div>
-    </section>
+        </>
+      }
+      backgroundImage="/figma-assets/landing-hero-background.png"
+      backgroundPosition="62% center"
+      badge="홍보물 기획 · 디자인 · 인쇄 원스톱 전문 회사"
+      description={
+        <>
+          <p>
+            1:1 전담 디자이너가 제작부터 납품까지, 처음부터 끝까지 빠른
+            소통으로 책임집니다.
+          </p>
+          <p>
+            박람회 · 전시회 참가 기업 / 신규 브랜드 런칭 / 기업 IR 제안서 ·
+            브로슈어 제작이 필요한
+            <br />모든 기업에
+          </p>
+        </>
+      }
+      title={
+        <>
+          <span>26년 · 1,200개 기업이 선택한</span>
+          <span>
+            <strong>편집디자인 업체,</strong> 씨브레인
+          </span>
+        </>
+      }
+      variant="landing"
+    />
   );
 }

@@ -141,15 +141,6 @@
   background: currentColor;
 }
 
-.hero {
-  min-height: 536px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-.heroBackground,
 .ctaBackground {
   position: absolute;
   inset: 0;
@@ -158,30 +149,6 @@
   pointer-events: none;
 }
 
-.heroBackground {
-  background-image: url("/figma-assets/landing-hero-background.png");
-  background-position: 62% center;
-  transform: scale(1.05);
-}
-
-.heroGradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  pointer-events: none;
-}
-
-.heroContent {
-  width: min(100%, 390px);
-  padding: 132px 20px 72px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 52px;
-}
-
-.heroBadge,
 .ctaBadge {
   width: fit-content;
   min-height: 40px;
@@ -198,15 +165,6 @@
   white-space: nowrap;
 }
 
-.heroBadge {
-  border: 1px solid transparent;
-  background-color: rgba(48, 186, 195, 0.1);
-  background-clip: padding-box;
-  color: var(--landing-brand-500);
-  position: relative;
-}
-
-.heroBadge::before,
 .heroGradientButton::before {
   content: "";
   position: absolute;
@@ -221,12 +179,6 @@
   mask-composite: exclude;
 }
 
-.heroBadge::before {
-  background:
-    var(--landing-brand-border-end),
-    var(--landing-brand-border-start);
-}
-
 .heroGradientButton {
   position: relative;
 }
@@ -237,9 +189,6 @@
     var(--landing-button-border-start);
 }
 
-.heroText,
-.heroHeadlineGroup,
-.heroCopy,
 .ctaText,
 .blogCopy,
 .serviceCopy,
@@ -250,47 +199,8 @@
   flex-direction: column;
 }
 
-.heroText {
-  width: min(100%, 538px);
-  gap: 20px;
-}
-
-.heroHeadlineGroup {
-  width: 100%;
-  gap: 8px;
-}
-
-.heroCopy {
-  width: 100%;
-  max-width: 538px;
-  gap: 4px;
-}
-
-.heroTitle {
-  font-family: var(--font-sans);
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 40px;
-  letter-spacing: 0;
-  color: var(--landing-gray-800);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.heroTitle strong,
 .ctaText strong {
   color: var(--landing-brand-500);
-}
-
-.heroDescription {
-  max-width: 538px;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0;
-  color: var(--landing-gray-800);
 }
 
 .ctaRow {
@@ -1401,21 +1311,11 @@
     padding: 0 40px;
   }
 
-  .hero {
-    min-height: 512px;
-  }
-
-  .heroContent,
   .metricGrid,
   .ctaContent {
     width: min(100%, 640px);
     padding-left: 20px;
     padding-right: 20px;
-  }
-
-  .heroContent {
-    padding-top: 144px;
-    padding-bottom: 96px;
   }
 
   .metricGrid {
@@ -1496,24 +1396,9 @@
 }
 
 @media (min-width: 1080px) {
-  .hero {
-    min-height: 528px;
-  }
-
-  .heroContent,
   .metricGrid,
   .ctaContent {
     width: min(100%, 1080px);
-  }
-
-  .heroContent {
-    padding-top: 152px;
-    padding-bottom: 104px;
-  }
-
-  .heroTitle {
-    font-size: 36px;
-    line-height: 48px;
   }
 
   .metricGrid {
@@ -1616,21 +1501,11 @@
     white-space: nowrap;
   }
 
-  .hero {
-    min-height: 632px;
-  }
-
-  .heroContent,
   .metricGrid {
     width: 1360px;
     padding-left: 0;
     padding-right: 0;
     margin: 0 auto;
-  }
-
-  .heroContent {
-    padding-top: 152px;
-    padding-bottom: 104px;
   }
 
   .metricGrid {
