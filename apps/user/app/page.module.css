@@ -4,6 +4,9 @@
   --landing-brand-500: #30bac3;
   --landing-brand-600: #269aa3;
   --landing-brand-800: #1c656c;
+  --landing-info-50: #f6fafe;
+  --landing-info-200: #d9ecfd;
+  --landing-info-500: #43a0f5;
   --landing-kakao: #fae100;
   --landing-kakao-strong: #fac800;
   --landing-kakao-dark: #3b1d1d;
@@ -606,6 +609,12 @@
   flex: 0 0 auto;
 }
 
+.serviceQuoteIcon {
+  background: var(--landing-info-50);
+  box-shadow: inset 0 0 0 1px var(--landing-info-200);
+  color: var(--landing-info-500);
+}
+
 .serviceCopy {
   gap: 4px;
 }
@@ -635,6 +644,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.serviceMetaQuote {
+  justify-content: flex-end;
 }
 
 .reasonItem h3 {
