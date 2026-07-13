@@ -682,9 +682,30 @@
 }
 
 .ctaBadge {
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.12);
+  width: 148px;
+  height: 40px;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
   color: var(--landing-gray-50);
+  position: relative;
+}
+
+.ctaBadge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    var(--landing-button-border-end),
+    var(--landing-button-border-start);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#ffffff 0 0) content-box,
+    linear-gradient(#ffffff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .ctaText {
