@@ -1,24 +1,12 @@
 import { Button } from "@repo/ui/button";
-import type { CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
+import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const kakaoButtonStyle: CSSProperties = {
-  width: 164,
-  borderRadius: 32,
-  borderColor: "#ffffff",
-  background: "linear-gradient(105deg, #fae100 0%, #fac800 100%)",
-  color: "#3b1d1d",
-};
+const kakaoButtonStyle = createGradientBorderButtonStyle({ tone: "kakao" });
 
-const priceButtonStyle: CSSProperties = {
-  width: 164,
-  borderRadius: 32,
-  borderColor: "#ffffff",
-  background: "linear-gradient(90deg, #30bac3 0%, #269aa3 100%)",
-  color: "#fefefe",
-};
+const priceButtonStyle = createGradientBorderButtonStyle();
 
 export function CtaSection() {
   return (

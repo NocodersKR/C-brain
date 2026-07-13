@@ -1,9 +1,9 @@
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
-import type { CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
+import { createGradientBorderButtonStyle } from "./buttonStyles";
 
 const posts = [
   {
@@ -32,13 +32,7 @@ const posts = [
   },
 ];
 
-const buttonStyle: CSSProperties = {
-  width: 164,
-  borderRadius: 32,
-  borderColor: "#ffffff",
-  background: "linear-gradient(90deg, #30bac3 0%, #269aa3 100%)",
-  color: "#fefefe",
-};
+const buttonStyle = createGradientBorderButtonStyle();
 
 export function BlogSection() {
   return (
