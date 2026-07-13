@@ -34,7 +34,8 @@ export function Hero() {
               </p>
               <p className={styles.heroDescription}>
                 박람회 · 전시회 참가 기업 / 신규 브랜드 런칭 / 기업 IR 제안서 ·
-                브로슈어 제작이 필요한 모든 기업에
+                브로슈어 제작이 필요한
+                <br />모든 기업에
               </p>
             </div>
           </div>
