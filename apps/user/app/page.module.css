@@ -725,45 +725,54 @@
 }
 
 .featuredClientLogos,
-.reviewClientLogoGrid {
+.reviewClientLogoRows,
+.reviewClientLogoRow {
   width: 100%;
-  display: grid;
+  display: flex;
   gap: 8px;
 }
 
 .featuredClientLogos {
-  grid-template-columns: 1fr;
+  flex-direction: column;
+  align-items: center;
 }
 
-.reviewClientLogoGrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.reviewClientLogoRows {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewClientLogoRow {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .featuredClientLogo,
 .reviewClientLogo {
-  min-width: 0;
+  width: 100%;
   border-radius: 8px;
-  color: var(--landing-gray-700);
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  word-break: keep-all;
+  flex: 0 0 auto;
 }
 
 .featuredClientLogo {
+  width: min(100%, 270px);
   min-height: 72px;
-  font-size: 18px;
-  line-height: 24px;
 }
 
 .reviewClientLogo {
+  width: min(100%, 180px);
   min-height: 52px;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: -0.12px;
+}
+
+.partnerLogoImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .sectionInner.blogInner {
@@ -1284,16 +1293,12 @@
 
   .featuredClientLogos {
     width: min(100%, 826px);
-    grid-template-columns: repeat(3, minmax(0, 270px));
+    flex-direction: row;
     justify-content: center;
   }
 
   .featuredClientLogo {
     min-height: 90px;
-  }
-
-  .reviewClientLogoGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .blogGrid {
@@ -1384,13 +1389,8 @@
     min-height: 262px;
   }
 
-  .reviewClientLogoGrid {
-    grid-template-columns: repeat(5, minmax(0, 180px));
-    justify-content: center;
-    row-gap: 12px;
-  }
-
   .reviewClientLogo {
+    width: 180px;
     min-height: 60px;
   }
 
@@ -1525,6 +1525,10 @@
   .ctaText h2 {
     font-size: 36px;
     line-height: 48px;
+  }
+
+  .reviewClientLogoRow {
+    flex-wrap: nowrap;
   }
 
   .faqSection {

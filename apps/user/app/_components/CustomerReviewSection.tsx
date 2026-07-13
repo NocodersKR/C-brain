@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import styles from "../page.module.css";
 
 const reviews = [
@@ -19,28 +21,129 @@ const reviews = [
 ] as const;
 
 const featuredClients = [
-  "HYUNDAI Rotem",
-  "LOTTE Global Logistics",
-  "한화생명금융서비스",
+  {
+    src: "/images/partners/hyundai-rotem-partner-logo.png",
+    alt: "현대로템 씨브레인 고객사",
+    width: 121,
+    height: 41,
+  },
+  {
+    src: "/images/partners/lotte-global-logistics-partner-logo.png",
+    alt: "롯데글로벌로지스 씨브레인 고객사",
+    width: 129,
+    height: 41,
+  },
+  {
+    src: "/images/partners/hanwha-life-financial-service-partner-logo.png",
+    alt: "한화생명금융서비스 씨브레인 고객사",
+    width: 156,
+    height: 30,
+  },
 ] as const;
 
-const clients = [
-  "경기도교육청",
-  "서경대학교",
-  "정부도안기술진흥원",
-  "성남시",
-  "7-ELEVEN",
-  "아주대학교병원",
-  "대전한방병원",
-  "NINEBELL",
-  "GAFI",
-  "정광문화산업연구원",
-  "성남시니어산업혁신센터",
-  "Laminar",
-  "한결정보기술",
-  "플로우세무회계",
-  "purom",
-  "SeoJin Instech",
+const clientRows = [
+  [
+    {
+      src: "/images/partners/gyeonggi-office-of-education-partner-logo.png",
+      alt: "경기도교육청 씨브레인 고객사",
+      width: 140,
+      height: 36,
+    },
+    {
+      src: "/images/partners/sogang-university-partner-logo.png",
+      alt: "서강대학교 씨브레인 고객사",
+      width: 144,
+      height: 44,
+    },
+    {
+      src: "/images/partners/ppta-partner-logo.png",
+      alt: "정부조달기술진흥협회 PPTA 씨브레인 고객사",
+      width: 170,
+      height: 25,
+    },
+    {
+      src: "/images/partners/seongnam-city-hall-partner-logo.png",
+      alt: "성남시청 씨브레인 고객사",
+      width: 106,
+      height: 36,
+    },
+    {
+      src: "/images/partners/seven-eleven-partner-logo.png",
+      alt: "세븐일레븐 씨브레인 고객사",
+      width: 153,
+      height: 22,
+    },
+  ],
+  [
+    {
+      src: "/images/partners/ajou-university-hospital-partner-logo.png",
+      alt: "아주대학교병원 씨브레인 고객사",
+      width: 118,
+      height: 42,
+    },
+    {
+      src: "/images/partners/hwahospital-partner-logo.png",
+      alt: "대전한방병원 씨브레인 고객사",
+      width: 118,
+      height: 32,
+    },
+    {
+      src: "/images/partners/ninebell-partner-logo.png",
+      alt: "나인벨 씨브레인 고객사",
+      width: 125,
+      height: 18,
+    },
+    {
+      src: "/images/partners/gafi-partner-logo.png",
+      alt: "경기도수산진흥원 GAFI 씨브레인 고객사",
+      width: 92,
+      height: 48,
+    },
+    {
+      src: "/images/partners/chungkang-college-partner-logo.png",
+      alt: "청강문화산업대학교 씨브레인 고객사",
+      width: 165,
+      height: 24,
+    },
+    {
+      src: "/images/partners/seongnam-senior-innovation-center-partner-logo.png",
+      alt: "성남시니어산업혁신센터 씨브레인 고객사",
+      width: 157,
+      height: 31,
+    },
+  ],
+  [
+    {
+      src: "/images/partners/laminar-partner-logo.png",
+      alt: "라미나 씨브레인 고객사",
+      width: 122,
+      height: 25,
+    },
+    {
+      src: "/images/partners/hangyeol-it-partner-logo.png",
+      alt: "한결정보기술 씨브레인 고객사",
+      width: 140,
+      height: 27,
+    },
+    {
+      src: "/images/partners/flow-tax-accounting-partner-logo.png",
+      alt: "플로우세무회계 씨브레인 고객사",
+      width: 152,
+      height: 22,
+    },
+    {
+      src: "/images/partners/purom-partner-logo.png",
+      alt: "퓨롬 씨브레인 고객사",
+      width: 124,
+      height: 30,
+    },
+    {
+      src: "/images/partners/seojin-instech-partner-logo.png",
+      alt: "서진인스텍 씨브레인 고객사",
+      width: 138,
+      height: 27,
+    },
+  ],
 ] as const;
 
 export function CustomerReviewSection() {
@@ -81,16 +184,32 @@ export function CustomerReviewSection() {
         <div className={styles.reviewLogoCloud} aria-label="고객사 로고">
           <div className={styles.featuredClientLogos}>
             {featuredClients.map((client) => (
-              <span className={styles.featuredClientLogo} key={client}>
-                {client}
+              <span className={styles.featuredClientLogo} key={client.src}>
+                <Image
+                  alt={client.alt}
+                  className={styles.partnerLogoImage}
+                  height={client.height}
+                  src={client.src}
+                  width={client.width}
+                />
               </span>
             ))}
           </div>
-          <div className={styles.reviewClientLogoGrid}>
-            {clients.map((client) => (
-              <span className={styles.reviewClientLogo} key={client}>
-                {client}
-              </span>
+          <div className={styles.reviewClientLogoRows}>
+            {clientRows.map((row) => (
+              <div className={styles.reviewClientLogoRow} key={row[0].src}>
+                {row.map((client) => (
+                  <span className={styles.reviewClientLogo} key={client.src}>
+                    <Image
+                      alt={client.alt}
+                      className={styles.partnerLogoImage}
+                      height={client.height}
+                      src={client.src}
+                      width={client.width}
+                    />
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
         </div>
