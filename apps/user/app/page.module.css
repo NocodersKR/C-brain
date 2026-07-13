@@ -5,6 +5,7 @@
   --landing-brand-600: #269aa3;
   --landing-brand-800: #1c656c;
   --landing-info-50: #f6fafe;
+  --landing-info-100: #ecf5fe;
   --landing-info-200: #d9ecfd;
   --landing-info-500: #43a0f5;
   --landing-kakao: #fae100;
@@ -609,8 +610,13 @@
   flex: 0 0 auto;
 }
 
+.serviceIcon {
+  border-radius: 16px;
+  background: #d2f5f7;
+}
+
 .serviceQuoteIcon {
-  background: var(--landing-info-50);
+  background: var(--landing-info-100);
   box-shadow: inset 0 0 0 1px var(--landing-info-200);
   color: var(--landing-info-500);
 }
