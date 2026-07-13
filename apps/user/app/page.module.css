@@ -609,7 +609,6 @@
     color 160ms ease;
 }
 
-.serviceCard[data-interactive="true"],
 .serviceCard:hover,
 .serviceCard:active {
   box-shadow: none;
@@ -620,8 +619,6 @@
   );
 }
 
-.serviceCard[data-interactive="true"] .serviceCopy h3,
-.serviceCard[data-interactive="true"] .serviceMeta strong,
 .serviceCard:hover .serviceCopy h3,
 .serviceCard:hover .serviceMeta strong,
 .serviceCard:active .serviceCopy h3,
@@ -629,7 +626,6 @@
   color: #f8fafc;
 }
 
-.serviceCard[data-interactive="true"] .serviceCopy p,
 .serviceCard:hover .serviceCopy p,
 .serviceCard:active .serviceCopy p {
   color: var(--landing-gray-200);

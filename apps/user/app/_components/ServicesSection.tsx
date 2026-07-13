@@ -1,7 +1,5 @@
-"use client";
-
 import { Button } from "@repo/ui/button";
-import { type CSSProperties, useState } from "react";
+import { type CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
@@ -104,9 +102,6 @@ const consultButtonStyle: CSSProperties = {
 };
 
 export function ServicesSection() {
-  const [hoveredService, setHoveredService] = useState<string | null>(null);
-  const [pressedService, setPressedService] = useState<string | null>(null);
-
   return (
     <section className={styles.section} id="services">
       <div className={`${styles.sectionInner} ${styles.serviceInner}`}>
@@ -128,54 +123,36 @@ export function ServicesSection() {
         </div>
 
         <div className={styles.serviceGrid}>
-          {services.map((service) => {
-            const isInteractive =
-              hoveredService === service.title ||
-              pressedService === service.title;
-
-            return (
-              <article
-                className={styles.serviceCard}
-                data-interactive={isInteractive ? "true" : undefined}
-                key={service.title}
-                onPointerCancel={() => setPressedService(null)}
-                onPointerDown={() => setPressedService(service.title)}
-                onPointerEnter={() => setHoveredService(service.title)}
-                onPointerLeave={() => {
-                  setHoveredService(null);
-                  setPressedService(null);
-                }}
-                onPointerUp={() => setPressedService(null)}
-              >
-                <div className={styles.serviceContent}>
-                  <span
-                    className={`${styles.serviceIcon} ${service.isQuote ? styles.serviceQuoteIcon : ""}`}
-                  >
-                    <Icon name={service.icon} size={24} />
-                  </span>
-                  <div className={styles.serviceCopy}>
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-                  </div>
-                </div>
-                <div
-                  className={`${styles.serviceMeta} ${service.isQuote ? styles.serviceMetaQuote : ""}`}
+          {services.map((service) => (
+            <article className={styles.serviceCard} key={service.title}>
+              <div className={styles.serviceContent}>
+                <span
+                  className={`${styles.serviceIcon} ${service.isQuote ? styles.serviceQuoteIcon : ""}`}
                 >
-                  {service.isQuote ? null : <strong>{service.price}</strong>}
-                  <Button
-                    rightIcon={<Icon name="arrow-right" size={16} />}
-                    style={
-                      service.isQuote ? quoteButtonStyle : serviceButtonStyle
-                    }
-                  >
-                    {service.isQuote
-                      ? "견적 후 주문(카카오톡)"
-                      : "정찰제 즉시결제"}
-                  </Button>
+                  <Icon name={service.icon} size={24} />
+                </span>
+                <div className={styles.serviceCopy}>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
                 </div>
-              </article>
-            );
-          })}
+              </div>
+              <div
+                className={`${styles.serviceMeta} ${service.isQuote ? styles.serviceMetaQuote : ""}`}
+              >
+                {service.isQuote ? null : <strong>{service.price}</strong>}
+                <Button
+                  rightIcon={<Icon name="arrow-right" size={16} />}
+                  style={
+                    service.isQuote ? quoteButtonStyle : serviceButtonStyle
+                  }
+                >
+                  {service.isQuote
+                    ? "견적 후 주문(카카오톡)"
+                    : "정찰제 즉시결제"}
+                </Button>
+              </div>
+            </article>
+          ))}
         </div>
 
         <div className={styles.consultBox}>
