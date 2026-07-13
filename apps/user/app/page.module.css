@@ -590,6 +590,58 @@
   letter-spacing: 0.06em;
 }
 
+.blogKicker {
+  border: 1px solid transparent;
+  background-color: rgba(48, 186, 195, 0.1);
+  background-clip: padding-box;
+  color: var(--landing-brand-500);
+  font-family: "Noto Sans KR", var(--font-sans);
+  line-height: normal;
+  position: relative;
+}
+
+.blogKicker::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    var(--landing-brand-border-end),
+    var(--landing-brand-border-start);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#ffffff 0 0) content-box,
+    linear-gradient(#ffffff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.blogHeadingText {
+  max-width: 371px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.blogTitle {
+  max-width: 371px;
+  letter-spacing: -0.42px;
+}
+
+.blogTitle span {
+  display: block;
+}
+
+.blogDescription {
+  max-width: 371px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.24px;
+  color: var(--landing-gray-800);
+}
+
 .blogGrid {
   display: grid;
   grid-template-columns: 1fr;

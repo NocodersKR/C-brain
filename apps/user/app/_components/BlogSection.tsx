@@ -39,14 +39,21 @@ export function BlogSection() {
     <section className={styles.section} id="blog">
       <div className={styles.sectionInner}>
         <div className={styles.sectionHeader}>
-          <p className={styles.sectionKicker}>블로그</p>
-          <h2 className={styles.sectionTitle}>
-            26년 현장에서 검증된 홍보물 제작 · 디자인 · 인쇄 가이드
-          </h2>
-          <p className={styles.sectionDescription}>
-            26년 경력 전문가 씨브레인이 직접 작성하는 브로슈어 · 카탈로그 ·
-            인쇄물 제작 실전 정보
+          <p className={`${styles.sectionKicker} ${styles.blogKicker}`}>
+            블로그
           </p>
+          <div className={styles.blogHeadingText}>
+            <h2 className={`${styles.sectionTitle} ${styles.blogTitle}`}>
+              <span>26년 현장에서 검증된</span>
+              <span>홍보물 제작 · 디자인 · 인쇄 가이드</span>
+            </h2>
+            <p
+              className={`${styles.sectionDescription} ${styles.blogDescription}`}
+            >
+              26년 경력 전문가 씨브레인이 직접 작성하는 브로슈어 · 카탈로그 ·
+              인쇄물 제작 실전 정보
+            </p>
+          </div>
         </div>
 
         <div className={styles.blogGrid}>
