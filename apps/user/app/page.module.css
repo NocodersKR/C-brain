@@ -674,28 +674,20 @@
 }
 
 .consultBox {
-  border: 1px solid var(--landing-brand-100);
-  border-radius: 16px;
-  background: var(--landing-brand-50);
-  padding: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
 }
 
-.consultBox h3 {
-  font-family: var(--font-sans);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 26px;
-}
-
-.consultBox p {
-  font-family: var(--font-sans);
+.consultPrompt {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  color: var(--landing-gray-600);
+  letter-spacing: -0.21px;
+  white-space: nowrap;
+  color: var(--landing-gray-800);
 }
 
 .aboutSection {
@@ -1670,13 +1662,6 @@
 
   .serviceCard {
     min-height: 248px;
-    padding: 32px;
-  }
-
-  .consultBox {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
     padding: 32px;
   }
 

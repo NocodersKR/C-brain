@@ -95,6 +95,14 @@ const quoteButtonStyle: CSSProperties = {
   color: "#43a0f5",
 };
 
+const consultButtonStyle: CSSProperties = {
+  ...textButtonStyle,
+  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontWeight: 500,
+  lineHeight: "20px",
+  letterSpacing: "-0.21px",
+};
+
 export function ServicesSection() {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [pressedService, setPressedService] = useState<string | null>(null);
@@ -171,15 +179,12 @@ export function ServicesSection() {
         </div>
 
         <div className={styles.consultBox}>
-          <div>
-            <h3>주문 전 상담이 필요하신가요?</h3>
-            <p>카카오톡으로 1:1 상담이 가능합니다.</p>
-          </div>
+          <p className={styles.consultPrompt}>주문 전 상담이 필요하신가요?</p>
           <Button
-            rightIcon={<Icon name="message-typing" size={16} />}
-            style={textButtonStyle}
+            rightIcon={<Icon name="arrow-right" size={16} />}
+            style={consultButtonStyle}
           >
-            상담 문의
+            실시간 카톡상담
           </Button>
         </div>
       </div>
