@@ -617,7 +617,7 @@
   mask-composite: exclude;
 }
 
-.blogInner {
+.sectionInner.blogInner {
   gap: 52px;
 }
 
