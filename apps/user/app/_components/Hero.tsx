@@ -5,11 +5,17 @@ import { PageHero } from "../../components/PageHero";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const kakaoButtonStyle = createGradientBorderButtonStyle({
-  tone: "contactKakao",
-});
+const heroButtonWidth = "var(--landing-hero-button-width, 164px)" as const;
 
-const priceButtonStyle = createGradientBorderButtonStyle();
+const kakaoButtonStyle = {
+  ...createGradientBorderButtonStyle({ tone: "contactKakao" }),
+  width: heroButtonWidth,
+};
+
+const priceButtonStyle = {
+  ...createGradientBorderButtonStyle(),
+  width: heroButtonWidth,
+};
 
 export function Hero() {
   return (
@@ -38,13 +44,14 @@ export function Hero() {
       description={
         <>
           <p>
-            1:1 전담 디자이너가 제작부터 납품까지, 처음부터 끝까지 빠른
-            소통으로 책임집니다.
+            1:1 전담 디자이너가 제작부터 납품까지,
+            <br className={styles.heroMobileBreak} /> 처음부터 끝까지 빠른 소통으로
+            책임집니다.
           </p>
-          <p>
-            박람회 · 전시회 참가 기업 / 신규 브랜드 런칭 / 기업 IR 제안서 ·
-            브로슈어 제작이 필요한
-            <br />모든 기업에
+          <p className={styles.heroAudience}>
+            박람회 · 전시회 참가 기업 / 신규 브랜드 런칭
+            <br className={styles.heroMobileBreak} /> 기업 IR 제안서 · 브로슈어 제작이
+            필요한 모든 기업에
           </p>
         </>
       }

@@ -147,6 +147,12 @@ const clientRows = [
   ],
 ] as const;
 
+const marqueeClients = [...featuredClients, ...clientRows.flat()];
+const marqueeClientRows = [
+  marqueeClients.filter((_, index) => index % 2 === 0),
+  marqueeClients.filter((_, index) => index % 2 === 1),
+] as const;
+
 export function CustomerReviewSection() {
   return (
     <SectionLayout
@@ -181,7 +187,10 @@ export function CustomerReviewSection() {
         ))}
       </div>
 
-      <div className={styles.reviewLogoCloud} aria-label="고객사 로고">
+      <div
+        className={`${styles.reviewLogoCloud} ${styles.reviewLogoCloudStatic}`}
+        aria-label="고객사 로고"
+      >
         <div className={styles.featuredClientLogos}>
           {featuredClients.map((client) => (
             <span className={styles.featuredClientLogo} key={client.src}>
@@ -189,9 +198,7 @@ export function CustomerReviewSection() {
                 alt={client.alt}
                 className={styles.partnerLogoImage}
                 height={client.height}
-                loading="eager"
                 src={client.src}
-                unoptimized
                 width={client.width}
               />
             </span>
@@ -206,9 +213,7 @@ export function CustomerReviewSection() {
                     alt={client.alt}
                     className={styles.partnerLogoImage}
                     height={client.height}
-                    loading="eager"
                     src={client.src}
-                    unoptimized
                     width={client.width}
                   />
                 </span>
@@ -216,6 +221,45 @@ export function CustomerReviewSection() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className={styles.reviewLogoMarquee} aria-label="고객사 로고">
+        {marqueeClientRows.map((row, rowIndex) => (
+          <div
+            className={styles.reviewLogoMarqueeRow}
+            key={`marquee-row-${rowIndex}`}
+          >
+            <div className={styles.reviewLogoMarqueeTrack}>
+              {[0, 1].map((copyIndex) => (
+                <div
+                  aria-hidden={copyIndex === 1 ? true : undefined}
+                  className={`${styles.reviewLogoMarqueeGroup} ${
+                    copyIndex === 1
+                      ? styles.reviewLogoMarqueeGroupDuplicate
+                      : ""
+                  }`}
+                  key={`marquee-copy-${copyIndex}`}
+                >
+                  {row.map((client) => (
+                    <span
+                      className={styles.reviewMarqueeLogo}
+                      key={`${copyIndex}-${client.src}`}
+                    >
+                      <Image
+                        alt={copyIndex === 1 ? "" : client.alt}
+                        className={styles.partnerLogoImage}
+                        height={client.height}
+                        loading="eager"
+                        src={client.src}
+                        width={client.width}
+                      />
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </SectionLayout>
   );

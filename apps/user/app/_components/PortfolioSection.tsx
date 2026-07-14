@@ -1,6 +1,7 @@
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 
+import { HorizontalDragScroll } from "../../components/HorizontalDragScroll";
 import { Icon } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
@@ -45,6 +46,7 @@ export function PortfolioSection() {
     <SectionLayout
       badge="포트폴리오"
       badgeClassName={styles.portfolioKicker}
+      className={styles.portfolioSection}
       description={
         <>
           브로슈어 · 카탈로그 · 리플렛 · 포스터 · 명함 등 씨브레인
@@ -57,7 +59,10 @@ export function PortfolioSection() {
       title="4,000건+ 대표 디자인 제작 사례"
     >
       <div className={styles.portfolioContent}>
-        <div aria-label="포트폴리오 카테고리" className={styles.categoryRail}>
+        <HorizontalDragScroll
+          ariaLabel="포트폴리오 카테고리"
+          className={styles.categoryRail}
+        >
           {categories.map((category, index) => (
             <button
               aria-pressed={index === 0}
@@ -70,7 +75,7 @@ export function PortfolioSection() {
               {category}
             </button>
           ))}
-        </div>
+        </HorizontalDragScroll>
 
         <div className={styles.portfolioGrid}>
           {portfolioItems.map((item) => (
@@ -93,6 +98,7 @@ export function PortfolioSection() {
               </div>
             </article>
           ))}
+
         </div>
       </div>
 

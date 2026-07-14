@@ -1,6 +1,7 @@
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 
+import { HorizontalDragScroll } from "../../components/HorizontalDragScroll";
 import { Icon } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
 import styles from "../page.module.css";
@@ -40,6 +41,7 @@ export function BlogSection() {
     <SectionLayout
       badge="블로그"
       badgeClassName={styles.blogKicker}
+      className={styles.blogSection}
       description="26년 경력 전문가 씨브레인이 직접 작성하는 브로슈어 · 카탈로그 · 인쇄물 제작 실전 정보"
       descriptionClassName={styles.blogDescription}
       id="blog"
@@ -52,7 +54,10 @@ export function BlogSection() {
       }
       titleClassName={styles.blogTitle}
     >
-      <div className={styles.blogGrid}>
+      <HorizontalDragScroll
+        ariaLabel="블로그 게시글 목록"
+        className={styles.blogGrid}
+      >
         {posts.map((post) => (
           <article className={styles.blogCard} key={post.title}>
             <div className={styles.blogImage}>
@@ -74,7 +79,7 @@ export function BlogSection() {
             </div>
           </article>
         ))}
-      </div>
+      </HorizontalDragScroll>
 
       <div className={styles.centerAction}>
         <Button

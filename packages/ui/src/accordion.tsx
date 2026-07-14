@@ -41,10 +41,11 @@ const summaryStyle: CSSProperties = {
 };
 
 const questionStyle: CSSProperties = {
+  flex: "1 1 auto",
   minWidth: 0,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
+  overflow: "visible",
+  textOverflow: "clip",
+  whiteSpace: "normal",
   fontSize: 14,
   fontWeight: "var(--accordion-question-font-weight, 700)",
   lineHeight: "var(--accordion-question-line-height, 21px)",

@@ -31,6 +31,7 @@ export function Header() {
   const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavDialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     const updateHeaderBackground = () => {
@@ -67,24 +68,17 @@ export function Header() {
       return;
     }
 
+    const dialog = mobileNavDialogRef.current;
     const previousOverflow = document.body.style.overflow;
-    const closeMenuWithFocus = () => {
-      setIsMenuOpen(false);
-      window.requestAnimationFrame(() => menuButtonRef.current?.focus());
-    };
-    const closeMenuOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeMenuWithFocus();
-      }
-    };
 
     document.body.style.overflow = "hidden";
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
     closeButtonRef.current?.focus();
-    window.addEventListener("keydown", closeMenuOnEscape);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeMenuOnEscape);
     };
   }, [isMenuOpen]);
 
@@ -103,16 +97,16 @@ export function Header() {
             <Image
               alt=""
               className={styles.logoMain}
-              height={21}
+              height={20.0974}
               src="/figma-assets/cbrain-logo-main.svg"
-              width={77}
+              width={77.0012}
             />
             <Image
               alt=""
               className={styles.logoTagline}
-              height={4}
+              height={3.84334}
               src="/figma-assets/cbrain-logo-tagline.svg"
-              width={76}
+              width={76.2359}
             />
           </span>
         </a>
@@ -156,21 +150,22 @@ export function Header() {
       </button>
 
       {isMenuOpen ? (
-        <div
+        <dialog
+          aria-label="모바일 메뉴"
           className={styles.mobileNavOverlay}
+          id="mobile-navigation"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               closeMenuAndRestoreFocus();
             }
           }}
+          onCancel={(event) => {
+            event.preventDefault();
+            closeMenuAndRestoreFocus();
+          }}
+          ref={mobileNavDialogRef}
         >
-          <div
-            aria-label="모바일 메뉴"
-            aria-modal="true"
-            className={styles.mobileNavPanel}
-            id="mobile-navigation"
-            role="dialog"
-          >
+          <div className={styles.mobileNavPanel}>
             <div className={styles.mobileNavCloseRow}>
               <button
                 aria-label="메뉴 닫기"
@@ -195,12 +190,19 @@ export function Header() {
               </button>
             </div>
 
-            <nav aria-label="모바일 주요 메뉴" className={styles.mobileNavLinks}>
+            <nav
+              aria-label="모바일 주요 메뉴"
+              className={styles.mobileNavLinks}
+            >
               {navItems.map((item) => (
                 <a
-                  aria-current={activeNavHref === item.href ? "location" : undefined}
+                  aria-current={
+                    activeNavHref === item.href ? "location" : undefined
+                  }
                   className={`${styles.mobileNavLink} ${
-                    activeNavHref === item.href ? styles.mobileNavLinkActive : ""
+                    activeNavHref === item.href
+                      ? styles.mobileNavLinkActive
+                      : ""
                   }`}
                   href={item.href}
                   key={item.label}
@@ -214,7 +216,7 @@ export function Header() {
               ))}
             </nav>
           </div>
-        </div>
+        </dialog>
       ) : null}
     </header>
   );
