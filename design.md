@@ -13,6 +13,7 @@ weights:
 # Typography
 
 `M` = `500`, `B` = `700`.
+Letter spacing is fixed at `-1.5%` (`-0.015em`) for Pretendard text tokens.
 
 | Label | Token | Font | Weight | Size | Line height |
 | --- | --- | --- | ---: | ---: | ---: |

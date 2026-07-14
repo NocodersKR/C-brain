@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
+}
+
+:root {
+  --admin-brand-500: #30bac3;
+  --admin-brand-600: #269aa3;
+  --admin-gray-50: #f8fafc;
+  --admin-gray-100: #e9ecf2;
+  --admin-gray-400: #a0aab8;
+  --admin-gray-500: #64748b;
+  --admin-gray-600: #475569;
+  --admin-gray-800: #1e293b;
+  --admin-surface: #ffffff;
+  --admin-text-inverse: #f8fafc;
+
+  color: var(--color-gray-900);
+  background: var(--color-gray-50);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 320px;
+  margin: 0;
+}
+
+body {
+  min-height: 100svh;
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
