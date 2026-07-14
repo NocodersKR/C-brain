@@ -15,7 +15,7 @@
 ## 공통 제약
 
 - 별도 아이콘 패키지나 이미지 파일을 추가하지 않는다.
-- 아이콘은 `24px × 24px`, 선 색상은 `#F8FAFC`, 선 두께는 `2px`이다.
+- 아이콘은 `24px × 24px`, 선 색상은 `#1E293B`, 선 두께는 `2px`이다.
 - 버튼 클릭 영역은 `40px × 40px`로 유지한다.
 - 헤더의 나머지 레이아웃과 동작은 변경하지 않는다.
 
@@ -70,7 +70,7 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: #f8fafc;
+    color: var(--landing-gray-800);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -98,7 +98,7 @@
 - [x] **5단계: 브라우저 확인**
 
   메뉴 버튼이 보이는 화면 너비에서 버튼 `40px × 40px`, SVG
-  `24px × 24px`, 계산된 색상 `rgb(248, 250, 252)`, 투명 배경과 테두리
+  `24px × 24px`, 계산된 색상 `rgb(30, 41, 59)`, 투명 배경과 테두리
   제거를 확인한다.
 
 - [x] **6단계: 커밋**

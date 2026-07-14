@@ -126,7 +126,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #f8fafc;
+  color: var(--landing-gray-800);
   display: inline-flex;
   align-items: center;
   justify-content: center;
