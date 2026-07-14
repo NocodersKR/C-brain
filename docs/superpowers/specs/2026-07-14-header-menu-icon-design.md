@@ -1,41 +1,35 @@
-# Header Menu Icon Design
+# 헤더 메뉴 아이콘 디자인 사양
 
-## Scope
+## 수정 범위
 
-Update only the shared header menu button's visual styling. Preserve the
-existing button behavior, accessible label, header layout, and responsive
-visibility rules.
+공용 헤더의 메뉴 버튼 모양만 수정한다. 기존 버튼 동작, 접근성 라벨,
+헤더 레이아웃, 반응형 노출 조건은 유지한다.
 
-## Figma Source
+## 피그마 기준
 
-- File: `qZcNE6of4hWidBcayhacSI`
-- Node: `27:3896`
-- Icon name: `menu-04`
+- 파일: `qZcNE6of4hWidBcayhacSI`
+- 노드: `27:3896`
+- 아이콘 이름: `menu-04`
 
-## Visual Specification
+## 시각 사양
 
-- Render the visible icon at `24px` by `24px`.
-- Use stroke color `#F8FAFC` (`W_텍스트_1000`).
-- Use a `2px` round-capped stroke.
-- Match the Figma path exactly: `M13.5 18H4M20 12H4M20 6H4`.
-- Remove the current visible border and translucent background from the menu
-  button.
-- Keep a `40px` by `40px` transparent click target for usability.
+- 화면에 보이는 아이콘 크기는 `24px × 24px`이다.
+- 선 색상은 `#F8FAFC`(`W_텍스트_1000`)이다.
+- 선 두께는 `2px`이고 선 끝은 둥글다.
+- 피그마 경로 `M13.5 18H4M20 12H4M20 6H4`를 그대로 사용한다.
+- 현재 메뉴 버튼에 보이는 테두리와 반투명 배경은 제거한다.
+- 사용하기 편하도록 투명한 클릭 영역은 `40px × 40px`로 유지한다.
 
-## Implementation
+## 구현 방법
 
-- Replace the three CSS-generated bars in
-  `apps/user/app/_components/Header.tsx` with an inline SVG so the unequal
-  lower line matches the Figma asset exactly.
-- Update `apps/user/app/page.module.css` to remove the old bordered button and
-  bar styles while retaining centering and the existing responsive display
-  behavior.
+- `apps/user/app/_components/Header.tsx`의 CSS 막대 세 개를 인라인 SVG로
+  교체해 피그마의 짧은 마지막 줄까지 정확히 구현한다.
+- `apps/user/app/page.module.css`에서 기존 테두리, 배경, 막대 스타일을
+  제거하고 가운데 정렬과 기존 반응형 노출 조건은 유지한다.
 
-## Verification
+## 확인 기준
 
-- Confirm the SVG renders at `24px` by `24px` and the button remains `40px` by
-  `40px`.
-- Confirm the path stroke resolves to `#F8FAFC`, has a `2px` width, and uses
-  round line caps.
-- Run the user app lint and type checks.
-- Verify the header visually at a viewport where the menu button is visible.
+- SVG가 `24px × 24px`, 버튼이 `40px × 40px`인지 확인한다.
+- 선 색상 `#F8FAFC`, 두께 `2px`, 둥근 선 끝이 적용됐는지 확인한다.
+- 사용자 앱 린트와 타입 검사를 실행한다.
+- 메뉴 버튼이 노출되는 화면 너비에서 헤더를 직접 확인한다.

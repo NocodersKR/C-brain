@@ -86,9 +86,19 @@ export function Header() {
         className={styles.mobileMenuButton}
         type="button"
       >
-        <span />
-        <span />
-        <span />
+        <svg
+          aria-hidden="true"
+          className={styles.mobileMenuIcon}
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M13.5 18H4M20 12H4M20 6H4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+          />
+        </svg>
       </button>
     </header>
   );
