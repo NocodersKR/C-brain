@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
@@ -27,6 +27,9 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateHeaderBackground = () => {
@@ -42,6 +45,52 @@ export function Header() {
       window.removeEventListener("scroll", updateHeaderBackground);
     };
   }, []);
+
+  useEffect(() => {
+    const desktopMediaQuery = window.matchMedia("(min-width: 1440px)");
+    const closeMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    desktopMediaQuery.addEventListener("change", closeMenuOnDesktop);
+
+    return () => {
+      desktopMediaQuery.removeEventListener("change", closeMenuOnDesktop);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const closeMenuWithFocus = () => {
+      setIsMenuOpen(false);
+      window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+    };
+    const closeMenuOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenuWithFocus();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+    window.addEventListener("keydown", closeMenuOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeMenuOnEscape);
+    };
+  }, [isMenuOpen]);
+
+  const closeMenuAndRestoreFocus = () => {
+    setIsMenuOpen(false);
+    window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+  };
 
   return (
     <header
@@ -82,8 +131,12 @@ export function Header() {
       </div>
 
       <button
+        aria-controls="mobile-navigation"
+        aria-expanded={isMenuOpen}
         aria-label="메뉴 열기"
         className={styles.mobileMenuButton}
+        onClick={() => setIsMenuOpen(true)}
+        ref={menuButtonRef}
         type="button"
       >
         <svg
@@ -100,6 +153,64 @@ export function Header() {
           />
         </svg>
       </button>
+
+      {isMenuOpen ? (
+        <div
+          className={styles.mobileNavOverlay}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              closeMenuAndRestoreFocus();
+            }
+          }}
+        >
+          <div
+            aria-label="모바일 메뉴"
+            aria-modal="true"
+            className={styles.mobileNavPanel}
+            id="mobile-navigation"
+            role="dialog"
+          >
+            <div className={styles.mobileNavCloseRow}>
+              <button
+                aria-label="메뉴 닫기"
+                className={styles.mobileNavCloseButton}
+                onClick={closeMenuAndRestoreFocus}
+                ref={closeButtonRef}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className={styles.mobileNavCloseIcon}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 8L8 16M16 16L8 8"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <nav aria-label="모바일 주요 메뉴" className={styles.mobileNavLinks}>
+              {navItems.map((item, index) => (
+                <a
+                  className={`${styles.mobileNavLink} ${
+                    index === 0 ? styles.mobileNavLinkActive : ""
+                  }`}
+                  href={item.href}
+                  key={item.label}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }
