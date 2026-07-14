@@ -1556,15 +1556,19 @@
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1080px) {
   .header {
-    padding: 0 40px;
+    padding: 0 20px;
   }
 
   .desktopNav,
   .headerActions {
     display: flex;
     align-items: center;
+  }
+
+  .desktopNav {
+    gap: 16px;
   }
 
   .headerActions {
@@ -1587,6 +1591,16 @@
     letter-spacing: -0.24px;
     color: var(--landing-gray-800);
     white-space: nowrap;
+  }
+}
+
+@media (min-width: 1440px) {
+  .header {
+    padding: 0 40px;
+  }
+
+  .desktopNav {
+    gap: 32px;
   }
 
   .metricGrid {
