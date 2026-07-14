@@ -28,6 +28,7 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -195,14 +196,18 @@ export function Header() {
             </div>
 
             <nav aria-label="모바일 주요 메뉴" className={styles.mobileNavLinks}>
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <a
+                  aria-current={activeNavHref === item.href ? "location" : undefined}
                   className={`${styles.mobileNavLink} ${
-                    index === 0 ? styles.mobileNavLinkActive : ""
+                    activeNavHref === item.href ? styles.mobileNavLinkActive : ""
                   }`}
                   href={item.href}
                   key={item.label}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setActiveNavHref(item.href);
+                    setIsMenuOpen(false);
+                  }}
                 >
                   {item.label}
                 </a>
