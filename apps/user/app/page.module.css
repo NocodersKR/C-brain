@@ -148,12 +148,12 @@
   z-index: 1100;
   display: flex;
   justify-content: flex-end;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .mobileNavPanel {
   width: min(320px, 100vw);
-  height: 484px;
+  height: 100dvh;
   max-height: 100dvh;
   padding: 8px;
   background: #fff;
