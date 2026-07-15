@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { filterBlogPosts } from "../../apps/user/app/(site)/blog/_utils/filterBlogPosts.ts";
+import { filterBlogPosts } from "../../apps/user/app/(site)/blog/_utils/filterBlogPosts";
 
 const posts = [
   {
