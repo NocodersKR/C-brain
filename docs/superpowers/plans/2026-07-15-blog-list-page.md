@@ -98,7 +98,7 @@ Expected: route type generation and TypeScript compilation both succeed.
 - Create: `apps/user/app/(site)/blog/page.module.css`
 
 **Interfaces:**
-- Consumes: `PageHero`, `blogPosts`, `BlogBoard`.
+- Consumes: `PageHero`.
 - Produces: the `/blog` route with the shared site header and footer supplied by `(site)/layout.tsx`.
 
 - [ ] **Step 1: Compose the blog hero with the shared component**
@@ -123,13 +123,7 @@ Expected: route type generation and TypeScript compilation both succeed.
 
 Use a local wrapper only where the blog frame differs from generic subpage defaults. Preserve the shared hero component and avoid route-name conditionals inside it.
 
-- [ ] **Step 3: Render `BlogBoard` with injected data**
-
-```tsx
-<BlogBoard posts={blogPosts} />
-```
-
-- [ ] **Step 4: Verify the route compiles**
+- [ ] **Step 3: Verify the route compiles**
 
 Run: `corepack pnpm --filter user check-types`
 
@@ -140,6 +134,7 @@ Expected: `/blog` appears in generated route types and compilation succeeds.
 ### Task 3: Blog Board and Display Components
 
 **Files:**
+- Modify: `apps/user/app/(site)/blog/page.tsx`
 - Create: `apps/user/app/(site)/blog/_components/BlogBoard.tsx`
 - Create: `apps/user/app/(site)/blog/_components/BlogFeaturedCard.tsx`
 - Create: `apps/user/app/(site)/blog/_components/BlogCard.tsx`
@@ -184,7 +179,11 @@ The consult panel contains `카카오톡으로 1:1 상담하기`, supporting cop
 
 Render one desktop sidebar consult card and popular list, plus one fold/mobile consult card in the ordinary-card flow. CSS controls which placement is visible; do not duplicate the data or state.
 
-- [ ] **Step 7: Verify semantics and types**
+- [ ] **Step 7: Inject the board into the route**
+
+Import `blogPosts` and render `<BlogBoard posts={blogPosts} />` after the hero in `page.tsx`.
+
+- [ ] **Step 8: Verify semantics and types**
 
 Run: `corepack pnpm --filter user lint`
 
