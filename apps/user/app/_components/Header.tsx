@@ -4,8 +4,15 @@ import { Button } from "@repo/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import {
+  type MouseEvent,
+  type SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
+import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -86,8 +93,31 @@ export function Header() {
   }, [isMenuOpen]);
 
   const closeMenuAndRestoreFocus = () => {
+    mobileNavDialogRef.current?.close();
     setIsMenuOpen(false);
-    window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+    menuButtonRef.current?.focus();
+  };
+
+  const handleOpenMenu = () => {
+    setIsMenuOpen(true);
+  };
+
+  const handleOverlayClick = (event: MouseEvent<HTMLDialogElement>) => {
+    if (event.target === event.currentTarget) {
+      closeMenuAndRestoreFocus();
+    }
+  };
+
+  const handleDialogCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
+    event.preventDefault();
+    closeMenuAndRestoreFocus();
+  };
+
+  const handleMobileNavClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    const href = event.currentTarget.getAttribute("href");
+
+    setActiveNavHref(href);
+    setIsMenuOpen(false);
   };
 
   const isNoticePage = pathname.startsWith("/notice");
@@ -105,16 +135,16 @@ export function Header() {
             <Image
               alt=""
               className={styles.logoMain}
-              height={20.0974}
+              height={20}
               src="/figma-assets/cbrain-logo-main.svg"
-              width={77.0012}
+              width={77}
             />
             <Image
               alt=""
               className={styles.logoTagline}
-              height={3.84334}
+              height={4}
               src="/figma-assets/cbrain-logo-tagline.svg"
-              width={76.2359}
+              width={76}
             />
           </span>
         </Link>
@@ -149,23 +179,11 @@ export function Header() {
         aria-expanded={isMenuOpen}
         aria-label="메뉴 열기"
         className={styles.mobileMenuButton}
-        onClick={() => setIsMenuOpen(true)}
+        onClick={handleOpenMenu}
         ref={menuButtonRef}
         type="button"
       >
-        <svg
-          aria-hidden="true"
-          className={styles.mobileMenuIcon}
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M13.5 18H4M20 12H4M20 6H4"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2"
-          />
-        </svg>
+        <Icon className={styles.mobileMenuIcon} name="menu-04" size={24} />
       </button>
 
       {isMenuOpen ? (
@@ -173,15 +191,8 @@ export function Header() {
           aria-label="모바일 메뉴"
           className={styles.mobileNavOverlay}
           id="mobile-navigation"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) {
-              closeMenuAndRestoreFocus();
-            }
-          }}
-          onCancel={(event) => {
-            event.preventDefault();
-            closeMenuAndRestoreFocus();
-          }}
+          onClick={handleOverlayClick}
+          onCancel={handleDialogCancel}
           ref={mobileNavDialogRef}
         >
           <div className={styles.mobileNavPanel}>
@@ -193,19 +204,11 @@ export function Header() {
                 ref={closeButtonRef}
                 type="button"
               >
-                <svg
-                  aria-hidden="true"
+                <Icon
                   className={styles.mobileNavCloseIcon}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 8L8 16M16 16L8 8"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                  />
-                </svg>
+                  name="x-close"
+                  size={24}
+                />
               </button>
             </div>
 
@@ -230,10 +233,7 @@ export function Header() {
                   }`}
                   href={item.href}
                   key={item.label}
-                  onClick={() => {
-                    setActiveNavHref(item.href);
-                    setIsMenuOpen(false);
-                  }}
+                  onClick={handleMobileNavClick}
                 >
                   {item.label}
                 </Link>
