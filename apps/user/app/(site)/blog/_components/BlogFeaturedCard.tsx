@@ -29,8 +29,8 @@ export function BlogFeaturedCard({ post }: BlogFeaturedCardProps) {
           <p className={styles.blogFeaturedSummary}>{post.summary}</p>
         </div>
       </div>
-      <p aria-label="대표 게시글 1 / 3" className={styles.blogFeaturedIndex}>
-        1 / 3
+      <p aria-label="대표 게시글 1/3" className={styles.blogFeaturedIndex}>
+        1/3
       </p>
     </article>
   );

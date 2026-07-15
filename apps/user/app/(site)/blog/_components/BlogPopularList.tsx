@@ -13,10 +13,9 @@ export function BlogPopularList({ posts }: BlogPopularListProps) {
 
   return (
     <section className={styles.blogPopularList} aria-labelledby="blog-popular-title">
-      <div className={styles.blogPopularHeading}>
-        <p className={styles.blogPopularEyebrow}>Popular posts</p>
-        <h2 id="blog-popular-title">TOP 5</h2>
-      </div>
+      <h3 className={styles.blogPopularHeading} id="blog-popular-title">
+        주요게시글 <strong>TOP5</strong>
+      </h3>
       <ol className={styles.blogPopularItems}>
         {popularPosts.map((post) => (
           <li className={styles.blogPopularItem} key={post.id}>
