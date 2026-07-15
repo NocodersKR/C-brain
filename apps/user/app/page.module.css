@@ -1001,7 +1001,7 @@
 
 .reviewMarqueeLogo {
   width: 180px;
-  min-height: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1069,13 +1069,13 @@
 
 .reviewClientLogo {
   width: min(100%, 180px);
-  min-height: 52px;
+  height: 60px;
 }
 
 .partnerLogoImage {
   display: block;
-  width: auto;
-  height: auto;
+  width: var(--partner-logo-width);
+  height: var(--partner-logo-height);
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
@@ -1650,7 +1650,7 @@
   }
 
   .featuredClientLogo {
-    min-height: 90px;
+    height: 90px;
   }
 
   .blogGrid {
@@ -1770,7 +1770,7 @@
 
   .reviewClientLogo {
     width: 180px;
-    min-height: 60px;
+    height: 60px;
   }
 
   .blogGrid {
