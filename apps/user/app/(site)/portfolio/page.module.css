@@ -1,0 +1,453 @@
+.portfolioPage {
+  container-type: inline-size;
+  overflow-x: clip;
+  background: #ffffff;
+  color: var(--landing-gray-800);
+}
+
+.hero {
+  min-height: 396px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.heroBackground,
+.heroOverlay,
+.ctaBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroBackground {
+  background-image: url("/figma-assets/portfolio-hero-background.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.heroOverlay {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.heroContent {
+  width: min(calc(100% - 40px), 1360px);
+  margin: 0 auto;
+  padding: 136px 0 72px;
+  position: relative;
+}
+
+.badge {
+  width: fit-content;
+  min-height: 40px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 32px;
+  padding: 8px 16px;
+  background-color: rgba(48, 186, 195, 0.1);
+  background-clip: padding-box;
+  color: var(--landing-brand-500);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    var(--landing-brand-border-end),
+    var(--landing-brand-border-start);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#ffffff 0 0) content-box,
+    linear-gradient(#ffffff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.heroText {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heroText h1,
+.heroText p,
+.workHeader h2,
+.ctaText h2,
+.ctaText p,
+.portfolioCardText p,
+.portfolioCardText h3 {
+  margin: 0;
+}
+
+.heroText h1 {
+  max-width: 1008px;
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+  word-break: keep-all;
+}
+
+.heroText h1 span,
+.heroText p span {
+  display: block;
+}
+
+.heroText p {
+  max-width: 538px;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+  word-break: keep-all;
+}
+
+.work {
+  padding: 72px 0;
+  border-top: 1px solid var(--landing-gray-100);
+}
+
+.workInner {
+  width: min(calc(100% - 40px), 1080px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+.workHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.workHeader h2 {
+  max-width: 784px;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+  word-break: keep-all;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.categoryNav {
+  width: 100cqw;
+  margin-left: calc(50% - 50cqw);
+  border-bottom: 1px solid var(--landing-gray-100);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  touch-action: pan-y;
+  scrollbar-width: none;
+}
+
+.categoryNav[data-dragging="true"] {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.categoryNav[data-dragging="true"] .categoryButton {
+  cursor: grabbing;
+}
+
+.categoryNav::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryButton {
+  height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 12px 12px 0 0;
+  background: transparent;
+  color: var(--landing-gray-500);
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.categoryButton:first-child {
+  margin-left: 20px;
+}
+
+.categoryButton:last-child {
+  margin-right: 20px;
+}
+
+.categoryButton:hover {
+  color: var(--landing-gray-800);
+}
+
+.categoryButton:focus-visible {
+  outline: 2px solid var(--landing-brand-500);
+  outline-offset: -2px;
+}
+
+.categoryButtonActive {
+  border-bottom-color: var(--landing-brand-500);
+  color: var(--landing-brand-500);
+  font-weight: 700;
+}
+
+.portfolioGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 20px;
+}
+
+.portfolioCard {
+  min-width: 0;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.portfolioCard:focus-visible {
+  outline: 2px solid var(--landing-brand-500);
+  outline-offset: 4px;
+}
+
+.portfolioImageFrame {
+  width: 100%;
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--landing-gray-100);
+}
+
+.portfolioImage {
+  object-fit: cover;
+}
+
+.portfolioCardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.portfolioTag {
+  min-height: 21px;
+  border: 1px solid var(--landing-brand-100);
+  border-radius: 16px;
+  padding: 4px 8px;
+  background: var(--landing-brand-50);
+  color: var(--landing-brand-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 13px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.portfolioCardText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.portfolioCardText p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+}
+
+.portfolioCardText h3 {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+}
+
+.cta {
+  --portfolio-cta-button-width: 164px;
+
+  min-height: 416px;
+  position: relative;
+  overflow: hidden;
+  background: var(--landing-gray-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctaBackground {
+  background-image: url("/figma-assets/landing-cta-background.jpg");
+  background-position: center;
+  background-size: cover;
+  opacity: 0.94;
+}
+
+.ctaContent {
+  width: min(calc(100% - 40px), 1080px);
+  padding: 72px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 52px;
+  text-align: center;
+}
+
+.ctaText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctaText h2 {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+.ctaText p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--landing-gray-50);
+  word-break: keep-all;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .hero {
+    min-height: 412px;
+  }
+
+  .heroContent {
+    padding-top: 160px;
+    padding-bottom: 88px;
+  }
+
+  .portfolioGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 980px) {
+  .categoryNav {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .categoryButton:first-child {
+    margin-left: 0;
+  }
+
+  .categoryButton:last-child {
+    margin-right: 0;
+  }
+
+  .categoryButton {
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 1080px) {
+  .hero {
+    min-height: 476px;
+  }
+
+  .heroOverlay {
+    background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 78%);
+  }
+
+  .heroContent {
+    padding-top: 184px;
+    padding-bottom: 104px;
+  }
+
+  .heroText h1 {
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+  .portfolioGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cta {
+    min-height: 304px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .work {
+    padding: 104px 0;
+  }
+
+  .ctaContent {
+    padding: 104px 0;
+  }
+
+  .ctaText h2 {
+    font-size: 36px;
+    line-height: 48px;
+  }
+}
