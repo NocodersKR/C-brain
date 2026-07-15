@@ -1,9 +1,8 @@
+/* Use alternate glyph metrics only for the ellipsis so it aligns with the text baseline. */
 @font-face {
   font-family: "Notice Ellipsis";
   src:
-    local("Arial"),
-    local("Helvetica"),
-    local("Liberation Sans"),
+    local("Arial"), local("Helvetica"), local("Liberation Sans"),
     local("Roboto");
   unicode-range: U+2026;
 }
@@ -50,10 +49,7 @@
 .categoryRail {
   width: 100cqw;
   margin-left: calc(50% - 50cqw);
-  background: linear-gradient(
-      var(--landing-gray-100),
-      var(--landing-gray-100)
-    )
+  background: linear-gradient(var(--landing-gray-100), var(--landing-gray-100))
     center bottom / calc(100% - 40px) 1px no-repeat;
   display: flex;
   align-items: center;
@@ -209,8 +205,7 @@
 .noticeCopy {
   min-width: 0;
   color: var(--landing-gray-800);
-  font-family:
-    "Notice Ellipsis", "Pretendard GOV Variable", var(--font-sans);
+  font-family: "Notice Ellipsis", "Pretendard GOV Variable", var(--font-sans);
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -343,5 +338,4 @@
   .categoryRail::after {
     display: none;
   }
-
 }

@@ -14,7 +14,6 @@ export type NoticeCategory = {
 export type NoticeSummary = {
   author: string;
   category: Exclude<NoticeCategoryValue, "all">;
-  categoryLabel: string;
   excerpt: string;
   id: string;
   isPinned: boolean;

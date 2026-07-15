@@ -3,10 +3,7 @@ import type { Metadata } from "next";
 import { PageHero } from "../../../components/PageHero";
 import { SectionLayout } from "../../../components/SectionLayout";
 import { NoticeBoard } from "./_components/NoticeBoard";
-import {
-  getNoticePageData,
-  resolveNoticeCategory,
-} from "./_data/notices";
+import { getNoticePageData, resolveNoticeCategory } from "./_data/notices";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -26,7 +23,7 @@ export default async function NoticePage({ searchParams }: NoticePageProps) {
   return (
     <>
       <PageHero
-        backgroundImage="/figma-assets/notice-hero-background.png"
+        backgroundImage="/figma-assets/notice-hero-background.webp"
         badge="C · Brain Notice"
         description={<p>씨브레인의 공식 소식과 안내를 빠르게 확인하세요.</p>}
         mobileBackgroundPosition="70% center"

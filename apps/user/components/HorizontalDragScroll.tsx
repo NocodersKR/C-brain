@@ -1,11 +1,6 @@
 "use client";
 
-import type {
-  KeyboardEvent,
-  MouseEvent,
-  PointerEvent,
-  ReactNode,
-} from "react";
+import type { KeyboardEvent, MouseEvent, PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
 
 type HorizontalDragScrollProps = {
@@ -49,6 +44,13 @@ export function HorizontalDragScroll({
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (dragState.current.pointerId !== event.pointerId) return;
+
+    if ((event.buttons & 1) === 0) {
+      delete event.currentTarget.dataset.dragging;
+      dragState.current.pointerId = null;
+      didDrag.current = false;
+      return;
+    }
 
     const distance = event.clientX - dragState.current.startX;
     if (!didDrag.current && Math.abs(distance) < DRAG_ACTIVATION_DISTANCE) {

@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import {
-  getNoticeById,
-  resolveNoticeCategory,
-} from "../_data/notices";
+import { getNoticeById, resolveNoticeCategory } from "../_data/notices";
 import { NoticeDetailArticle } from "./_components/NoticeDetailArticle";
 
 type NoticeDetailPageProps = {

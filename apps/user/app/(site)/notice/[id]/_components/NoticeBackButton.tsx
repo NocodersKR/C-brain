@@ -1,6 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
+
+import {
+  activateNoticeListHistory,
+  clearActiveNoticeListHistory,
+  rememberNoticeListScrollRestore,
+} from "../../_utils/noticeListHistory";
 
 type NoticeBackButtonProps = {
   className?: string;
@@ -14,9 +21,29 @@ export function NoticeBackButton({
   restoreListHistory,
 }: NoticeBackButtonProps) {
   const router = useRouter();
+  const listScrollYRef = useRef<number | null>(null);
+  const hasConsumedListHistoryRef = useRef(false);
+
+  useEffect(() => {
+    if (hasConsumedListHistoryRef.current) return;
+
+    hasConsumedListHistoryRef.current = true;
+    if (!restoreListHistory) return;
+
+    const detailHref = `${window.location.pathname}${window.location.search}`;
+    listScrollYRef.current = activateNoticeListHistory(
+      fallbackHref,
+      detailHref,
+    );
+  }, [fallbackHref, restoreListHistory]);
 
   const handleClick = () => {
-    if (restoreListHistory && window.history.length > 1) {
+    const listScrollY = listScrollYRef.current;
+    listScrollYRef.current = null;
+
+    if (listScrollY !== null) {
+      rememberNoticeListScrollRestore(fallbackHref, listScrollY);
+      clearActiveNoticeListHistory();
       router.back();
       return;
     }

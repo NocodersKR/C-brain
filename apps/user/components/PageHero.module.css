@@ -79,8 +79,7 @@
   border-radius: inherit;
   padding: 1px;
   background:
-    var(--landing-brand-border-end),
-    var(--landing-brand-border-start);
+    var(--landing-brand-border-end), var(--landing-brand-border-start);
   pointer-events: none;
   -webkit-mask:
     linear-gradient(#ffffff 0 0) content-box,
@@ -120,7 +119,11 @@
 }
 
 .dark .overlay {
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0) 72%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0) 72%
+  );
 }
 
 .subpage {
@@ -150,8 +153,7 @@
 
 .dark .badge::before {
   background:
-    var(--landing-button-border-end),
-    var(--landing-button-border-start);
+    var(--landing-button-border-end), var(--landing-button-border-start);
 }
 
 .dark .title,

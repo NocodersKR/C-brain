@@ -1,9 +1,7 @@
 import Link from "next/link";
 
-import type {
-  NoticeCategoryValue,
-  NoticeSummary,
-} from "../_types/notice";
+import { getNoticeCategoryLabel } from "../_constants/noticeCategories";
+import type { NoticeCategoryValue, NoticeSummary } from "../_types/notice";
 import { formatPublishedDate } from "../_utils/formatPublishedDate";
 import styles from "../page.module.css";
 import { NoticeAuthorMark } from "./NoticeAuthorMark";
@@ -30,17 +28,22 @@ function PinIcon() {
 }
 
 export function NoticeItem({ activeCategory, notice }: NoticeItemProps) {
+  const detailHref = `/notice/${notice.id}?from=${activeCategory}`;
+
   return (
     <article className={styles.noticeArticle}>
       <Link
         className={`${styles.noticeItem} ${
           notice.isPinned ? styles.noticeItemPinned : ""
         }`}
-        href={`/notice/${notice.id}?from=${activeCategory}`}
+        data-notice-detail-href={detailHref}
+        href={detailHref}
       >
         <div className={styles.noticeTopRow}>
           <div className={styles.noticeTags}>
-            <span className={styles.categoryTag}>{notice.categoryLabel}</span>
+            <span className={styles.categoryTag}>
+              {getNoticeCategoryLabel(notice.category)}
+            </span>
             {notice.isPinned ? (
               <span className={styles.pinnedTag}>
                 <PinIcon />

@@ -1,5 +1,5 @@
+import { noticeCategories } from "../_constants/noticeCategories";
 import type {
-  NoticeCategory,
   NoticeCategoryValue,
   NoticeContentBlock,
   NoticeDetail,
@@ -7,21 +7,11 @@ import type {
   NoticeSummary,
 } from "../_types/notice";
 
-const categories = [
-  { label: "전체", value: "all" },
-  { label: "공지", value: "notice" },
-  { label: "이벤트", value: "event" },
-  { label: "휴무 안내", value: "holiday" },
-  { label: "서비스 변경", value: "service" },
-  { label: "수상 · 소식", value: "news" },
-] as const satisfies readonly NoticeCategory[];
-
 // Replace this fixture inside getNoticePageData when the admin API is ready.
 const noticeFixtures = [
   {
     id: "notice-1",
     category: "notice",
-    categoryLabel: "공지",
     title:
       "[필독] 2026년 여름 특별 할인 프로모션 및 주문 접수 일정과 제작·배송 운영 정책 변경 사항을 안내드립니다. 행사 기간 중 접수되는 브로슈어·카탈로그·리플렛 제작 건의 상세 내용을 꼭 확인해 주세요.",
     excerpt:
@@ -33,7 +23,6 @@ const noticeFixtures = [
   {
     id: "notice-2",
     category: "notice",
-    categoryLabel: "공지",
     title:
       "씨브레인 고객센터 상담 운영시간 변경과 카카오톡 1:1 문의 순차 답변 일정에 관한 상세 안내입니다. 주문 및 제작 상담이 필요한 고객님께서는 변경된 시간을 확인해 주세요.",
     excerpt:
@@ -45,7 +34,6 @@ const noticeFixtures = [
   {
     id: "notice-3",
     category: "notice",
-    categoryLabel: "공지",
     title:
       "전국 택배 물량 증가에 따른 홍보물 배송 지연 가능성과 지역별 납품 일정 확인 방법을 안내드립니다. 여러 지점으로 분할 발송을 요청하시는 고객님은 내용을 확인해 주세요.",
     excerpt:
@@ -57,7 +45,6 @@ const noticeFixtures = [
   {
     id: "event-1",
     category: "event",
-    categoryLabel: "이벤트",
     title: "여름 특별 할인 프로모션 — 제작 상품 최대 30% 할인",
     excerpt:
       "이벤트 기간 동안 브로슈어, 카탈로그, 리플렛 등 주요 제작 상품을 최대 30% 할인된 가격으로 만나보세요.",
@@ -68,7 +55,6 @@ const noticeFixtures = [
   {
     id: "event-2",
     category: "event",
-    categoryLabel: "이벤트",
     title: "신규 고객 대상 무료 디자인 상담 이벤트 안내",
     excerpt:
       "씨브레인을 처음 이용하는 고객님께 전담 디자이너의 1:1 무료 상담과 제작 방향 제안을 제공합니다.",
@@ -79,7 +65,6 @@ const noticeFixtures = [
   {
     id: "event-3",
     category: "event",
-    categoryLabel: "이벤트",
     title: "홍보물 제작 후기 작성 고객 감사 이벤트",
     excerpt:
       "제작 후기를 남겨 주신 고객님을 대상으로 추첨을 통해 다음 주문에 사용할 수 있는 할인 혜택을 드립니다.",
@@ -90,7 +75,6 @@ const noticeFixtures = [
   {
     id: "holiday-1",
     category: "holiday",
-    categoryLabel: "휴무 안내",
     title: "광복절 고객센터 및 제작 업무 휴무 안내",
     excerpt:
       "광복절에는 상담과 제작 업무가 운영되지 않으며 접수된 문의는 다음 영업일부터 순차적으로 답변드립니다.",
@@ -101,7 +85,6 @@ const noticeFixtures = [
   {
     id: "holiday-2",
     category: "holiday",
-    categoryLabel: "휴무 안내",
     title: "추석 연휴 제작 및 배송 일정 안내",
     excerpt:
       "추석 연휴 전 납품이 필요한 주문은 품목별 마감 일정을 확인하고 여유 있게 접수해 주세요.",
@@ -112,7 +95,6 @@ const noticeFixtures = [
   {
     id: "holiday-3",
     category: "holiday",
-    categoryLabel: "휴무 안내",
     title: "연말 고객센터 단축 운영 및 신정 휴무 안내",
     excerpt:
       "연말에는 고객센터가 단축 운영되며 신정 휴무 기간에 접수된 문의는 업무 재개 후 순차 처리됩니다.",
@@ -123,7 +105,6 @@ const noticeFixtures = [
   {
     id: "service-1",
     category: "service",
-    categoryLabel: "서비스 변경",
     title: "온라인 정찰제 견적서 발급 방식 변경 안내",
     excerpt:
       "품목과 수량을 선택하면 상세 견적서를 바로 확인하고 내려받을 수 있도록 발급 절차가 개선되었습니다.",
@@ -134,7 +115,6 @@ const noticeFixtures = [
   {
     id: "service-2",
     category: "service",
-    categoryLabel: "서비스 변경",
     title: "대용량 디자인 원고 파일 업로드 기능 개선",
     excerpt:
       "주문 과정에서 대용량 원고와 참고 자료를 더욱 안정적으로 전달할 수 있도록 업로드 기능을 개선했습니다.",
@@ -145,7 +125,6 @@ const noticeFixtures = [
   {
     id: "service-3",
     category: "service",
-    categoryLabel: "서비스 변경",
     title: "주문 결제 수단 및 세금계산서 신청 절차 변경",
     excerpt:
       "고객 편의를 위해 결제 수단을 확대하고 주문 단계에서 세금계산서를 신청할 수 있도록 절차를 변경했습니다.",
@@ -156,7 +135,6 @@ const noticeFixtures = [
   {
     id: "news-1",
     category: "news",
-    categoryLabel: "수상 · 소식",
     title: "씨브레인, 2026 커뮤니케이션 디자인 어워드 수상",
     excerpt:
       "씨브레인이 제작한 기업 브로슈어 프로젝트가 브랜드 커뮤니케이션 부문 우수 디자인으로 선정되었습니다.",
@@ -167,7 +145,6 @@ const noticeFixtures = [
   {
     id: "news-2",
     category: "news",
-    categoryLabel: "수상 · 소식",
     title: "씨브레인 디자인 제작 사례 4,000건 돌파",
     excerpt:
       "브로슈어, 카탈로그, 리플렛 등 씨브레인의 누적 디자인 제작 사례가 4,000건을 돌파했습니다.",
@@ -178,7 +155,6 @@ const noticeFixtures = [
   {
     id: "news-3",
     category: "news",
-    categoryLabel: "수상 · 소식",
     title: "전국 납품 파트너 네트워크 확대 소식",
     excerpt:
       "더 빠르고 안전한 납품을 위해 전국 주요 권역의 제작 및 배송 파트너 네트워크를 확대했습니다.",
@@ -237,7 +213,7 @@ const sharedDetailContent = [
 export function resolveNoticeCategory(
   category: string | undefined,
 ): NoticeCategoryValue {
-  return categories.some((item) => item.value === category) && category
+  return noticeCategories.some((item) => item.value === category) && category
     ? (category as NoticeCategoryValue)
     : "all";
 }
@@ -245,13 +221,18 @@ export function resolveNoticeCategory(
 export function getNoticePageData(
   activeCategory: NoticeCategoryValue,
 ): NoticePageData {
-  const notices =
+  const filteredNotices =
     activeCategory === "all"
       ? noticeFixtures
       : noticeFixtures.filter((notice) => notice.category === activeCategory);
+  const notices = [...filteredNotices].sort(
+    (firstNotice, secondNotice) =>
+      Date.parse(secondNotice.publishedAt) -
+      Date.parse(firstNotice.publishedAt),
+  );
 
   return {
-    categories,
+    categories: noticeCategories,
     notices,
     totalCount: noticeFixtures.length,
   };

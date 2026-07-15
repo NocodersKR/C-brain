@@ -7,6 +7,7 @@ import type {
   NoticeSummary,
 } from "../_types/notice";
 import styles from "../page.module.css";
+import { NoticeHistoryBoundary } from "./NoticeHistoryBoundary";
 import { NoticeItem } from "./NoticeItem";
 
 type NoticeBoardProps = {
@@ -54,7 +55,10 @@ export function NoticeBoard({
       </HorizontalDragScroll>
 
       {notices.length > 0 ? (
-        <div className={styles.noticeList}>
+        <NoticeHistoryBoundary
+          className={styles.noticeList}
+          listHref={getCategoryHref(activeCategory)}
+        >
           {pinnedNotices.length > 0 ? (
             <div className={styles.pinnedNoticeList}>
               {pinnedNotices.map((notice) => (
@@ -73,7 +77,7 @@ export function NoticeBoard({
               notice={notice}
             />
           ))}
-        </div>
+        </NoticeHistoryBoundary>
       ) : (
         <p className={styles.emptyState}>등록된 공지사항이 없습니다.</p>
       )}

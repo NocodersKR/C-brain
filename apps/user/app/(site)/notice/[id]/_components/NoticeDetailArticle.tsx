@@ -1,8 +1,6 @@
+import { getNoticeCategoryLabel } from "../../_constants/noticeCategories";
 import { NoticeAuthorMark } from "../../_components/NoticeAuthorMark";
-import type {
-  NoticeCategoryValue,
-  NoticeDetail,
-} from "../../_types/notice";
+import type { NoticeCategoryValue, NoticeDetail } from "../../_types/notice";
 import { formatPublishedDate } from "../../_utils/formatPublishedDate";
 import styles from "../page.module.css";
 import { NoticeBackButton } from "./NoticeBackButton";
@@ -19,14 +17,14 @@ export function NoticeDetailArticle({
   restoreListHistory,
 }: NoticeDetailArticleProps) {
   const backHref =
-    backCategory === "all"
-      ? "/notice"
-      : `/notice?category=${backCategory}`;
+    backCategory === "all" ? "/notice" : `/notice?category=${backCategory}`;
 
   return (
     <section className={styles.detailSection}>
       <div className={styles.detailInner}>
-        <p className={styles.categoryBadge}>{notice.categoryLabel}</p>
+        <p className={styles.categoryBadge}>
+          {getNoticeCategoryLabel(notice.category)}
+        </p>
 
         <article className={styles.article}>
           <header className={styles.articleHeader}>
@@ -55,9 +53,7 @@ export function NoticeDetailArticle({
           <div className={styles.noticeBody}>
             {notice.content.map((block, blockIndex) => {
               if (block.type === "paragraph") {
-                return (
-                  <p key={`paragraph-${blockIndex}`}>{block.text}</p>
-                );
+                return <p key={`paragraph-${blockIndex}`}>{block.text}</p>;
               }
 
               return (

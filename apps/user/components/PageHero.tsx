@@ -26,18 +26,18 @@ export function PageHero({
   variant = "subpage",
 }: PageHeroProps) {
   return (
-    <section
-      className={`${styles.hero} ${styles[variant]} ${styles[tone]}`}
-    >
+    <section className={`${styles.hero} ${styles[variant]} ${styles[tone]}`}>
       <div
         aria-hidden="true"
         className={styles.background}
-        style={{
-          "--page-hero-background-position": backgroundPosition,
-          "--page-hero-mobile-background-position":
-            mobileBackgroundPosition ?? backgroundPosition,
-          backgroundImage: `url("${backgroundImage}")`,
-        } as CSSProperties}
+        style={
+          {
+            "--page-hero-background-position": backgroundPosition,
+            "--page-hero-mobile-background-position":
+              mobileBackgroundPosition ?? backgroundPosition,
+            backgroundImage: `url("${backgroundImage}")`,
+          } as CSSProperties
+        }
       />
       <div aria-hidden="true" className={styles.overlay} />
       <div className={styles.content}>
