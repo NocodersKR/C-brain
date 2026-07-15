@@ -1,5 +1,7 @@
 import { PageHero } from "../../../components/PageHero";
 
+import { BlogBoard } from "./_components/BlogBoard";
+import { blogPosts } from "./_data/blogPosts";
 import styles from "./page.module.css";
 
 export default function BlogPage() {
@@ -22,6 +24,7 @@ export default function BlogPage() {
           </span>
         }
       />
+      <BlogBoard posts={blogPosts} />
     </div>
   );
 }
