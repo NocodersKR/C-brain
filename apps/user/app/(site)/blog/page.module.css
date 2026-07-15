@@ -1,0 +1,20 @@
+.page {
+  width: 100%;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 36px;
+    line-height: 48px;
+  }
+}
