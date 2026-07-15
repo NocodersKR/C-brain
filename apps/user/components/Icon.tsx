@@ -25,6 +25,7 @@ type IconName =
   | "file-text"
   | "flag"
   | "megaphone"
+  | "menu-04"
   | "message-typing"
   | "package"
   | "pen-tool"
@@ -40,7 +41,8 @@ type IconName =
   | "arrow-left-square-contained"
   | "arrow-right-square-contained"
   | "arrow-up-square-contained"
-  | "arrow-down-square-contained";
+  | "arrow-down-square-contained"
+  | "x-close";
 
 type IconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
   name: IconName;
@@ -340,6 +342,27 @@ function MessageTypingIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
   );
 }
 
+function Menu04Icon({ size = 24, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M13.5 18H4M20 12H4M20 6H4"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
 function PackageIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
   return (
     <svg
@@ -453,6 +476,27 @@ function UserProfileCircleIcon({
   );
 }
 
+function XCloseIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M16 8L8 16M16 16L8 8"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
 const icons = {
   "arrow-left": ArrowLeftIcon,
   "arrow-right": ArrowRightIcon,
@@ -466,6 +510,7 @@ const icons = {
   "file-text": FileTextIcon,
   flag: FlagIcon,
   megaphone: MegaphoneIcon,
+  "menu-04": Menu04Icon,
   "message-typing": MessageTypingIcon,
   package: PackageIcon,
   "pen-tool": PenToolIcon,
@@ -482,6 +527,7 @@ const icons = {
   "arrow-right-square-contained": SavedArrowRightSquareContainedIcon,
   "arrow-up-square-contained": SavedArrowUpSquareContainedIcon,
   "arrow-down-square-contained": SavedArrowDownSquareContainedIcon,
+  "x-close": XCloseIcon,
 } satisfies Record<IconName, IconComponent>;
 
 export function Icon({ name, size = 24, ...props }: IconProps) {

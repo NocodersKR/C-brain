@@ -71,7 +71,7 @@ export function FaqSection({
             question={
               <span className={styles.faqQuestion}>
                 <strong>Q</strong>
-                {item.question}
+                <span className={styles.faqQuestionText}>{item.question}</span>
               </span>
             }
             style={faqAccordionStyle}

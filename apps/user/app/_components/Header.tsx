@@ -2,8 +2,15 @@
 
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {
+  type MouseEvent,
+  type SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
+import { Icon } from "../../components/Icon";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -27,6 +34,11 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavDialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     const updateHeaderBackground = () => {
@@ -43,6 +55,68 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const desktopMediaQuery = window.matchMedia("(min-width: 1100px)");
+    const closeMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    desktopMediaQuery.addEventListener("change", closeMenuOnDesktop);
+
+    return () => {
+      desktopMediaQuery.removeEventListener("change", closeMenuOnDesktop);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const dialog = mobileNavDialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
+  const closeMenuAndRestoreFocus = () => {
+    mobileNavDialogRef.current?.close();
+    setIsMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
+
+  const handleOpenMenu = () => {
+    setIsMenuOpen(true);
+  };
+
+  const handleOverlayClick = (event: MouseEvent<HTMLDialogElement>) => {
+    if (event.target === event.currentTarget) {
+      closeMenuAndRestoreFocus();
+    }
+  };
+
+  const handleDialogCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
+    event.preventDefault();
+    closeMenuAndRestoreFocus();
+  };
+
+  const handleMobileNavClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    const href = event.currentTarget.getAttribute("href");
+
+    setActiveNavHref(href);
+    setIsMenuOpen(false);
+  };
+
   return (
     <header
       className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""}`}
@@ -53,7 +127,7 @@ export function Header() {
             <Image
               alt=""
               className={styles.logoMain}
-              height={21}
+              height={20}
               src="/figma-assets/cbrain-logo-main.svg"
               width={77}
             />
@@ -82,14 +156,68 @@ export function Header() {
       </div>
 
       <button
+        aria-controls="mobile-navigation"
+        aria-expanded={isMenuOpen}
         aria-label="메뉴 열기"
         className={styles.mobileMenuButton}
+        onClick={handleOpenMenu}
+        ref={menuButtonRef}
         type="button"
       >
-        <span />
-        <span />
-        <span />
+        <Icon className={styles.mobileMenuIcon} name="menu-04" size={24} />
       </button>
+
+      {isMenuOpen ? (
+        <dialog
+          aria-label="모바일 메뉴"
+          className={styles.mobileNavOverlay}
+          id="mobile-navigation"
+          onClick={handleOverlayClick}
+          onCancel={handleDialogCancel}
+          ref={mobileNavDialogRef}
+        >
+          <div className={styles.mobileNavPanel}>
+            <div className={styles.mobileNavCloseRow}>
+              <button
+                aria-label="메뉴 닫기"
+                className={styles.mobileNavCloseButton}
+                onClick={closeMenuAndRestoreFocus}
+                ref={closeButtonRef}
+                type="button"
+              >
+                <Icon
+                  className={styles.mobileNavCloseIcon}
+                  name="x-close"
+                  size={24}
+                />
+              </button>
+            </div>
+
+            <nav
+              aria-label="모바일 주요 메뉴"
+              className={styles.mobileNavLinks}
+            >
+              {navItems.map((item) => (
+                <a
+                  aria-current={
+                    activeNavHref === item.href ? "location" : undefined
+                  }
+                  className={`${styles.mobileNavLink} ${
+                    activeNavHref === item.href
+                      ? styles.mobileNavLinkActive
+                      : ""
+                  }`}
+                  href={item.href}
+                  key={item.label}
+                  onClick={handleMobileNavClick}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </dialog>
+      ) : null}
     </header>
   );
 }

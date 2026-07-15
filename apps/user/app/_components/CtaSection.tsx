@@ -6,15 +6,22 @@ import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
 const contactButtonPadding = "8px 23px";
+const contactButtonWidth = "var(--contact-button-width)";
 
-const kakaoButtonStyle = createGradientBorderButtonStyle({
-  padding: contactButtonPadding,
-  tone: "contactKakao",
-});
+const kakaoButtonStyle: CSSProperties = {
+  ...createGradientBorderButtonStyle({
+    padding: contactButtonPadding,
+    tone: "contactKakao",
+  }),
+  width: contactButtonWidth,
+};
 
-const priceButtonStyle = createGradientBorderButtonStyle({
-  padding: contactButtonPadding,
-});
+const priceButtonStyle: CSSProperties = {
+  ...createGradientBorderButtonStyle({
+    padding: contactButtonPadding,
+  }),
+  width: contactButtonWidth,
+};
 
 const ctaButtonIconStyle: CSSProperties = {
   flex: "0 0 auto",
