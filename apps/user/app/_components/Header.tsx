@@ -3,6 +3,7 @@
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   type MouseEvent,
   type SyntheticEvent,
@@ -22,7 +23,7 @@ const navItems = [
   { label: "주문 · 결제", href: "/#services" },
   { label: "FAQ & 가이드", href: "/faq" },
   { label: "블로그", href: "/#blog" },
-  { label: "불편 접수", href: "/#contact" },
+  { label: "불편 접수", href: "/complaint" },
   { label: "공지사항", href: "/#notice" },
 ];
 
@@ -34,6 +35,7 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 });
 
 export function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
@@ -130,6 +132,7 @@ export function Header() {
               className={styles.logoMain}
               height={20}
               src="/figma-assets/cbrain-logo-main.svg"
+              style={{ height: 20, width: 77 }}
               width={77}
             />
             <Image
@@ -137,17 +140,29 @@ export function Header() {
               className={styles.logoTagline}
               height={4}
               src="/figma-assets/cbrain-logo-tagline.svg"
+              style={{ height: 4, width: 76 }}
               width={76}
             />
           </span>
         </Link>
 
         <nav aria-label="주요 메뉴" className={styles.desktopNav}>
-          {navItems.map((item) => (
-            <Link className={styles.navLink} href={item.href} key={item.label}>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = item.href === pathname;
+
+            return (
+              <Link
+                aria-current={isActive ? "page" : undefined}
+                className={`${styles.navLink} ${
+                  isActive ? styles.navLinkActive : ""
+                }`}
+                href={item.href}
+                key={item.label}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
 
@@ -201,10 +216,12 @@ export function Header() {
               {navItems.map((item) => (
                 <Link
                   aria-current={
-                    activeNavHref === item.href ? "location" : undefined
+                    activeNavHref === item.href || pathname === item.href
+                      ? "location"
+                      : undefined
                   }
                   className={`${styles.mobileNavLink} ${
-                    activeNavHref === item.href
+                    activeNavHref === item.href || pathname === item.href
                       ? styles.mobileNavLinkActive
                       : ""
                   }`}
