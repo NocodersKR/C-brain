@@ -24,7 +24,7 @@ const navItems = [
   { label: "FAQ & 가이드", href: "/faq" },
   { label: "블로그", href: "/#blog" },
   { label: "불편 접수", href: "/complaint" },
-  { label: "공지사항", href: "/#notice" },
+  { label: "공지사항", href: "/notice" },
 ];
 
 const priceButtonStyle = createGradientBorderButtonStyle({ width: 148 });
@@ -120,9 +120,16 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
+  const isNoticePage = pathname.startsWith("/notice");
+  const hasDarkHero = pathname === "/notice" && !isScrolled;
+  const isNavItemCurrentPage = (href: string) =>
+    href === "/notice" ? isNoticePage : pathname === href;
+
   return (
     <header
-      className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""}`}
+      className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""} ${
+        hasDarkHero ? styles.headerDarkHero : ""
+      } ${isNoticePage ? styles.headerNoticePage : ""}`}
     >
       <div className={styles.headerPrimary}>
         <Link aria-label="씨브레인 홈" className={styles.logoLink} href="/">
@@ -148,7 +155,7 @@ export function Header() {
 
         <nav aria-label="주요 메뉴" className={styles.desktopNav}>
           {navItems.map((item) => {
-            const isActive = item.href === pathname;
+            const isActive = isNavItemCurrentPage(item.href);
 
             return (
               <Link
@@ -213,25 +220,26 @@ export function Header() {
               aria-label="모바일 주요 메뉴"
               className={styles.mobileNavLinks}
             >
-              {navItems.map((item) => (
-                <Link
-                  aria-current={
-                    activeNavHref === item.href || pathname === item.href
-                      ? "location"
-                      : undefined
-                  }
-                  className={`${styles.mobileNavLink} ${
-                    activeNavHref === item.href || pathname === item.href
-                      ? styles.mobileNavLinkActive
-                      : ""
-                  }`}
-                  href={item.href}
-                  key={item.label}
-                  onClick={handleMobileNavClick}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isCurrentPage = isNavItemCurrentPage(item.href);
+                const isActive = isCurrentPage || activeNavHref === item.href;
+
+                return (
+                  <Link
+                    aria-current={
+                      isCurrentPage ? "page" : isActive ? "location" : undefined
+                    }
+                    className={`${styles.mobileNavLink} ${
+                      isActive ? styles.mobileNavLinkActive : ""
+                    }`}
+                    href={item.href}
+                    key={item.label}
+                    onClick={handleMobileNavClick}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </dialog>
