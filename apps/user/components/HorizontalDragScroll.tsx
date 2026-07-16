@@ -1,6 +1,12 @@
 "use client";
 
-import type { KeyboardEvent, MouseEvent, PointerEvent, ReactNode } from "react";
+import type {
+  DragEvent,
+  KeyboardEvent,
+  MouseEvent,
+  PointerEvent,
+  ReactNode,
+} from "react";
 import { useRef } from "react";
 
 type HorizontalDragScrollProps = {
@@ -16,7 +22,7 @@ type DragState = {
   startX: number;
 };
 
-const DRAG_ACTIVATION_DISTANCE = 8;
+const DRAG_START_DISTANCE = 10;
 
 export function HorizontalDragScroll({
   ariaLabel,
@@ -32,7 +38,7 @@ export function HorizontalDragScroll({
   const didDrag = useRef(false);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
 
     dragState.current = {
       pointerId: event.pointerId,
@@ -45,7 +51,7 @@ export function HorizontalDragScroll({
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (dragState.current.pointerId !== event.pointerId) return;
 
-    if ((event.buttons & 1) === 0) {
+    if (event.pointerType === "mouse" && (event.buttons & 1) === 0) {
       delete event.currentTarget.dataset.dragging;
       dragState.current.pointerId = null;
       didDrag.current = false;
@@ -53,11 +59,9 @@ export function HorizontalDragScroll({
     }
 
     const distance = event.clientX - dragState.current.startX;
-    if (!didDrag.current && Math.abs(distance) < DRAG_ACTIVATION_DISTANCE) {
-      return;
-    }
-
     if (!didDrag.current) {
+      if (Math.abs(distance) < DRAG_START_DISTANCE) return;
+
       didDrag.current = true;
       event.currentTarget.dataset.dragging = "true";
       event.currentTarget.setPointerCapture(event.pointerId);
@@ -85,6 +89,10 @@ export function HorizontalDragScroll({
     didDrag.current = false;
   };
 
+  const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   const handleClickCapture = (event: MouseEvent<HTMLDivElement>) => {
     if (!didDrag.current) return;
 
@@ -109,6 +117,7 @@ export function HorizontalDragScroll({
       aria-label={ariaLabel}
       className={className}
       onClickCapture={handleClickCapture}
+      onDragStartCapture={handleDragStart}
       onKeyDown={handleKeyDown}
       onPointerCancel={handlePointerCancel}
       onPointerDown={handlePointerDown}
