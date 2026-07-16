@@ -68,14 +68,10 @@
 }
 
 .meta {
+  composes: pretendard-medium-14 from global;
   max-width: 100%;
   gap: 8px;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.21px;
   white-space: nowrap;
 }
 
