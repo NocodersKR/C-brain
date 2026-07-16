@@ -21,7 +21,7 @@ const navItems = [
   { label: "포트폴리오", href: "/#portfolio" },
   { label: "고객 후기", href: "/#reviews" },
   { label: "주문 · 결제", href: "/#services" },
-  { label: "FAQ & 가이드", href: "/#faq" },
+  { label: "FAQ & 가이드", href: "/faq" },
   { label: "블로그", href: "/#blog" },
   { label: "불편 접수", href: "/complaint" },
   { label: "공지사항", href: "/#notice" },
