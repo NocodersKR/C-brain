@@ -285,30 +285,6 @@
   background: #f6f8fb;
 }
 
-.ctaBackground {
-  position: absolute;
-  inset: 0;
-  background-position: center;
-  background-size: cover;
-  pointer-events: none;
-}
-
-.ctaBadge {
-  width: fit-content;
-  min-height: 40px;
-  border-radius: 32px;
-  padding: 8px 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 21px;
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
 .heroGradientButton::before {
   content: "";
   position: absolute;
@@ -332,7 +308,6 @@
     var(--landing-button-border-end), var(--landing-button-border-start);
 }
 
-.ctaText,
 .blogCopy,
 .serviceCopy,
 .footerInfo,
@@ -340,18 +315,6 @@
 .companyInfo {
   display: flex;
   flex-direction: column;
-}
-
-.ctaText strong {
-  color: var(--landing-brand-500);
-}
-
-.ctaRow {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
 }
 
 .metrics {
@@ -1275,87 +1238,6 @@
   line-height: 16px;
 }
 
-.ctaSection {
-  --contact-button-width: 100%;
-  min-height: 408px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--landing-gray-900);
-}
-
-.ctaBackground {
-  background-image: url("/figma-assets/landing-cta-background.jpg");
-  opacity: 0.94;
-}
-
-.ctaContent {
-  width: min(100%, 390px);
-  padding: 72px 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  text-align: center;
-}
-
-.ctaContent .ctaRow {
-  margin-top: 32px;
-}
-
-.ctaBadge {
-  width: 148px;
-  height: 40px;
-  border: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  background-clip: padding-box;
-  color: var(--landing-gray-50);
-  position: relative;
-}
-
-.ctaBadge::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background:
-    var(--landing-button-border-end), var(--landing-button-border-start);
-  pointer-events: none;
-  -webkit-mask:
-    linear-gradient(#ffffff 0 0) content-box,
-    linear-gradient(#ffffff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-.ctaText {
-  align-items: center;
-  gap: 8px;
-}
-
-.ctaText h2 {
-  font-family: var(--font-sans);
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 36px;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.ctaText p {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 24px;
-  color: var(--landing-gray-50);
-}
-
 .faqSection {
   --faq-card-bg: #f8fafc;
   --faq-card-border: #f1f5f9;
@@ -2189,17 +2071,6 @@
 }
 
 @media (min-width: 640px) {
-  .ctaSection {
-    --contact-button-width: 164px;
-  }
-
-  .ctaRow {
-    width: auto;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
   .heroAudience.heroAudience {
     width: max-content;
     white-space: nowrap;
@@ -2214,8 +2085,7 @@
     padding: 0 40px;
   }
 
-  .metricGrid,
-  .ctaContent {
+  .metricGrid {
     width: min(100%, 640px);
     padding-left: 20px;
     padding-right: 20px;
@@ -2323,8 +2193,7 @@
 }
 
 @media (min-width: 1080px) {
-  .metricGrid,
-  .ctaContent {
+  .metricGrid {
     width: min(100%, 1080px);
   }
 
@@ -2599,20 +2468,6 @@
     width: 680px;
     height: 383px;
     aspect-ratio: auto;
-  }
-
-  .ctaSection {
-    min-height: 500px;
-  }
-
-  .ctaContent {
-    width: 1360px;
-    padding: 104px 0;
-  }
-
-  .ctaText h2 {
-    font-size: 36px;
-    line-height: 48px;
   }
 
   .reviewClientLogoRow {
