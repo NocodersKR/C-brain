@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './AdminHeader.css'
 
 const menuItems = [
@@ -9,6 +9,7 @@ const menuItems = [
   { label: '고객 인터뷰 · 후기', to: '/reviews' },
   { label: '공지사항', to: '/notices' },
   { label: '불편접수', to: '/complaints' },
+  { label: 'LinkPay', to: '/linkpay' },
 ] as const
 
 export function AdminHeader() {
@@ -60,9 +61,6 @@ export function AdminHeader() {
         <a className="admin-header__action pretendard-bold-14" href="/">
           씨브레인 홈페이지
         </a>
-        <Link className="admin-header__action pretendard-bold-14" to="/linkpay">
-          링크페이 생성하기
-        </Link>
       </div>
     </header>
   )
