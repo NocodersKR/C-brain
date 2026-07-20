@@ -22,7 +22,12 @@ export default function Home() {
       <CtaSection
         badge="지금 바로 시작하세요"
         description="빠른 상담 · 전국 납품 · 소량부터 대량까지"
+        descriptionSize="md"
         id="contact"
+        secondaryAction={{
+          label: "정찰제 가격 보기",
+          href: "/#services",
+        }}
         titleLines={[
           "실패 없는 홍보물 디자인 제작,",
           <>
