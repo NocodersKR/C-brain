@@ -6,6 +6,7 @@ type PageHeroProps = {
   actions?: ReactNode;
   backgroundImage: string;
   backgroundPosition?: CSSProperties["backgroundPosition"];
+  mobileBackgroundPosition?: CSSProperties["backgroundPosition"];
   badge: ReactNode;
   description: ReactNode;
   title: ReactNode;
@@ -17,6 +18,7 @@ export function PageHero({
   actions,
   backgroundImage,
   backgroundPosition = "center",
+  mobileBackgroundPosition,
   badge,
   description,
   title,
@@ -24,16 +26,18 @@ export function PageHero({
   variant = "subpage",
 }: PageHeroProps) {
   return (
-    <section
-      className={`${styles.hero} ${styles[variant]} ${styles[tone]}`}
-    >
+    <section className={`${styles.hero} ${styles[variant]} ${styles[tone]}`}>
       <div
         aria-hidden="true"
         className={styles.background}
-        style={{
-          backgroundImage: `url("${backgroundImage}")`,
-          backgroundPosition,
-        }}
+        style={
+          {
+            "--page-hero-background-position": backgroundPosition,
+            "--page-hero-mobile-background-position":
+              mobileBackgroundPosition ?? backgroundPosition,
+            backgroundImage: `url("${backgroundImage}")`,
+          } as CSSProperties
+        }
       />
       <div aria-hidden="true" className={styles.overlay} />
       <div className={styles.content}>
