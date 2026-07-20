@@ -3,6 +3,7 @@
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   type MouseEvent,
   type SyntheticEvent,
@@ -20,10 +21,10 @@ const navItems = [
   { label: "포트폴리오", href: "/portfolio" },
   { label: "고객 후기", href: "/#reviews" },
   { label: "주문 · 결제", href: "/#services" },
-  { label: "FAQ & 가이드", href: "/#faq" },
+  { label: "FAQ & 가이드", href: "/faq" },
   { label: "블로그", href: "/#blog" },
-  { label: "불편 접수", href: "/#contact" },
-  { label: "공지사항", href: "/#notice" },
+  { label: "불편 접수", href: "/complaint" },
+  { label: "공지사항", href: "/notice" },
 ];
 
 const priceButtonStyle = createGradientBorderButtonStyle({ width: 148 });
@@ -34,6 +35,7 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 });
 
 export function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
@@ -118,9 +120,19 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
+  const isNoticePage = pathname.startsWith("/notice");
+  const hasDarkHero = pathname === "/notice" && !isScrolled;
+  const isNavItemCurrentPage = (href: string) => {
+    if (href === "/notice") return isNoticePage;
+    if (href === "/portfolio") return pathname.startsWith("/portfolio");
+    return pathname === href;
+  };
+
   return (
     <header
-      className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""}`}
+      className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""} ${
+        hasDarkHero ? styles.headerDarkHero : ""
+      } ${isNoticePage ? styles.headerNoticePage : ""}`}
     >
       <div className={styles.headerPrimary}>
         <Link aria-label="씨브레인 홈" className={styles.logoLink} href="/">
@@ -130,6 +142,7 @@ export function Header() {
               className={styles.logoMain}
               height={20}
               src="/figma-assets/cbrain-logo-main.svg"
+              style={{ height: 20, width: 77 }}
               width={77}
             />
             <Image
@@ -137,17 +150,29 @@ export function Header() {
               className={styles.logoTagline}
               height={4}
               src="/figma-assets/cbrain-logo-tagline.svg"
+              style={{ height: 4, width: 76 }}
               width={76}
             />
           </span>
         </Link>
 
         <nav aria-label="주요 메뉴" className={styles.desktopNav}>
-          {navItems.map((item) => (
-            <Link className={styles.navLink} href={item.href} key={item.label}>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = isNavItemCurrentPage(item.href);
+
+            return (
+              <Link
+                aria-current={isActive ? "page" : undefined}
+                className={`${styles.navLink} ${
+                  isActive ? styles.navLinkActive : ""
+                }`}
+                href={item.href}
+                key={item.label}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
 
@@ -198,23 +223,26 @@ export function Header() {
               aria-label="모바일 주요 메뉴"
               className={styles.mobileNavLinks}
             >
-              {navItems.map((item) => (
-                <Link
-                  aria-current={
-                    activeNavHref === item.href ? "location" : undefined
-                  }
-                  className={`${styles.mobileNavLink} ${
-                    activeNavHref === item.href
-                      ? styles.mobileNavLinkActive
-                      : ""
-                  }`}
-                  href={item.href}
-                  key={item.label}
-                  onClick={handleMobileNavClick}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isCurrentPage = isNavItemCurrentPage(item.href);
+                const isActive = isCurrentPage || activeNavHref === item.href;
+
+                return (
+                  <Link
+                    aria-current={
+                      isCurrentPage ? "page" : isActive ? "location" : undefined
+                    }
+                    className={`${styles.mobileNavLink} ${
+                      isActive ? styles.mobileNavLinkActive : ""
+                    }`}
+                    href={item.href}
+                    key={item.label}
+                    onClick={handleMobileNavClick}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </dialog>

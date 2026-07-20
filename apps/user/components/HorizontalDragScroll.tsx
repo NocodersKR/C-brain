@@ -13,6 +13,7 @@ type HorizontalDragScrollProps = {
   ariaLabel: string;
   children: ReactNode;
   className?: string;
+  role?: "navigation" | "region";
 };
 
 type DragState = {
@@ -27,6 +28,7 @@ export function HorizontalDragScroll({
   ariaLabel,
   children,
   className,
+  role = "region",
 }: HorizontalDragScrollProps) {
   const dragState = useRef<DragState>({
     pointerId: null,
@@ -49,6 +51,13 @@ export function HorizontalDragScroll({
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (dragState.current.pointerId !== event.pointerId) return;
 
+    if (event.pointerType === "mouse" && (event.buttons & 1) === 0) {
+      delete event.currentTarget.dataset.dragging;
+      dragState.current.pointerId = null;
+      didDrag.current = false;
+      return;
+    }
+
     const distance = event.clientX - dragState.current.startX;
     if (!didDrag.current) {
       if (Math.abs(distance) < DRAG_START_DISTANCE) return;
@@ -57,7 +66,6 @@ export function HorizontalDragScroll({
       event.currentTarget.dataset.dragging = "true";
       event.currentTarget.setPointerCapture(event.pointerId);
     }
-
     event.currentTarget.scrollLeft = dragState.current.scrollLeft - distance;
     event.preventDefault();
   };
@@ -115,7 +123,7 @@ export function HorizontalDragScroll({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={finishDrag}
-      role="region"
+      role={role}
       tabIndex={0}
     >
       {children}
