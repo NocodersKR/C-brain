@@ -49,7 +49,6 @@ export function PortfolioSection() {
             </button>
           ))}
         </HorizontalDragScroll>
-
         <div className={styles.portfolioGrid}>
           {featuredPortfolioItems.map((item) => (
             <Link
