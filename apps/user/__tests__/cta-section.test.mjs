@@ -4,39 +4,47 @@ import test from "node:test";
 
 const ctaPath = new URL("../app/_components/CtaSection.tsx", import.meta.url);
 const landingPagePath = new URL("../app/(site)/page.tsx", import.meta.url);
-const stylesPath = new URL("../app/page.module.css", import.meta.url);
+const stylesPath = new URL(
+  "../app/_components/CtaSection.module.css",
+  import.meta.url,
+);
 
-test("CTA section exposes reusable page-level content props", async () => {
-  const ctaSource = await readFile(ctaPath, "utf8");
+test("CTA section exposes only confirmed content variations", async () => {
+  const source = await readFile(ctaPath, "utf8");
 
-  assert.match(ctaSource, /type CtaSectionProps/);
-  assert.match(ctaSource, /backgroundImage\?: string/);
-  assert.match(ctaSource, /badge\?: ReactNode \| null/);
-  assert.match(ctaSource, /description\?: ReactNode \| null/);
-  assert.match(ctaSource, /id\?: string/);
-  assert.match(ctaSource, /titleLines: readonly ReactNode\[\]/);
+  assert.match(source, /badge\?: string/);
+  assert.match(source, /description\?: string/);
+  assert.match(source, /descriptionSize\?: "sm" \| "md"/);
+  assert.match(source, /titleLines: readonly ReactNode\[\]/);
+  assert.match(source, /secondaryAction\?: \{/);
+  assert.match(source, /label: string/);
+  assert.match(source, /href: string/);
+  assert.doesNotMatch(source, /backgroundImage\?:/);
 });
 
-test("landing page passes the landing CTA content explicitly", async () => {
-  const landingSource = await readFile(landingPagePath, "utf8");
+test("CTA section owns its styles and conditionally renders the second action", async () => {
+  const source = await readFile(ctaPath, "utf8");
+  const styles = await readFile(stylesPath, "utf8").catch(() => "");
 
-  assert.match(landingSource, /<CtaSection/);
-  assert.match(landingSource, /badge="지금 바로 시작하세요"/);
+  assert.match(source, /CtaSection\.module\.css/);
+  assert.match(source, /secondaryAction \?/);
+  assert.match(source, /<Link/);
+  assert.match(styles, /\.descriptionSm/);
+  assert.match(styles, /\.descriptionMd/);
+});
+
+test("landing page passes the landing CTA configuration explicitly", async () => {
+  const source = await readFile(landingPagePath, "utf8");
+
+  assert.match(source, /<CtaSection/);
+  assert.match(source, /badge="지금 바로 시작하세요"/);
   assert.match(
-    landingSource,
+    source,
     /description="빠른 상담 · 전국 납품 · 소량부터 대량까지"/,
   );
-  assert.match(landingSource, /id="contact"/);
-  assert.match(landingSource, /실패 없는 홍보물 디자인 제작,/);
-});
-
-test("CTA background image can be overridden without changing shared styles", async () => {
-  const ctaSource = await readFile(ctaPath, "utf8");
-  const stylesSource = await readFile(stylesPath, "utf8");
-
-  assert.match(ctaSource, /"--cta-background-image": `url\("\$\{backgroundImage\}"\)`/);
-  assert.match(
-    stylesSource,
-    /\.ctaBackground\s*\{[\s\S]*background-image: var\(--cta-background-image\);/,
-  );
+  assert.match(source, /descriptionSize="md"/);
+  assert.match(source, /id="contact"/);
+  assert.match(source, /label: "정찰제 가격 보기"/);
+  assert.match(source, /href: "\/#services"/);
+  assert.match(source, /실패 없는 홍보물 디자인 제작,/);
 });
