@@ -4,6 +4,7 @@ import test from "node:test";
 
 const ctaPath = new URL("../app/_components/CtaSection.tsx", import.meta.url);
 const landingPagePath = new URL("../app/(site)/page.tsx", import.meta.url);
+const faqPagePath = new URL("../app/(site)/faq/page.tsx", import.meta.url);
 const stylesPath = new URL(
   "../app/_components/CtaSection.module.css",
   import.meta.url,
@@ -47,4 +48,18 @@ test("landing page passes the landing CTA configuration explicitly", async () =>
   assert.match(source, /label: "정찰제 가격 보기"/);
   assert.match(source, /href: "\/#services"/);
   assert.match(source, /실패 없는 홍보물 디자인 제작,/);
+});
+
+test("FAQ page reuses the shared CTA with its own copy", async () => {
+  const source = await readFile(faqPagePath, "utf8");
+
+  assert.match(source, /<CtaSection/);
+  assert.match(source, /id="faq-contact"/);
+  assert.match(source, /badge="상담 가능 시간 : 평일 오전 9시 ~ 오후 6시"/);
+  assert.match(source, /titleLines=\{\["찾으시는 답변이 없으신가요\?"\]\}/);
+  assert.match(
+    source,
+    /description="씨브레인에 직접 물어보세요\. 빠르게 답변드립니다\."/,
+  );
+  assert.doesNotMatch(source, /contactSection/);
 });

@@ -1,9 +1,7 @@
 import { Accordion } from "@repo/ui/accordion";
-import { Button } from "@repo/ui/button";
 import type { CSSProperties } from "react";
 
-import { Icon } from "../../../components/Icon";
-import { createGradientBorderButtonStyle } from "../../_components/buttonStyles";
+import { CtaSection } from "../../_components/CtaSection";
 import { faqCategories } from "../../_content/faqs";
 import { FaqCategoryNavigation } from "./FaqCategoryNavigation";
 import styles from "./page.module.css";
@@ -28,11 +26,6 @@ const faqAccordionStyle = {
   "--accordion-divider-color": "var(--faq-page-card-border)",
   "--accordion-divider-background": "var(--faq-page-divider-gradient)",
 } as CSSProperties;
-
-const contactButtonStyle = createGradientBorderButtonStyle({
-  padding: "8px 23px",
-  tone: "contactKakao",
-});
 
 function CategoryLabel({
   icon,
@@ -117,24 +110,12 @@ export default function FaqPage() {
         </div>
       </div>
 
-      <section className={styles.contactSection} id="faq-contact">
-        <div className={styles.contactBackground} />
-        <div className={styles.contactContent}>
-          <div className={styles.contactCopy}>
-            <p className={styles.contactBadge}>
-              상담 가능 시간 : 평일 오전 9시 ~ 오후 6시
-            </p>
-            <div className={styles.contactHeading}>
-              <h2>찾으시는 답변이 없으신가요?</h2>
-              <p>씨브레인에 직접 물어보세요. 빠르게 답변드립니다.</p>
-            </div>
-          </div>
-          <Button className={styles.contactButton} style={contactButtonStyle}>
-            <span>카카오톡 1:1 문의</span>
-            <Icon name="message-typing" size={24} />
-          </Button>
-        </div>
-      </section>
+      <CtaSection
+        badge="상담 가능 시간 : 평일 오전 9시 ~ 오후 6시"
+        description="씨브레인에 직접 물어보세요. 빠르게 답변드립니다."
+        id="faq-contact"
+        titleLines={["찾으시는 답변이 없으신가요?"]}
+      />
     </div>
   );
 }
