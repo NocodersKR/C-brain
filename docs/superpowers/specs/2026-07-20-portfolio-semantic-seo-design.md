@@ -11,18 +11,21 @@
 - 상세 본문을 페이지 제목과 연결된 `section`으로 표현하고 각 상세 이미지를 `figure`로 묶는다.
 - 카드의 제목 계층과 링크, 이미지 대체 텍스트는 유지한다.
 - 상세 페이지의 Open Graph와 Twitter 메타데이터에 대표 이미지를 추가한다.
+- 카테고리 쿼리를 제외한 상세 페이지 URL을 canonical로 지정한다.
 - 기존 CSS 클래스, 탭 전환, URL 갱신, 스크롤 복원 동작은 유지한다.
 
 ## 구현 방식
 
 목록과 관련 목록의 그리드 컨테이너를 `ul`로 바꾸고 각 카드에 `li`와 `article`을 추가한다. 기존 링크가 카드 전체를 감싸는 구조는 유지하여 클릭 영역과 키보드 접근성을 바꾸지 않는다. 브라우저 기본 목록 여백과 마커만 CSS에서 제거한다.
 
-상세 페이지 메타데이터는 현재 `generateMetadata`에서 사용하는 항목 데이터를 그대로 재사용한다. 별도 SEO 데이터 모델이나 외부 라이브러리는 추가하지 않고, `item.image`와 어드민에서 함께 저장한 `item.imageAlt`를 Open Graph 및 Twitter 이미지 정보로 전달한다.
+상세 페이지 메타데이터는 현재 `generateMetadata`에서 사용하는 항목 데이터를 그대로 재사용한다. 별도 SEO 데이터 모델이나 외부 라이브러리는 추가하지 않고, `item.image`와 어드민에서 함께 저장한 `item.imageAlt`를 Open Graph 및 Twitter 이미지 정보로 전달한다. 목록 복귀용 `category` 쿼리는 canonical에서 제외하고 `/portfolio/{slug}`를 대표 URL로 사용한다.
 
 ## 이미지 alt 데이터 계약
 
 - 어드민은 대표 이미지와 상세 이미지마다 alt를 직접 입력하고 저장한다.
-- API는 대표 이미지를 `image`와 `imageAlt`, 상세 이미지를 `detailImages: [{ src, alt }]` 형식으로 함께 전달한다.
+- 서버 API는 대표 이미지의 `image`와 `imageAlt`를 반드시 함께 전달한다.
+- 서버 API는 모든 상세 이미지를 `detailImages: [{ src, alt }]` 형식으로 전달하며, 각 객체의 `src`와 `alt`는 모두 필수다.
+- 서버는 `imageAlt` 또는 `detailImages[].alt`가 빠진 포트폴리오 데이터를 정상 응답으로 전달하지 않는다.
 - 사용자 페이지는 저장된 alt를 조합하거나 덮어쓰지 않고 그대로 출력한다.
 - 목록, 관련 카드, Open Graph와 Twitter 메타데이터는 모두 대표 이미지의 `imageAlt`를 사용한다.
 - 상세 페이지의 각 이미지는 해당 이미지 객체의 `alt`를 사용한다.
@@ -32,21 +35,21 @@
 
 ## 배포 설정
 
-- 소셜 대표 이미지의 절대 URL 생성을 위해 배포 환경에 `NEXT_PUBLIC_SITE_URL`을 실제 운영 origin으로 설정한다.
+- canonical과 소셜 대표 이미지의 절대 URL 생성을 위해 배포 환경에 `NEXT_PUBLIC_SITE_URL`을 실제 운영 origin으로 설정한다.
 - 예: `https://www.example.com`
-- 값이 없을 때는 `localhost` 주소가 검색엔진에 노출되지 않도록 Open Graph와 Twitter 이미지 메타데이터를 생략한다.
+- 값이 없을 때는 `localhost` 주소가 검색엔진에 노출되지 않도록 canonical, Open Graph 이미지, Twitter 이미지 메타데이터를 생략한다.
 
 ## 제외 범위
 
 - JSON-LD 구조화 데이터
 - 카테고리별 정적 라우트
-- 사이트맵과 canonical URL
+- 사이트맵
 - 포트폴리오 데이터 내용 수정
 
-이 항목들은 실제 운영 도메인과 인덱싱 전략이 정해졌을 때 별도 작업으로 다룬다.
+이 항목들은 인덱싱 전략과 서버 데이터가 확정되었을 때 별도 작업으로 다룬다.
 
 ## 검증
 
-- 소스 테스트로 목록과 관련 목록의 `ul`/`li`/`article`/`figure` 구조 및 대표 이미지 메타데이터를 확인한다.
+- 소스 테스트로 목록과 관련 목록의 `ul`/`li`/`article`/`figure` 구조, 대표 이미지 메타데이터, canonical을 확인한다.
 - 전체 테스트, 타입 검사, 린트, 빌드를 실행한다.
 - 데스크톱과 모바일에서 기존 카드 배치와 스타일이 유지되는지 확인한다.

@@ -60,6 +60,12 @@ test("portfolio detail metadata and related cards reuse representative image sem
   const detailPage = await readFile(detailPagePath, "utf8");
 
   assert.match(detailPage, /process\.env\.NEXT_PUBLIC_SITE_URL/);
+  assert.match(
+    detailPage,
+    /new URL\(`\/portfolio\/\$\{item\.slug\}`, siteUrl\)/,
+  );
+  assert.match(detailPage, /alternates:/);
+  assert.match(detailPage, /canonical: canonicalUrl/);
   assert.match(detailPage, /new URL\(item\.image, siteUrl\)/);
   assert.match(detailPage, /alt: item\.imageAlt/);
   assert.equal(

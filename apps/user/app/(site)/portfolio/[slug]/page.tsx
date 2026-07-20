@@ -44,6 +44,9 @@ export async function generateMetadata({
   const seo = getPortfolioDetailSeo(detail);
   const { item } = detail;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const canonicalUrl = siteUrl
+    ? new URL(`/portfolio/${item.slug}`, siteUrl)
+    : undefined;
   const socialImage = siteUrl
     ? {
         alt: item.imageAlt,
@@ -52,6 +55,7 @@ export async function generateMetadata({
     : undefined;
 
   return {
+    alternates: canonicalUrl ? { canonical: canonicalUrl } : undefined,
     description: seo.description,
     keywords: seo.keywords,
     openGraph: {
