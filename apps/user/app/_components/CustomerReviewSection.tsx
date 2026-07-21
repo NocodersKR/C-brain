@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { SectionLayout } from "../../components/SectionLayout";
-import { customerTestimonials } from "../_content/customerReviews";
 import styles from "../page.module.css";
 
 const featuredClients = [
@@ -172,24 +171,6 @@ export function CustomerReviewSection() {
       }
       titleClassName={styles.reviewTitle}
     >
-      <div className={styles.reviewGrid}>
-        {customerTestimonials.slice(0, 3).map((review) => (
-          <article className={styles.reviewCard} key={review.id}>
-            <div className={styles.reviewContent}>
-              <p className={styles.reviewStars} aria-label="별점 5점">
-                ★★★★★
-              </p>
-              <p className={styles.reviewBody}>{review.body}</p>
-            </div>
-            <span className={styles.reviewDivider} aria-hidden="true" />
-            <div className={styles.reviewMeta}>
-              <p>{review.name}</p>
-              <span>{review.company}</span>
-            </div>
-          </article>
-        ))}
-      </div>
-
       <div
         className={`${styles.reviewLogoCloud} ${styles.reviewLogoCloudStatic}`}
         aria-label="고객사 로고"

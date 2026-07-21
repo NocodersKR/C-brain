@@ -1,0 +1,22 @@
+.linkpay-form__amount {
+  position: relative;
+  display: block;
+}
+
+.linkpay-form__amount-input {
+  padding-right: 40px;
+}
+
+.linkpay-form__amount-unit {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  color: var(--admin-gray-800);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.015em;
+}

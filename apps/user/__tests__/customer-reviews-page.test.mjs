@@ -8,10 +8,6 @@ const contentPath = new URL(
   import.meta.url,
 );
 const headerPath = new URL("../app/_components/Header.tsx", import.meta.url);
-const landingReviewPath = new URL(
-  "../app/_components/CustomerReviewSection.tsx",
-  import.meta.url,
-);
 const packagePath = new URL("../package.json", import.meta.url);
 const rootPackagePath = new URL("../../../package.json", import.meta.url);
 const stylesPath = new URL("../app/page.module.css", import.meta.url);
@@ -77,10 +73,9 @@ test("customer reviews page exposes the Figma review page sections", async () =>
   }
 });
 
-test("customer review content is shared between landing and reviews page", async () => {
+test("customer review content is shared by the reviews page", async () => {
   const contentSource = await readFile(contentPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");
-  const landingReviewSource = await readFile(landingReviewPath, "utf8");
 
   assert.match(contentSource, /export const customerTestimonials/);
   assert.match(contentSource, /export const customerInterviewRecords/);
@@ -89,7 +84,6 @@ test("customer review content is shared between landing and reviews page", async
   assert.match(pageSource, /customerTestimonials/);
   assert.match(pageSource, /customerInterviews/);
   assert.match(pageSource, /featuredCustomerInterview/);
-  assert.match(landingReviewSource, /customerTestimonials/);
 });
 
 test("customer reviews page keeps Figma image assets local", async () => {
