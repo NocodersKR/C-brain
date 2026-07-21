@@ -57,9 +57,7 @@ export function BlogBoard({ activeCategory, posts }: BlogBoardProps) {
   const visiblePosts = filterBlogPosts(posts, activeCategory);
   const featuredSlides = getBannerSlides(visiblePosts);
   const featuredPost = featuredSlides[0];
-  const ordinaryPosts = visiblePosts.filter(
-    (post) => post.id !== featuredPost?.id,
-  );
+  const ordinaryPosts = visiblePosts;
   const consultPlacementIndex = Math.min(3, ordinaryPosts.length - 1);
   const listHref = getCategoryHref(activeCategory);
 

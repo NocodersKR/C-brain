@@ -211,6 +211,13 @@ test("blog data mirrors admin landing, banner, and popular settings", async () =
   assert.doesNotMatch(board, /blogConsultCardSidebar/);
 });
 
+test("blog board keeps banner posts visible in the ordinary list", async () => {
+  const board = await source("board");
+
+  assert.match(board, /const ordinaryPosts = visiblePosts;/);
+  assert.doesNotMatch(board, /post\.id !== featuredPost\?\.id/);
+});
+
 test("blog list uses semantic navigation and article lists without changing visual hooks", async () => {
   const [board, card, authorMeta, featuredCard, styles] = await Promise.all([
     source("board"),

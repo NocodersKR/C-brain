@@ -2,16 +2,17 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 피그마 P/T/F/M 프레임과 일치하는 `/blog` 목록 페이지를 만들고 게시글 데이터와 UI를 서버 연결 가능한 구조로 분리한다.
+**Goal:** 피그마 P/T/F/M 프레임과 일치하는 `/blog` 목록 페이지와 `/blog/[slug]` 상세 페이지를 만들고, 게시글 데이터와 UI를 서버 연결 가능한 구조로 분리한다.
 
-**Architecture:** Next.js App Router의 서버 페이지가 공용 `PageHero`와 초기 게시글 데이터를 조합하고, `BlogBoard` 클라이언트 컴포넌트가 카테고리 필터 상태만 관리한다. 카드, 상담 박스, 인기글 목록은 표시 전용 컴포넌트로 분리하며 모든 콘텐츠는 타입이 지정된 더미 데이터에서 주입한다.
+**Architecture:** Next.js App Router의 서버 페이지가 공용 `PageHero`와 초기 게시글 데이터를 조합하고, `BlogBoard` 클라이언트 컴포넌트가 카테고리 query, 배너 캐러셀, 목록, 상담 박스, 인기글 목록을 조합한다. 상세 페이지는 같은 `BlogPost` 레코드의 `detail` 필드로 본문, SEO 메타데이터, JSON-LD, 관련 게시글을 만든다. 모든 콘텐츠는 타입이 지정된 더미 데이터에서 주입하고, 향후 어드민/API 응답으로 교체할 수 있게 표시 컴포넌트와 데이터 출처를 분리한다.
 
 **Tech Stack:** Next.js 16 App Router, React 19, TypeScript, CSS Modules, `next/image`, 기존 `@repo/ui` Button과 `HorizontalDragScroll`
 
 ## Global Constraints
 
-- 구현 범위는 블로그 목록 `/blog`이며 상세 페이지 `/blog/[id]`는 만들지 않는다.
-- 피그마 기준 노드는 P `33:3195`, T `40:4123`, F `41:4575`, M `41:5097`이다.
+- 구현 범위는 블로그 목록 `/blog`와 상세 페이지 `/blog/[slug]`를 포함한다.
+- 피그마 목록 기준 노드는 P `33:3195`, T `40:4123`, F `41:4575`, M `41:5097`이다.
+- 피그마 상세 기준 노드는 P `136:4474`, T `136:4731`, F `136:4988`, M `136:5230`이다.
 - 공통 브레이크포인트 `640px`, `1080px`, `1440px`를 사용한다.
 - 게시글 데이터와 표시 컴포넌트를 분리하고 컴포넌트 내부에 게시글 배열을 하드코딩하지 않는다.
 - 새 외부 라이브러리는 추가하지 않는다.
@@ -31,7 +32,7 @@
 
 **Interfaces:**
 - Produces: `BlogCategory`, `BlogPost`, `BLOG_CATEGORIES`, `blogPosts`, `filterBlogPosts(posts, category)`.
-- `BlogPost` fields are `id`, `category`, `title`, `summary`, `publishedAt`, `author`, `image`, `featured`, and optional `popularRank`.
+- `BlogPost` fields are `id`, `slug`, `category`, `title`, `summary`, `publishedAt`, `publishedAtIso`, `author`, `image`, optional `landingRank`, optional `bannerRank`, optional `popularRank`, and `detail`.
 
 - [ ] **Step 1: Export the two missing Figma images**
 
@@ -51,14 +52,18 @@ export type BlogCategory = (typeof BLOG_CATEGORY_VALUES)[number];
 
 export type BlogPost = {
   id: string;
+  slug: string;
   category: BlogCategory;
   title: string;
   summary: string;
   publishedAt: string;
+  publishedAtIso: string;
   author: string;
   image: string;
-  featured: boolean;
+  landingRank?: number;
+  bannerRank?: number;
   popularRank?: number;
+  detail: BlogPostDetail;
 };
 ```
 
@@ -69,7 +74,7 @@ export const BLOG_CATEGORIES = ["전체", ...BLOG_CATEGORY_VALUES] as const;
 export type BlogCategoryFilter = (typeof BLOG_CATEGORIES)[number];
 ```
 
-Create eight posts matching the Figma count. The first post uses `blog-featured.png`; remaining posts alternate the two existing blog images. Set `popularRank` from 1 through 5 on five posts.
+Create eight posts matching the Figma count. The first post uses `blog-featured.png`; remaining posts alternate the two existing blog images. Map admin exposure settings with `landingRank`, `bannerRank`, and `popularRank`; banner-ranked posts also remain visible in the ordinary list.
 
 - [ ] **Step 4: Add the pure filtering utility**
 
@@ -143,29 +148,28 @@ Expected: `/blog` appears in generated route types and compilation succeeds.
 - Create: `apps/user/app/(site)/blog/_components/BlogPopularList.tsx`
 
 **Interfaces:**
-- `BlogBoard({ posts }: { posts: readonly BlogPost[] })` owns `activeCategory`.
+- `BlogBoard({ activeCategory, posts }: { activeCategory: BlogCategoryFilter; posts: readonly BlogPost[] })` receives the resolved category from the page search params.
 - Card components consume one `BlogPost` and do not own filtering or data fetching.
 - `BlogPopularList` consumes posts whose `popularRank` is defined.
 
 - [ ] **Step 1: Build the interactive category tabs**
 
-Use `HorizontalDragScroll` around a button row. Each button uses `aria-pressed={activeCategory === category}` and a named `handleCategoryChange` callback. Do not use inline event handlers.
+Use `HorizontalDragScroll` around a link row. Each link navigates to `/blog` or `/blog?category=...`, uses `aria-current="page"` when active, and keeps `scroll={false}` so category changes do not jump the page.
 
-- [ ] **Step 2: Derive visible featured and ordinary posts**
+- [ ] **Step 2: Derive visible banner and ordinary posts**
 
 ```ts
 const visiblePosts = filterBlogPosts(posts, activeCategory);
-const featuredPost = visiblePosts.find((post) => post.featured) ?? visiblePosts[0];
-const ordinaryPosts = visiblePosts.filter(
-  (post) => post.id !== featuredPost?.id,
-);
+const featuredSlides = getBannerSlides(visiblePosts);
+const featuredPost = featuredSlides[0];
+const ordinaryPosts = visiblePosts;
 ```
 
-Render a friendly empty state when `featuredPost` is undefined.
+Render a friendly empty state when `featuredPost` is undefined. Do not remove banner posts from `ordinaryPosts`; the admin banner setting controls the banner, not ordinary-list membership.
 
 - [ ] **Step 3: Implement the featured card**
 
-Use `next/image` with `fill`, a stable `aspect-ratio`, a bottom dark overlay, category badge, title, summary, and `1/3` visual index. Render the card as an `article`; do not link to `/blog/${post.id}` before that detail route exists.
+Use `next/image` with `fill`, a stable `aspect-ratio`, a bottom dark overlay, category badge, title, summary, and `1/3` visual index. Render each slide as an article link to `/blog/[slug]`, support swipe, keyboard arrows, 5-second autoplay, hover/focus pause, and cloned edge slides for seamless infinite looping.
 
 - [ ] **Step 4: Implement the ordinary card and author metadata**
 
@@ -181,7 +185,7 @@ Render one desktop sidebar consult card and popular list, plus one fold/mobile c
 
 - [ ] **Step 7: Inject the board into the route**
 
-Import `blogPosts` and render `<BlogBoard posts={blogPosts} />` after the hero in `page.tsx`.
+Resolve the category from `searchParams`, import `blogPosts`, and render `<BlogBoard activeCategory={activeCategory} posts={blogPosts} />` after the hero in `page.tsx`.
 
 - [ ] **Step 8: Verify semantics and types**
 
@@ -222,7 +226,7 @@ Below `640px`, use one card column, full-width images, and show the in-flow cons
 
 - [ ] **Step 5: Implement overflow-safe tabs**
 
-Use the existing breakout pattern: the scroll viewport extends through section padding, while the first and last button receive logical `20px` outer spacing. Keep mouse drag, touch scrolling, keyboard arrows, and hidden scrollbar behavior.
+Use the existing breakout pattern: the scroll viewport extends through section padding, while the first and last link receive logical `20px` outer spacing. Keep mouse drag, touch scrolling, keyboard arrows, and hidden scrollbar behavior.
 
 - [ ] **Step 6: Add stable text and media constraints**
 
@@ -253,7 +257,39 @@ Open `/`, activate `블로그 전체 보기`, confirm `/blog` loads. Refresh `/b
 
 ---
 
-### Task 6: Automated and Visual Verification
+### Task 6: Blog Detail Route
+
+**Files:**
+- Create: `apps/user/app/(site)/blog/[slug]/page.tsx`
+- Create: `apps/user/app/(site)/blog/[slug]/BlogDetailBackLink.tsx`
+- Create: `apps/user/app/(site)/blog/[slug]/page.module.css`
+- Create: `apps/user/app/(site)/blog/_components/BlogHistoryBoundary.tsx`
+- Create: `apps/user/app/(site)/blog/_utils/blogListHistory.ts`
+
+**Interfaces:**
+- Detail pages read the same `BlogPost` data by `slug`.
+- `generateMetadata` and JSON-LD use `post.detail.seoDescription`, `post.detail.keywords`, `publishedAtIso`, and representative image data.
+- List-to-detail navigation stores category and scroll position, then `목록으로` restores the previous list state.
+
+- [ ] **Step 1: Implement the dynamic route**
+
+Create `/blog/[slug]` with `generateStaticParams`, `generateMetadata`, `notFound()`, a semantic `article`, `h1`, author/date metadata, body blocks, and related blog cards.
+
+- [ ] **Step 2: Implement SEO and structured data**
+
+Use canonical URLs when `NEXT_PUBLIC_SITE_URL` is available, OpenGraph/Twitter article metadata, and an `Article` JSON-LD script escaped through `stringifyJsonLd`.
+
+- [ ] **Step 3: Preserve list return behavior**
+
+Mirror the notice list-history pattern with a route-specific sessionStorage key and history token. On normal card clicks, remember the current list href and scroll position; on `목록으로`, use `router.back()` only when a stored list entry exists, otherwise push to the list href.
+
+- [ ] **Step 4: Verify detail flow**
+
+Open a category tab, click a banner/list/TOP5/related card, confirm the detail route loads, then use `목록으로` and confirm the original category and scroll position are restored.
+
+---
+
+### Task 7: Automated and Visual Verification
 
 **Files:**
 - Modify only files required by defects found during verification.
@@ -272,7 +308,7 @@ Expected: exit code 0.
 
 Run: `corepack pnpm --filter user build`
 
-Expected: successful Next.js production build containing `/blog`.
+Expected: successful Next.js production build containing `/blog` and `/blog/[slug]`.
 
 - [ ] **Step 3: Start the user dev server**
 
@@ -282,11 +318,11 @@ Expected: a local URL on port `3000`, or the next available port when `3000` is 
 
 - [ ] **Step 4: Compare responsive screenshots**
 
-Inspect `/blog` at `1920x1080`, `1080x900`, `640x900`, and `390x844`. Compare the hero, list header, tabs, representative card, ordinary card columns, consult placement, TOP5 visibility, footer, text wrapping, and horizontal overflow against the four Figma frames.
+Inspect `/blog` and `/blog/[slug]` at `1920x1080`, `1080x900`, `640x900`, and `390x844`. Compare the hero, list header, tabs, banner carousel, ordinary card columns, consult placement, TOP5 visibility, detail frame, related cards, footer, text wrapping, and horizontal overflow against the Figma frames.
 
 - [ ] **Step 5: Exercise interactions**
 
-Click each category without scroll jumps, drag the tabs with a mouse at narrow desktop widths, use arrow keys while the tab viewport is focused, and verify cards never resize the surrounding layout during image load.
+Click each category without scroll jumps, drag the tabs with a mouse at narrow desktop widths, use arrow keys while the tab viewport is focused, verify banner autoplay/hover pause/infinite loop/click navigation, and confirm detail back navigation restores category and scroll position.
 
 - [ ] **Step 6: Review the final diff**
 
