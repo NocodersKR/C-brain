@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import Link from "next/link";
 
 import { Icon } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
@@ -26,12 +26,14 @@ export function BlogSection() {
       titleClassName={styles.blogTitle}
     >
       <div className={styles.centerAction}>
-        <Button
-          rightIcon={<Icon name="arrow-right" size={16} />}
+        <Link
+          className={styles.blogMoreLink}
+          href="/blog"
           style={buttonStyle}
         >
-          블로그 전체 보기
-        </Button>
+          <span>블로그 전체 보기</span>
+          <Icon name="arrow-right" size={16} />
+        </Link>
       </div>
     </SectionLayout>
   );

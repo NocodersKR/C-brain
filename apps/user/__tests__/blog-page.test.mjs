@@ -25,6 +25,11 @@ const paths = {
     "../app/(site)/blog/[slug]/BlogDetailBackLink.tsx",
     import.meta.url,
   ),
+  blogSection: new URL("../app/_components/BlogSection.tsx", import.meta.url),
+  historyUtils: new URL(
+    "../app/(site)/blog/_utils/blogListHistory.ts",
+    import.meta.url,
+  ),
   posts: new URL("../app/(site)/blog/_data/blogPosts.ts", import.meta.url),
   types: new URL("../app/(site)/blog/_types/blog.ts", import.meta.url),
   header: new URL("../app/_components/Header.tsx", import.meta.url),
@@ -40,11 +45,12 @@ async function source(name) {
   return readFile(paths[name], "utf8");
 }
 
-test("blog page keeps the shared header, hero, and category state contracts", async () => {
-  const [header, page, board] = await Promise.all([
+test("blog page keeps the shared header, hero, category, and CTA contracts", async () => {
+  const [header, page, board, blogSection] = await Promise.all([
     source("header"),
     source("page"),
     source("board"),
+    source("blogSection"),
   ]);
 
   assert.match(header, /label: "블로그", href: "\/blog"/);
@@ -62,6 +68,9 @@ test("blog page keeps the shared header, hero, and category state contracts", as
     board,
     /aria-current=\{activeCategory === category \? "page" : undefined\}/,
   );
+  assert.match(blogSection, /import Link from "next\/link"/);
+  assert.match(blogSection, /<Link[\s\S]*href="\/blog"/);
+  assert.doesNotMatch(blogSection, /<Button/);
 });
 
 test("blog list page exposes SEO metadata", async () => {
@@ -199,6 +208,7 @@ test("blog data mirrors admin landing, banner, and popular settings", async () =
   assert.doesNotMatch(board, /bannerRank!/);
   assert.match(popularList, /post\.popularRank/);
   assert.doesNotMatch(popularList, /popularRank!/);
+  assert.doesNotMatch(board, /blogConsultCardSidebar/);
 });
 
 test("blog list uses semantic navigation and article lists without changing visual hooks", async () => {
@@ -300,9 +310,10 @@ test("blog detail page follows portfolio detail route conventions", async () => 
 });
 
 test("blog detail page keeps semantic article markup and list restoration", async () => {
-  const [detailPage, detailBackLink] = await Promise.all([
+  const [detailPage, detailBackLink, historyUtils] = await Promise.all([
     source("detailPage"),
     source("detailBackLink"),
+    source("historyUtils"),
   ]);
 
   assert.match(
@@ -324,9 +335,16 @@ test("blog detail page keeps semantic article markup and list restoration", asyn
     /<section[\s\S]*aria-labelledby="blog-detail-title"[\s\S]*itemProp="articleBody"/,
   );
   assert.match(detailPage, /<BlogDetailBackLink href=\{listHref\} \/>/);
-  assert.match(detailBackLink, /consumeBlogListHistory\(href, detailHref\)/);
+  assert.match(detailBackLink, /useEffect/);
+  assert.match(detailBackLink, /useRef/);
+  assert.match(detailBackLink, /activateBlogListHistory/);
   assert.match(detailBackLink, /rememberBlogListScrollRestore\(href, scrollY\)/);
+  assert.match(detailBackLink, /clearActiveBlogListHistory\(\)/);
   assert.match(detailBackLink, /router\.back\(\)/);
+  assert.match(historyUtils, /BLOG_LIST_ACTIVE_HISTORY_KEY/);
+  assert.match(historyUtils, /BLOG_DETAIL_HISTORY_TOKEN_KEY/);
+  assert.match(historyUtils, /activateBlogListHistory/);
+  assert.match(historyUtils, /window\.history\.replaceState/);
   assert.match(detailPage, /aria-labelledby="more-blog-title"/);
 });
 

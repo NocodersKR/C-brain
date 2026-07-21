@@ -133,7 +133,7 @@ export function BlogBoard({ activeCategory, posts }: BlogBoardProps) {
                 className={styles.blogSidebar}
                 aria-label="블로그 부가 정보"
               >
-                <BlogConsultCard className={styles.blogConsultCardSidebar} />
+                <BlogConsultCard />
                 <BlogPopularList
                   getDetailHref={(post) =>
                     getBlogDetailHref(post, activeCategory)
