@@ -39,9 +39,13 @@ export type AdminDataTableSectionProps<Row> = {
   readonly columns: readonly AdminTableColumn<Row>[]
   readonly emptyMessage?: string
   readonly filters: readonly AdminTableFilter[]
+  readonly filterValues?: Readonly<Record<string, string>>
   readonly getRowKey: (row: Row) => string
+  readonly onFilterValueChange?: (filterId: string, value: string) => void
+  readonly onSearchValueChange?: (value: string) => void
   readonly rows: readonly Row[]
   readonly search: AdminTableSearch
+  readonly searchValue?: string
   readonly title: string
 }
 
@@ -169,9 +173,13 @@ export function AdminDataTableSection<Row>({
   columns,
   emptyMessage = '표시할 데이터가 없습니다.',
   filters,
+  filterValues,
   getRowKey,
+  onFilterValueChange,
+  onSearchValueChange,
   rows,
   search,
+  searchValue,
   title,
 }: AdminDataTableSectionProps<Row>) {
   const titleId = useId()
@@ -208,6 +216,8 @@ export function AdminDataTableSection<Row>({
                       className="admin-data-table-filter__select pretendard-medium-14"
                       disabled={filter.options.length === 0}
                       name={filter.id}
+                      onChange={(event) => onFilterValueChange?.(filter.id, event.currentTarget.value)}
+                      value={filterValues?.[filter.id]}
                     >
                       {filter.options.length === 0 ? (
                         <option>생성된 태그 없음</option>
@@ -231,8 +241,10 @@ export function AdminDataTableSection<Row>({
                   <input
                     aria-label={search.placeholder}
                     className="admin-data-table-search__input pretendard-medium-14"
+                    onChange={(event) => onSearchValueChange?.(event.currentTarget.value)}
                     placeholder={search.placeholder}
                     type="search"
+                    value={searchValue}
                   />
                 </span>
               </label>
