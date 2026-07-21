@@ -1,0 +1,503 @@
+.orderPage {
+  background: #ffffff;
+  color: var(--landing-gray-800);
+}
+
+.orderPage :is(h1, h2, h3, p) {
+  margin: 0;
+}
+
+.hero {
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.heroBackground,
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroBackground {
+  background-image: var(--order-hero-background);
+  background-position: 62% center;
+  background-size: cover;
+}
+
+.heroOverlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.56) 66%,
+      rgba(255, 255, 255, 0.18) 100%
+    ),
+    linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 74%);
+}
+
+.heroInner {
+  width: min(100%, 390px);
+  margin: 0 auto;
+  padding: 128px 20px 64px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.heroCopy,
+.heroHeading,
+.heroDescription {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.heroCopy {
+  width: 100%;
+  gap: 20px;
+}
+
+.heroBadge {
+  width: fit-content;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 32px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--landing-gray-800);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.heroHeading {
+  gap: 8px;
+}
+
+.heroHeading h1 {
+  max-width: 1008px;
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+  word-break: keep-all;
+}
+
+.heroDescription {
+  max-width: 538px;
+  gap: 4px;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.orderFlow {
+  padding: 52px 20px 72px;
+}
+
+.orderInner {
+  width: min(100%, 390px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.visuallyHidden {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.stepList {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.stepItem {
+  min-height: 32px;
+  border-top: 2px solid var(--landing-gray-100);
+  padding-top: 10px;
+  color: var(--landing-gray-500);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.stepItemActive {
+  border-color: var(--landing-brand-500);
+  color: var(--landing-brand-500);
+  font-weight: 700;
+}
+
+.methodGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.methodCard {
+  min-width: 0;
+  min-height: 148px;
+  border: 1px solid var(--landing-gray-100);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+
+.methodCardActive {
+  border-color: #a7e9ed;
+  background: #effcfd;
+}
+
+.methodLabel {
+  min-height: 32px;
+  border-radius: 32px;
+  background: #d2f5f7;
+  color: var(--landing-brand-500);
+  padding: 7px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.methodCard:not(.methodCardActive) .methodLabel {
+  background: var(--landing-gray-100);
+  color: var(--landing-gray-600);
+}
+
+.methodCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.methodCopy h3,
+.productCopy h3,
+.productMeta strong {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+}
+
+.methodCopy p,
+.productCopy p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--landing-gray-600);
+  white-space: pre-line;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.productSectionHeader {
+  display: flex;
+  align-items: center;
+}
+
+.productSectionHeader p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--landing-gray-800);
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.productCard {
+  min-width: 0;
+  min-height: 216px;
+  border-radius: 8px;
+  background: var(--landing-gray-50);
+  box-shadow: inset 0 0 0 1px var(--landing-gray-100);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.productCardActive {
+  background: linear-gradient(
+    106.92deg,
+    var(--landing-brand-800) 0%,
+    var(--landing-gray-800) 100%
+  );
+  box-shadow: none;
+}
+
+.productContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.productIcon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #a7e9ed;
+  border-radius: 8px;
+  background: #d2f5f7;
+  color: var(--landing-brand-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.productIconQuote {
+  border-color: var(--landing-info-200);
+  background: var(--landing-info-100);
+  color: var(--landing-info-500);
+}
+
+.productCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.productCardActive .productCopy h3,
+.productCardActive .productMeta strong {
+  color: var(--landing-gray-50);
+}
+
+.productCardActive .productCopy p {
+  color: var(--landing-gray-200);
+}
+
+.productMeta {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.productMetaQuote {
+  justify-content: flex-end;
+}
+
+.productMeta button {
+  flex: 0 0 auto;
+}
+
+.ctaSection {
+  --order-cta-button-width: 100%;
+  min-height: 408px;
+  position: relative;
+  overflow: hidden;
+  background: var(--landing-gray-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctaBackground {
+  position: absolute;
+  inset: 0;
+  background-image: var(--order-cta-background);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.94;
+  pointer-events: none;
+}
+
+.ctaContent {
+  width: min(100%, 390px);
+  padding: 72px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 52px;
+  text-align: center;
+}
+
+.ctaText {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctaText h2 {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+.ctaText p {
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--landing-gray-50);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.ctaActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .heroInner,
+  .orderInner,
+  .ctaContent {
+    width: min(100%, 640px);
+  }
+
+  .stepList {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .methodGrid,
+  .productGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ctaSection {
+    --order-cta-button-width: 164px;
+  }
+
+  .ctaActions {
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1080px) {
+  .heroInner,
+  .orderInner,
+  .ctaContent {
+    width: min(100%, 1080px);
+  }
+
+  .hero {
+    min-height: 424px;
+  }
+
+  .heroInner {
+    padding-top: 160px;
+    padding-bottom: 104px;
+  }
+
+  .orderFlow {
+    padding-top: 104px;
+    padding-bottom: 104px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .productGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroInner,
+  .orderInner,
+  .ctaContent {
+    width: 1360px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .heroHeading h1,
+  .ctaText h2 {
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+  .methodGrid {
+    gap: 20px;
+  }
+
+  .methodCard {
+    min-height: 172px;
+    padding: 32px;
+  }
+
+  .productCard {
+    min-height: 248px;
+    padding: 32px;
+  }
+
+  .ctaSection {
+    min-height: 340px;
+  }
+
+  .ctaContent {
+    padding-top: 104px;
+    padding-bottom: 104px;
+  }
+}
