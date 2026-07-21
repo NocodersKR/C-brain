@@ -321,6 +321,8 @@ export default function AboutPage() {
                 className={styles.channelCard}
                 href={channel.href}
                 key={channel.title}
+                rel="noreferrer"
+                target="_blank"
               >
                 <span className={styles.channelMain}>
                   <span className={styles.channelIcon}>

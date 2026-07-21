@@ -197,31 +197,31 @@ export const companyChannels: {
     icon: "channel-message-typing",
     title: "카카오톡 1:1 상담",
     description: "빠른 견적 및 상담",
-    href: "#",
+    href: "http://pf.kakao.com/_JAFAG",
   },
   {
     icon: "channel-home-02",
     title: "공식 홈페이지",
     description: "cbrain.kr",
-    href: "#",
+    href: "https://cbrain.kr",
   },
   {
     icon: "channel-naver-blog",
     title: "네이버 블로그",
     description: "제작 가이드 & 노하우",
-    href: "#",
+    href: "https://blog.naver.com/cbrain_design_group",
   },
   {
     icon: "channel-instagram",
     title: "인스타그램",
     description: "포트폴리오 & 디자인 꿀팁",
-    href: "#",
+    href: "https://instagram.com/cbrain_design_group",
   },
   {
     icon: "channel-youtube",
     title: "유튜브",
     description: "회사소개 & 고객인터뷰",
-    href: "#",
+    href: "https://www.youtube.com/@CreateDesigngroup",
   },
 ];
 
