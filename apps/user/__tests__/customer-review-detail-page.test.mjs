@@ -43,6 +43,13 @@ test("customer review detail page follows portfolio detail route conventions", a
     source,
     /alternates: canonicalUrl \? \{ canonical: canonicalUrl \} : undefined/,
   );
+  assert.match(
+    source,
+    /return siteUrl \? new URL\(path, siteUrl\)\.toString\(\) : undefined/,
+  );
+  assert.match(source, /if \(pageUrl\)/);
+  assert.match(source, /if \(imageUrl\)/);
+  assert.doesNotMatch(source, /mainEntityOfPage: pageUrl/);
   assert.match(source, /type: "article"/);
   assert.match(source, /getCustomerInterviewDetailBySlug/);
   assert.match(source, /getCustomerInterviewDetailSeo/);

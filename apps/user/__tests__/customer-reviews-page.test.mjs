@@ -42,6 +42,17 @@ const quoteMarkIconPath = new URL(
   import.meta.url,
 );
 
+function extractConstArray(source, constName) {
+  const startMarker = `export const ${constName} = [`;
+  const start = source.indexOf(startMarker);
+  assert.notEqual(start, -1, `${constName} array should exist`);
+
+  const end = source.indexOf("] as const", start);
+  assert.notEqual(end, -1, `${constName} array should end with as const`);
+
+  return source.slice(start, end);
+}
+
 test("customer reviews page exposes the Figma review page sections", async () => {
   const source = await readFile(pagePath, "utf8");
 
@@ -101,7 +112,13 @@ test("customer reviews page uses shared navigation and CTA", async () => {
   const headerSource = await readFile(headerPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");
 
+  assert.match(pageSource, /import type \{ Metadata \} from "next"/);
   assert.match(pageSource, /import Link from "next\/link"/);
+  assert.match(pageSource, /customerReviewPageSeo/);
+  assert.match(pageSource, /export const metadata: Metadata/);
+  assert.match(pageSource, /description: customerReviewPageSeo\.description/);
+  assert.match(pageSource, /openGraph:/);
+  assert.match(pageSource, /twitter:/);
   assert.match(headerSource, /label: "고객 후기", href: "\/reviews"/);
   assert.match(pageSource, /import \{ CtaSection \}/);
   assert.match(pageSource, /<CtaSection/);
@@ -143,23 +160,23 @@ test("customer interviews follow the P/T/F/M responsive section variants", async
 
   const interviewIds = contentSource.match(/id: "/g) ?? [];
 
-  assert.equal(interviewIds.length, 6);
-  assert.match(pageSource, /reviewsFeaturedStandalone/);
-  assert.match(pageSource, /reviewsFeaturedInline/);
+  assert.equal(interviewIds.length, 3);
+  assert.equal(pageSource.match(/<FeaturedInterview/g)?.length, 1);
+  assert.doesNotMatch(pageSource, /reviewsFeaturedStandalone/);
+  assert.doesNotMatch(pageSource, /reviewsFeaturedInline/);
+  assert.doesNotMatch(pageSource, /variant: "inline" \| "standalone"/);
   assert.match(pageSource, /reviewsSectionDescription/);
   assert.match(pageSource, /reviewsFeaturedCompactTitle/);
   assert.match(pageSource, /reviewsFeaturedDesktopTitle/);
   assert.match(pageSource, /reviewsQuoteMark/);
   assert.match(pageSource, /reviewsMediaOverlay/);
 
-  assert.match(stylesSource, /\.reviewsFeaturedInline\s*\{\s*display: none;/);
+  assert.doesNotMatch(stylesSource, /\.reviewsFeaturedInline/);
+  assert.doesNotMatch(stylesSource, /\.reviewsFeaturedStandalone/);
+  assert.doesNotMatch(stylesSource, /\.reviewsInterviewCard:nth-child/);
   assert.match(
     stylesSource,
-    /\.reviewsInterviewCard:nth-child\(n \+ 5\)\s*\{\s*display: none;/,
-  );
-  assert.match(
-    stylesSource,
-    /@media \(min-width: 1080px\)[\s\S]*\.reviewsFeaturedStandalone\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\) 530px;/,
+    /@media \(min-width: 1080px\)[\s\S]*\.reviewsFeatured\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\) 530px;/,
   );
   assert.match(
     stylesSource,
@@ -167,11 +184,11 @@ test("customer interviews follow the P/T/F/M responsive section variants", async
   );
   assert.match(
     stylesSource,
-    /@media \(min-width: 1440px\)[\s\S]*\.reviewsFeaturedStandalone\s*\{\s*display: none;/,
+    /@media \(min-width: 1440px\)[\s\S]*\.reviewsFeatured\s*\{[\s\S]*grid-template-columns: minmax\(0, 530px\) minmax\(0, 1fr\);/,
   );
   assert.match(
     stylesSource,
-    /@media \(min-width: 1440px\)[\s\S]*\.reviewsFeaturedInline\s*\{[\s\S]*display: grid;/,
+    /@media \(min-width: 1440px\)[\s\S]*\.reviewsFeaturedMedia\s*\{[\s\S]*order: 1;/,
   );
   assert.match(
     stylesSource,
@@ -188,7 +205,7 @@ test("customer interview markup stays semantic and uses admin video alt text", a
   const pageSource = await readFile(pagePath, "utf8");
   const stylesSource = await readFile(stylesPath, "utf8");
 
-  assert.equal(contentSource.match(/detailSlug: "/g)?.length, 7);
+  assert.equal(contentSource.match(/detailSlug: "/g)?.length, 4);
   assert.match(contentSource, /detailSlug: "seojin-instech"/);
   assert.match(contentSource, /detailSlug: "ninebell-healthcare"/);
   assert.match(contentSource, /detailSlug: "chungkang-college"/);
@@ -227,6 +244,41 @@ test("customer interview markup stays semantic and uses admin video alt text", a
   assert.match(stylesSource, /\.reviewsFeaturedBody blockquote/);
   assert.match(stylesSource, /\.reviewsInterviewCopy blockquote/);
   assert.match(stylesSource, /\.reviewsTestimonialContent blockquote/);
+});
+
+test("customer interview data stays consistent for dynamic admin content", async () => {
+  const contentSource = await readFile(contentPath, "utf8");
+  const interviewsBlock = extractConstArray(
+    contentSource,
+    "customerInterviews",
+  );
+  const linkedSlugs = [...contentSource.matchAll(/detailSlug: "([^"]+)"/g)].map(
+    (match) => match[1],
+  );
+  const detailSlugs = new Set(
+    [...contentSource.matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]),
+  );
+  const interviewDetailSlugs = [
+    ...interviewsBlock.matchAll(/detailSlug: "([^"]+)"/g),
+  ].map((match) => match[1]);
+
+  assert.match(
+    contentSource,
+    /export const featuredCustomerInterview = \{[\s\S]*company: "서진인스텍"[\s\S]*detailSlug: "seojin-instech"/,
+  );
+  for (const slug of linkedSlugs) {
+    assert.ok(detailSlugs.has(slug), `${slug} should have a detail page`);
+  }
+  assert.equal(
+    new Set(interviewDetailSlugs).size,
+    interviewDetailSlugs.length,
+    "interview cards should not repeat placeholder detail slugs",
+  );
+  assert.doesNotMatch(interviewsBlock, /-repeat/);
+  assert.match(
+    contentSource,
+    /slug: "chungkang-college"[\s\S]*thumbnail: reviewInterviewEducationImage/,
+  );
 });
 
 test("customer reviews content spans the tablet breakpoint", async () => {

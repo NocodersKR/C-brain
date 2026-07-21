@@ -10,6 +10,20 @@ export const reviewPlayLargeIcon = "/figma-assets/review-play-large.svg";
 export const reviewPlaySmallIcon = "/figma-assets/review-play-small.svg";
 export const reviewQuoteMarkIcon = "/figma-assets/review-quote-mark.svg";
 
+export const customerReviewPageSeo = {
+  description:
+    "제조, 헬스케어, 교육 등 다양한 업종의 고객이 직접 전하는 씨브레인 홍보물 디자인 제작 후기를 확인하세요.",
+  keywords: [
+    "씨브레인",
+    "고객 후기",
+    "고객 인터뷰",
+    "홍보물 디자인",
+    "브로슈어 제작",
+    "카탈로그 제작",
+  ],
+  title: "고객 후기 | C-Brain",
+};
+
 export type CustomerInterviewContentBlock =
   | {
       text: string;
@@ -57,13 +71,12 @@ export const featuredCustomerInterview = {
   headline: "처음 맡겼는데 결과물이 기대 이상이였어요.",
   headlineLines: ["처음 맡겼는데", "결과물이 기대 이상이였어요."],
   body: [
-    "청강문화산업대학교 게임콘텐츠스쿨 졸업생들이 직접 개발한 게임 프로젝트를 전시회에서 선보이기 위해 씨브레인에 완료보고서 제작을 의뢰한 사례입니다.",
+    "서진인스텍은 전시회와 영업 현장에서 활용할 카탈로그·브로슈어 제작을 씨브레인에 의뢰한 사례입니다.",
     "고객이 직접 말하는 결과",
-    "청강문화산업대학교 게임콘텐츠스쿨",
+    "서진인스텍",
   ],
-  quote:
-    "완료보고서를 선보이면서 긍정적인 피드백을 받을 정도로 퀄리티가 좋았습니다.",
-  detailSlug: "chungkang-college",
+  quote: "빠른 피드백과 함께 원하는 부분을 잘 반영해 주셔서 만족합니다.",
+  detailSlug: "seojin-instech",
   meta: "서진인스텍 · 카탈로그 · 브로슈어",
   thumbnail: reviewInterviewImage,
   videoAlt: "서진인스텍 카탈로그 브로슈어 제작 고객 인터뷰 영상",
@@ -95,41 +108,6 @@ export const customerInterviews = [
   },
   {
     id: "chungkang-college",
-    category: "교육",
-    company: "청강문화산업대학교",
-    title: "청강문화산업대학교 — 씨브레인 고객 인터뷰",
-    quote:
-      "완료 보고서를 선보이면 긍정의 피드백을 받을 정도로 퀄리티가 좋았습니다.",
-    detailSlug: "chungkang-college",
-    meta: "청강문화산업대학교 · 보고서 · 책자",
-    thumbnail: reviewInterviewEducationImage,
-    videoAlt: "청강문화산업대학교 보고서 책자 제작 고객 인터뷰 영상",
-  },
-  {
-    id: "seojin-instech-repeat",
-    category: "제조",
-    company: "서진인스텍",
-    title: "서진인스텍 — 씨브레인 고객 인터뷰",
-    quote: "빠른 피드백과 함께 원하는 부분을 잘 반영해 주셔서 만족합니다.",
-    detailSlug: "seojin-instech",
-    meta: "서진인스텍 · 카탈로그 · 브로슈어",
-    thumbnail: reviewInterviewImage,
-    videoAlt: "서진인스텍 카탈로그 브로슈어 제작 고객 인터뷰 영상",
-  },
-  {
-    id: "ninebell-healthcare-repeat",
-    category: "헬스케어",
-    company: "나인벨 헬스케어",
-    title: "나인벨 헬스케어 — 씨브레인 고객 인터뷰",
-    quote:
-      "효율적인 커뮤니케이션과 고품질 디자인으로 만족스러운 결과물을 얻었습니다.",
-    detailSlug: "ninebell-healthcare",
-    meta: "나인벨 헬스케어 · 브로슈어 · 리플렛",
-    thumbnail: reviewInterviewHealthcareImage,
-    videoAlt: "나인벨 헬스케어 브로슈어 리플렛 제작 고객 인터뷰 영상",
-  },
-  {
-    id: "chungkang-college-repeat",
     category: "교육",
     company: "청강문화산업대학교",
     title: "청강문화산업대학교 — 씨브레인 고객 인터뷰",
@@ -331,7 +309,7 @@ export const customerInterviewDetails = [
     seoDescription:
       "청강문화산업대학교 게임콘텐츠스쿨의 게임 졸업 프로젝트 완료보고서 제작 사례와 씨브레인 고객 인터뷰를 확인하세요.",
     slug: "chungkang-college",
-    thumbnail: reviewInterviewImage,
+    thumbnail: reviewInterviewEducationImage,
     title:
       "[게임 졸업작품 완료보고서] 청강문화산업대학교가 씨브레인을 선택한 이유",
     videoAlt:

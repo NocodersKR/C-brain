@@ -19,15 +19,15 @@ type CustomerReviewDetailPageProps = {
 };
 
 function getAbsoluteUrl(path: string, siteUrl: string | undefined) {
-  return siteUrl ? new URL(path, siteUrl).toString() : path;
+  return siteUrl ? new URL(path, siteUrl).toString() : undefined;
 }
 
 function getReviewDetailStructuredData(
   detail: CustomerInterviewDetail,
-  pageUrl: string,
-  imageUrl: string,
+  pageUrl: string | undefined,
+  imageUrl: string | undefined,
 ) {
-  return {
+  const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     about: detail.projectInfo.map((item) => ({
@@ -42,13 +42,21 @@ function getReviewDetailStructuredData(
     },
     description: detail.seoDescription,
     headline: detail.title,
-    image: imageUrl,
-    mainEntityOfPage: pageUrl,
     publisher: {
       "@type": "Organization",
       name: "C-Brain",
     },
   };
+
+  if (pageUrl) {
+    data.mainEntityOfPage = pageUrl;
+  }
+
+  if (imageUrl) {
+    data.image = imageUrl;
+  }
+
+  return data;
 }
 
 function stringifyJsonLd(data: unknown) {
@@ -133,7 +141,7 @@ export default async function CustomerReviewDetailPage({
       itemType="https://schema.org/Article"
     >
       <meta content={detail.seoDescription} itemProp="description" />
-      <meta content={imageUrl} itemProp="image" />
+      {imageUrl ? <meta content={imageUrl} itemProp="image" /> : null}
       <script
         dangerouslySetInnerHTML={{
           __html: stringifyJsonLd(structuredData),
@@ -181,7 +189,9 @@ export default async function CustomerReviewDetailPage({
           >
             <meta content={detail.title} itemProp="name" />
             <meta content={detail.videoAlt} itemProp="description" />
-            <meta content={imageUrl} itemProp="thumbnailUrl" />
+            {imageUrl ? (
+              <meta content={imageUrl} itemProp="thumbnailUrl" />
+            ) : null}
             <Image
               alt={detail.videoAlt}
               className={styles.reviewDetailVideoImage}

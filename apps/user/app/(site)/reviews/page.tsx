@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { CtaSection } from "../../_components/CtaSection";
 import {
   customerInterviews,
+  customerReviewPageSeo,
   customerTestimonials,
   featuredCustomerInterview,
   reviewHeroImage,
@@ -13,8 +15,22 @@ import {
 } from "../../_content/customerReviews";
 import styles from "../../page.module.css";
 
-export const metadata = {
-  title: "고객 후기 | 씨브레인",
+export const metadata: Metadata = {
+  description: customerReviewPageSeo.description,
+  keywords: customerReviewPageSeo.keywords,
+  openGraph: {
+    description: customerReviewPageSeo.description,
+    locale: "ko_KR",
+    siteName: "C-Brain",
+    title: customerReviewPageSeo.title,
+    type: "website",
+  },
+  title: customerReviewPageSeo.title,
+  twitter: {
+    card: "summary",
+    description: customerReviewPageSeo.description,
+    title: customerReviewPageSeo.title,
+  },
 };
 
 function PlayButton({ size = "small" }: { size?: "large" | "small" }) {
@@ -38,84 +54,61 @@ function PlayButton({ size = "small" }: { size?: "large" | "small" }) {
   );
 }
 
-function FeaturedInterview({ variant }: { variant: "inline" | "standalone" }) {
-  const isStandalone = variant === "standalone";
-  const titleId = `featured-interview-${variant}-title`;
-  const desktopTitleId = `${titleId}-desktop`;
-  const media = (
-    <figure className={styles.reviewsFeaturedMedia}>
-      <Link
-        aria-label={`${featuredCustomerInterview.title} 상세 보기`}
-        className={styles.reviewsFeaturedMediaLink}
-        href={`/reviews/${featuredCustomerInterview.detailSlug}`}
-      >
-        <Image
-          alt={featuredCustomerInterview.videoAlt}
-          className={styles.reviewsMediaImage}
-          fill
-          sizes="(min-width: 1440px) 530px, (min-width: 1080px) 530px, (min-width: 640px) 600px, 350px"
-          src={featuredCustomerInterview.thumbnail}
-        />
-        <span className={styles.reviewsMediaOverlay} aria-hidden="true" />
-        <PlayButton size="large" />
-      </Link>
-    </figure>
-  );
-  const text = (
-    <div className={styles.reviewsFeaturedText}>
-      <h3 className={styles.reviewsFeaturedCompactTitle} id={titleId}>
-        {featuredCustomerInterview.title}
-      </h3>
-      <span className={styles.reviewsQuoteMark} aria-hidden="true">
-        <Image
-          alt=""
-          className={styles.reviewsQuoteMarkImage}
-          fill
-          sizes="22px"
-          src={reviewQuoteMarkIcon}
-        />
-      </span>
-      <h3 className={styles.reviewsFeaturedDesktopTitle} id={desktopTitleId}>
-        {featuredCustomerInterview.headlineLines.map((line) => (
-          <span key={line}>{line}</span>
-        ))}
-      </h3>
-      <div className={styles.reviewsFeaturedBody}>
-        <p>{featuredCustomerInterview.body[0]}</p>
-        <p>
-          <strong>{featuredCustomerInterview.body[1]}</strong>
-        </p>
-        <blockquote>
-          <p>&quot;{featuredCustomerInterview.quote}&quot;</p>
-        </blockquote>
-        <p>{featuredCustomerInterview.body[2]}</p>
-      </div>
-      <footer className={styles.reviewsCardMeta}>
-        {featuredCustomerInterview.meta}
-      </footer>
-    </div>
-  );
-
+function FeaturedInterview() {
   return (
     <article
-      aria-labelledby={isStandalone ? titleId : desktopTitleId}
-      className={`${styles.reviewsFeatured} ${
-        isStandalone
-          ? styles.reviewsFeaturedStandalone
-          : styles.reviewsFeaturedInline
-      }`}
+      aria-label={`${featuredCustomerInterview.title} 대표 인터뷰`}
+      className={styles.reviewsFeatured}
     >
-      {isStandalone ? (
-        <>
-          {text}
-          {media}
-        </>
-      ) : (
-        <>
-          {media}
-          {text}
-        </>
-      )}
+      <div className={styles.reviewsFeaturedText}>
+        <h3 className={styles.reviewsFeaturedCompactTitle}>
+          {featuredCustomerInterview.title}
+        </h3>
+        <span className={styles.reviewsQuoteMark} aria-hidden="true">
+          <Image
+            alt=""
+            className={styles.reviewsQuoteMarkImage}
+            fill
+            sizes="22px"
+            src={reviewQuoteMarkIcon}
+          />
+        </span>
+        <p className={styles.reviewsFeaturedDesktopTitle} aria-hidden="true">
+          {featuredCustomerInterview.headlineLines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </p>
+        <div className={styles.reviewsFeaturedBody}>
+          <p>{featuredCustomerInterview.body[0]}</p>
+          <p>
+            <strong>{featuredCustomerInterview.body[1]}</strong>
+          </p>
+          <blockquote>
+            <p>&quot;{featuredCustomerInterview.quote}&quot;</p>
+          </blockquote>
+          <p>{featuredCustomerInterview.body[2]}</p>
+        </div>
+        <footer className={styles.reviewsCardMeta}>
+          {featuredCustomerInterview.meta}
+        </footer>
+      </div>
+      <figure className={styles.reviewsFeaturedMedia}>
+        <Link
+          aria-label={`${featuredCustomerInterview.title} 상세 보기`}
+          className={styles.reviewsFeaturedMediaLink}
+          href={`/reviews/${featuredCustomerInterview.detailSlug}`}
+        >
+          <Image
+            alt={featuredCustomerInterview.videoAlt}
+            className={styles.reviewsMediaImage}
+            fill
+            sizes="(min-width: 1440px) 530px, (min-width: 1080px) 530px, (min-width: 640px) 600px, 350px"
+            src={featuredCustomerInterview.thumbnail}
+          />
+          <span className={styles.reviewsMediaOverlay} aria-hidden="true" />
+          <PlayButton size="large" />
+        </Link>
+      </figure>
     </article>
   );
 }
@@ -150,8 +143,6 @@ export default function CustomerReviewsPage() {
 
       <section className={styles.reviewsMain}>
         <div className={styles.reviewsContent}>
-          <FeaturedInterview variant="standalone" />
-
           <section
             aria-labelledby="customer-interview-heading"
             className={`${styles.reviewsSectionBlock} ${styles.reviewsInterviewSection}`}
@@ -166,7 +157,7 @@ export default function CustomerReviewsPage() {
               </p>
             </div>
 
-            <FeaturedInterview variant="inline" />
+            <FeaturedInterview />
 
             <ul className={styles.reviewsInterviewGrid}>
               {customerInterviews.map((interview) => {
