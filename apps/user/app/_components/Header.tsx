@@ -17,9 +17,9 @@ import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
 const navItems = [
-  { label: "회사소개", href: "/#about" },
-  { label: "포트폴리오", href: "/#portfolio" },
-  { label: "고객 후기", href: "/#reviews" },
+  { label: "회사소개", href: "/about" },
+  { label: "포트폴리오", href: "/portfolio" },
+  { label: "고객 후기", href: "/reviews" },
   { label: "주문 · 결제", href: "/order" },
   { label: "FAQ & 가이드", href: "/faq" },
   { label: "블로그", href: "/#blog" },
@@ -121,9 +121,14 @@ export function Header() {
   };
 
   const isNoticePage = pathname.startsWith("/notice");
-  const hasDarkHero = pathname === "/notice" && !isScrolled;
-  const isNavItemCurrentPage = (href: string) =>
-    href === "/notice" ? isNoticePage : pathname === href;
+  const hasDarkHero =
+    (pathname.startsWith("/about") || pathname === "/notice") && !isScrolled;
+  const isNavItemCurrentPage = (href: string) => {
+    if (href === "/notice") return isNoticePage;
+    if (href === "/portfolio") return pathname.startsWith("/portfolio");
+    if (href === "/reviews") return pathname.startsWith("/reviews");
+    return pathname === href;
+  };
 
   return (
     <header
