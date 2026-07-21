@@ -57,6 +57,18 @@
     rgba(48, 186, 195, 0.08) 70%,
     rgba(48, 186, 195, 0.8) 100%
   );
+  --landing-info-border-start: linear-gradient(
+    to bottom right,
+    rgba(67, 160, 245, 0.8) 0%,
+    rgba(67, 160, 245, 0.08) 30%,
+    rgba(67, 160, 245, 0.08) 100%
+  );
+  --landing-info-border-end: linear-gradient(
+    to bottom right,
+    rgba(67, 160, 245, 0.08) 0%,
+    rgba(67, 160, 245, 0.08) 70%,
+    rgba(67, 160, 245, 0.8) 100%
+  );
   --landing-gray-50: #f8fafc;
   --landing-gray-100: #f1f5f9;
   --landing-gray-200: #e2e8f0;
@@ -646,6 +658,10 @@
     var(--landing-brand-800) 0%,
     var(--landing-gray-800) 100%
   );
+}
+
+.serviceCardClickable {
+  cursor: pointer;
 }
 
 .serviceCard:hover .serviceCopy h3,
