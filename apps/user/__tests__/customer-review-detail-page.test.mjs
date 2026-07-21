@@ -120,6 +120,27 @@ test("customer review detail page keeps semantic article markup and admin video 
   );
 });
 
+test("customer review detail page uses stable admin ids for dynamic keys", async () => {
+  const content = await readFile(contentPath, "utf8");
+  const source = await readFile(detailPagePath, "utf8");
+
+  assert.match(content, /export type CustomerInterviewContentBlock/);
+  assert.match(
+    content,
+    /export type CustomerInterviewContentBlock =[\s\S]*id: string;/,
+  );
+  assert.match(
+    content,
+    /export type CustomerInterviewProjectInfo = \{\s*id: string;/,
+  );
+  assert.match(content, /id: "intro"/);
+  assert.match(content, /id: "client"/);
+  assert.match(source, /key=\{block\.id\}/);
+  assert.match(source, /key=\{item\.id\}/);
+  assert.doesNotMatch(source, /key=\{block\.text\}/);
+  assert.doesNotMatch(source, /key=\{item\.label\}/);
+});
+
 test("customer review detail content captures the Figma interview detail copy", async () => {
   const content = await readFile(contentPath, "utf8");
 

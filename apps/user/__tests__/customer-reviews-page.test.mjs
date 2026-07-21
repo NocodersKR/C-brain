@@ -176,6 +176,15 @@ test("customer interviews follow the P/T/F/M responsive section variants", async
   assert.match(pageSource, /reviewsSectionDescription/);
   assert.match(pageSource, /reviewsFeaturedCompactTitle/);
   assert.match(pageSource, /reviewsFeaturedDesktopTitle/);
+  assert.match(
+    pageSource,
+    /featuredCustomerInterview\.headlineLines\.map\(\(line, index\) =>/,
+  );
+  assert.match(
+    pageSource,
+    /key=\{`\$\{featuredCustomerInterview\.id\}-headline-\$\{index\}`\}/,
+  );
+  assert.doesNotMatch(pageSource, /<span key=\{line\}>/);
   assert.match(pageSource, /reviewsQuoteMark/);
   assert.match(pageSource, /reviewsMediaOverlay/);
 

@@ -26,20 +26,24 @@ export const customerReviewPageSeo = {
 
 export type CustomerInterviewContentBlock =
   | {
+      id: string;
       text: string;
       type: "paragraph";
     }
   | {
+      id: string;
       text: string;
       type: "heading";
     }
   | {
       cite: string;
+      id: string;
       text: string;
       type: "quote";
     };
 
 export type CustomerInterviewProjectInfo = {
+  id: string;
   label: string;
   value: string;
 };
@@ -109,31 +113,38 @@ export const customerInterviewRecords = [
     company: "서진인스텍",
     content: [
       {
+        id: "intro",
         text: "서진인스텍은 전시회와 영업 현장에서 활용할 카탈로그·브로슈어 제작을 씨브레인에 의뢰한 사례입니다.",
         type: "paragraph",
       },
       {
+        id: "situation-heading",
         text: "어떤 상황이었나요?",
         type: "heading",
       },
       {
+        id: "situation",
         text: "제품 정보를 명확하게 전달하면서도 촉박한 일정 안에 인쇄까지 마무리해야 했습니다. 복잡한 내용을 보기 쉽게 정리하고 빠른 피드백이 가능한 제작 파트너가 필요했습니다.",
         type: "paragraph",
       },
       {
+        id: "solution-heading",
         text: "씨브레인은 어떻게 해결했나요?",
         type: "heading",
       },
       {
+        id: "solution",
         text: "브로슈어의 핵심 정보 구조를 정리하고 수정 요청을 빠르게 반영해 디자인과 인쇄를 함께 진행했습니다. 전시 일정에 맞춰 현장에서 바로 활용할 수 있는 제작물로 마무리했습니다.",
         type: "paragraph",
       },
       {
+        id: "result-heading",
         text: "고객이 직접 말하는 결과",
         type: "heading",
       },
       {
         cite: "서진인스텍",
+        id: "result-quote",
         text: "빠른 피드백과 함께 원하는 부분을 잘 반영해 주셔서 만족합니다.",
         type: "quote",
       },
@@ -147,14 +158,17 @@ export const customerInterviewRecords = [
     ],
     projectInfo: [
       {
+        id: "client",
         label: "의뢰처",
         value: "서진인스텍",
       },
       {
+        id: "deliverable",
         label: "제작물",
         value: "카탈로그 · 브로슈어",
       },
       {
+        id: "usage",
         label: "활용",
         value: "전시회 배포 · 영업 자료 활용",
       },
@@ -175,31 +189,38 @@ export const customerInterviewRecords = [
     company: "나인벨 헬스케어",
     content: [
       {
+        id: "intro",
         text: "나인벨 헬스케어는 서비스와 제품 정보를 더 읽기 쉬운 형태로 전달하기 위해 씨브레인에 브로슈어·리플렛 제작을 의뢰한 사례입니다.",
         type: "paragraph",
       },
       {
+        id: "situation-heading",
         text: "어떤 상황이었나요?",
         type: "heading",
       },
       {
+        id: "situation",
         text: "전문적인 헬스케어 정보를 고객이 쉽게 이해할 수 있도록 정리해야 했습니다. 정보량이 많아 가독성 있는 구조와 안정적인 디자인 톤이 중요했습니다.",
         type: "paragraph",
       },
       {
+        id: "solution-heading",
         text: "씨브레인은 어떻게 해결했나요?",
         type: "heading",
       },
       {
+        id: "solution",
         text: "핵심 메시지를 우선순위에 맞게 재배치하고, 시각 요소와 문단 흐름을 정리해 현장에서 설명 자료로 바로 사용할 수 있는 브로슈어·리플렛으로 완성했습니다.",
         type: "paragraph",
       },
       {
+        id: "result-heading",
         text: "고객이 직접 말하는 결과",
         type: "heading",
       },
       {
         cite: "나인벨 헬스케어",
+        id: "result-quote",
         text: "효율적인 커뮤니케이션과 고품질 디자인으로 만족스러운 결과물을 얻었습니다.",
         type: "quote",
       },
@@ -213,14 +234,17 @@ export const customerInterviewRecords = [
     ],
     projectInfo: [
       {
+        id: "client",
         label: "의뢰처",
         value: "나인벨 헬스케어",
       },
       {
+        id: "deliverable",
         label: "제작물",
         value: "브로슈어 · 리플렛",
       },
       {
+        id: "usage",
         label: "활용",
         value: "제품 소개 · 고객 상담 자료 활용",
       },
@@ -241,31 +265,38 @@ export const customerInterviewRecords = [
     company: "청강문화산업대학교 게임콘텐츠스쿨",
     content: [
       {
+        id: "intro",
         text: "청강문화산업대학교 게임콘텐츠스쿨 졸업생들이 직접 개발한 게임 프로젝트를 전시회에서 선보이기 위해 씨브레인에 완료보고서 제작을 의뢰한 사례입니다.",
         type: "paragraph",
       },
       {
+        id: "situation-heading",
         text: "어떤 상황이었나요?",
         type: "heading",
       },
       {
+        id: "situation",
         text: "졸업생들이 직접 만든 게임을 업계 관계자와 일반 관람객에게 공개 전시할 예정이었습니다. 프로젝트의 완성도를 눈으로 전달할 수 있는 보고서가 필요했고, 단순 학교 과제물이 아닌 상용화 가능성을 보여줄 수 있는 퀄리티가 요구됐습니다.",
         type: "paragraph",
       },
       {
+        id: "solution-heading",
         text: "씨브레인은 어떻게 해결했나요?",
         type: "heading",
       },
       {
+        id: "solution",
         text: "게임의 콘셉트·개발 과정·결과물을 체계적으로 정리한 완료보고서를 제작했습니다. 전시 현장에서 외부 관람객이 실제로 상용화 가능성을 묻고 긍정적 피드백을 줄 수 있을 만큼의 디자인 완성도를 목표로 작업했습니다.",
         type: "paragraph",
       },
       {
+        id: "result-heading",
         text: "고객이 직접 말하는 결과",
         type: "heading",
       },
       {
         cite: "청강문화산업대학교 게임콘텐츠스쿨",
+        id: "result-quote",
         text: "완료보고서를 선보이면서 긍정적인 피드백을 받을 정도로 퀄리티가 좋았습니다.",
         type: "quote",
       },
@@ -279,14 +310,17 @@ export const customerInterviewRecords = [
     ],
     projectInfo: [
       {
+        id: "client",
         label: "의뢰처",
         value: "청강문화산업대학교 게임콘텐츠스쿨",
       },
       {
+        id: "deliverable",
         label: "제작물",
         value: "게임 졸업 프로젝트 완료보고서",
       },
       {
+        id: "usage",
         label: "활용",
         value: "졸업작품 전시회 배포 · 상용화 피드백 수집",
       },

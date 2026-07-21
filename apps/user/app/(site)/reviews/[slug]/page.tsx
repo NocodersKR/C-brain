@@ -226,14 +226,14 @@ export default async function CustomerReviewDetailPage({
           <div className={styles.reviewDetailBody}>
             {detail.content.map((block) => {
               if (block.type === "heading") {
-                return <h2 key={block.text}>{block.text}</h2>;
+                return <h2 key={block.id}>{block.text}</h2>;
               }
 
               if (block.type === "quote") {
                 return (
                   <blockquote
                     className={styles.reviewDetailQuote}
-                    key={block.text}
+                    key={block.id}
                   >
                     <p>&quot;{block.text}&quot;</p>
                     <cite>— {block.cite}</cite>
@@ -241,7 +241,7 @@ export default async function CustomerReviewDetailPage({
                 );
               }
 
-              return <p key={block.text}>{block.text}</p>;
+              return <p key={block.id}>{block.text}</p>;
             })}
           </div>
 
@@ -254,7 +254,7 @@ export default async function CustomerReviewDetailPage({
             </h2>
             <dl className={styles.projectInfoList}>
               {detail.projectInfo.map((item) => (
-                <div className={styles.projectInfoItem} key={item.label}>
+                <div className={styles.projectInfoItem} key={item.id}>
                   <dt>{item.label}</dt>
                   <dd>{item.value}</dd>
                 </div>

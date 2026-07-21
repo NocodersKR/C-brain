@@ -74,8 +74,10 @@ function FeaturedInterview() {
           />
         </span>
         <p className={styles.reviewsFeaturedDesktopTitle} aria-hidden="true">
-          {featuredCustomerInterview.headlineLines.map((line) => (
-            <span key={line}>{line}</span>
+          {featuredCustomerInterview.headlineLines.map((line, index) => (
+            <span key={`${featuredCustomerInterview.id}-headline-${index}`}>
+              {line}
+            </span>
           ))}
         </p>
         <div className={styles.reviewsFeaturedBody}>
