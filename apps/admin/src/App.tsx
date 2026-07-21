@@ -70,26 +70,26 @@ export function App() {
       <Route element={<AdminSessionGate />}>
         <Route element={<AuthenticatedAdminShell />}>
           <Route element={<Navigate replace to="/products" />} index />
-          <Route element={<ProductPage />} path="products" />
-          <Route element={<ProductFormPage />} path="products/new" />
-          <Route element={<ProductFormPage />} path="products/:productId" />
-          <Route element={<PortfolioPage />} path="portfolio" />
-          <Route element={<PortfolioFormPage />} path="portfolio/new" />
-          <Route element={<PortfolioFormPage />} path="portfolio/:portfolioId" />
-          <Route element={<BlogPage />} path="blog" />
-          <Route element={<BlogFormPage />} path="blog/new" />
-          <Route element={<BlogFormPage />} path="blog/:blogId" />
-          <Route element={<ReviewPage />} path="reviews" />
-          <Route element={<ReviewFormPage />} path="reviews/new" />
-          <Route element={<ReviewFormPage />} path="reviews/:reviewId" />
-          <Route element={<NoticePage />} path="notices" />
-          <Route element={<NoticeFormPage />} path="notices/new" />
-          <Route element={<NoticeFormPage />} path="notices/:noticeId" />
-          <Route element={<ComplaintPage />} path="complaints" />
-          <Route element={<ComplaintDetailPage />} path="complaints/:complaintId" />
-          <Route element={<LinkPayPage />} path="linkpay" />
-          <Route element={<LinkPayFormPage />} path="linkpay/new" />
-          <Route element={<SalesPage />} path="sales" />
+          <Route element={<ProductPage />} path="/products" />
+          <Route element={<ProductFormPage />} path="/products/new" />
+          <Route element={<ProductFormPage />} path="/products/:productId" />
+          <Route element={<PortfolioPage />} path="/portfolio" />
+          <Route element={<PortfolioFormPage />} path="/portfolio/new" />
+          <Route element={<PortfolioFormPage />} path="/portfolio/:portfolioId" />
+          <Route element={<BlogPage />} path="/blog" />
+          <Route element={<BlogFormPage />} path="/blog/new" />
+          <Route element={<BlogFormPage />} path="/blog/:blogId" />
+          <Route element={<ReviewPage />} path="/reviews" />
+          <Route element={<ReviewFormPage />} path="/reviews/new" />
+          <Route element={<ReviewFormPage />} path="/reviews/:reviewId" />
+          <Route element={<NoticePage />} path="/notices" />
+          <Route element={<NoticeFormPage />} path="/notices/new" />
+          <Route element={<NoticeFormPage />} path="/notices/:noticeId" />
+          <Route element={<ComplaintPage />} path="/complaints" />
+          <Route element={<ComplaintDetailPage />} path="/complaints/:complaintId" />
+          <Route element={<LinkPayPage />} path="/linkpay" />
+          <Route element={<LinkPayFormPage />} path="/linkpay/new" />
+          <Route element={<SalesPage />} path="/sales" />
         </Route>
       </Route>
     </Routes>
