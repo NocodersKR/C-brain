@@ -39,11 +39,12 @@ export async function getCurrentProfile(client: CBrainSupabaseClient) {
 export async function requireAdmin(
   client: CBrainSupabaseClient,
 ): Promise<TableRow<"profiles">> {
-  await requireUser(client);
+  const user = await requireUser(client);
 
   const { data, error } = await client
     .from("profiles")
     .select("*")
+    .eq("id", user.id)
     .eq("role", "admin")
     .single();
   const profile = unwrapSupabaseData(data, error);

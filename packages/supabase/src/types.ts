@@ -18,6 +18,7 @@ export type TableUpdate<TableName extends keyof PublicTables> =
 
 export type PublishStatus = PublicEnums["publish_status"];
 export type InquiryStatus = PublicEnums["inquiry_status"];
+export type ProductStatus = PublicEnums["product_status"];
 export type UserRole = PublicEnums["user_role"];
 
 export type Database = {
@@ -133,6 +134,51 @@ export type Database = {
           status?: PublishStatus;
           summary?: string | null;
           title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      products: {
+        Row: {
+          created_at: string;
+          design_print_estimate: number;
+          id: string;
+          name: string;
+          order_quantities: number[];
+          page_counts: number[];
+          paper_types: string[];
+          planning_estimate: number;
+          status: ProductStatus;
+          type: string;
+          unit_prices: Json;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          design_print_estimate: number;
+          id?: string;
+          name: string;
+          order_quantities: number[];
+          page_counts: number[];
+          paper_types: string[];
+          planning_estimate: number;
+          status?: ProductStatus;
+          type: string;
+          unit_prices?: Json;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          design_print_estimate?: number;
+          id?: string;
+          name?: string;
+          order_quantities?: number[];
+          page_counts?: number[];
+          paper_types?: string[];
+          planning_estimate?: number;
+          status?: ProductStatus;
+          type?: string;
+          unit_prices?: Json;
           updated_at?: string;
         };
         Relationships: [];
@@ -309,6 +355,7 @@ export type Database = {
     Enums: {
       inquiry_status: "new" | "reviewing" | "answered" | "closed";
       publish_status: "draft" | "published" | "archived";
+      product_status: "draft" | "published";
       user_role: "user" | "admin";
     };
     CompositeTypes: Record<string, never>;

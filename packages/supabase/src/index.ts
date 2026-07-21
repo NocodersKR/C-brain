@@ -7,6 +7,7 @@ export * from "./faqs.js";
 export * from "./files.js";
 export * from "./inquiries.js";
 export * from "./portfolio.js";
+export * from "./products.js";
 export * from "./server.js";
 export * from "./services.js";
 export * from "./settings.js";
