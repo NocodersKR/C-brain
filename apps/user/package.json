@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint --max-warnings 0",
     "check-types": "next typegen && tsc --noEmit",
+    "test": "node --test __tests__/*.test.mjs",
     "test:blog": "tsc -p ../../tests/blog/tsconfig.json && node --test ../../tests/blog/.compiled/tests/blog/filterBlogPosts.test.js"
   },
   "dependencies": {
@@ -17,14 +18,15 @@
     "next": "16.2.0",
     "pretendard-gov": "^1.3.9",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.81.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9.39.1",
     "typescript": "5.9.2"
   }

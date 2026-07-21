@@ -1,56 +1,85 @@
 import { Button } from "@repo/ui/button";
-import type { CSSProperties } from "react";
+import Link from "next/link";
+import type { CSSProperties, ReactNode } from "react";
 
 import { Icon } from "../../components/Icon";
-import styles from "../page.module.css";
+import styles from "./CtaSection.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const contactButtonPadding = "8px 23px";
-const contactButtonWidth = "var(--contact-button-width)";
+const actionWidth = "var(--cta-action-width)";
+const actionPadding = "8px 23px";
 
 const kakaoButtonStyle: CSSProperties = {
   ...createGradientBorderButtonStyle({
-    padding: contactButtonPadding,
+    padding: actionPadding,
     tone: "contactKakao",
   }),
-  width: contactButtonWidth,
+  width: actionWidth,
 };
 
-const priceButtonStyle: CSSProperties = {
-  ...createGradientBorderButtonStyle({
-    padding: contactButtonPadding,
-  }),
-  width: contactButtonWidth,
+const secondaryActionStyle: CSSProperties = {
+  ...createGradientBorderButtonStyle({ padding: actionPadding }),
+  width: actionWidth,
 };
 
-const ctaButtonIconStyle: CSSProperties = {
-  flex: "0 0 auto",
+type CtaSectionProps = {
+  id?: string;
+  badge?: string;
+  titleLines: readonly ReactNode[];
+  description?: string;
+  descriptionSize?: "sm" | "md";
+  secondaryAction?: {
+    label: string;
+    href: string;
+  };
 };
 
-export function CtaSection() {
+export function CtaSection({
+  id,
+  badge,
+  titleLines,
+  description,
+  descriptionSize = "sm",
+  secondaryAction,
+}: CtaSectionProps) {
   return (
-    <section className={styles.ctaSection} id="contact">
-      <div className={styles.ctaBackground} />
-      <div className={styles.ctaContent}>
-        <p className={styles.ctaBadge}>지금 바로 시작하세요</p>
-        <div className={styles.ctaText}>
-          <h2>
-            <span>실패 없는 홍보물 디자인 제작,</span>
-            <span>
-              지금 바로 <strong>씨브레인</strong>에 맡기세요
-            </span>
+    <section className={styles.section} id={id}>
+      <div aria-hidden="true" className={styles.background} />
+      <div className={styles.content}>
+        {badge ? <p className={styles.badge}>{badge}</p> : null}
+        <div className={styles.copy}>
+          <h2 className={styles.title}>
+            {titleLines.map((line, index) => (
+              <span key={typeof line === "string" ? line : index}>{line}</span>
+            ))}
           </h2>
-          <p>빠른 상담 · 전국 납품 · 소량부터 대량까지</p>
+          {description ? (
+            <p
+              className={
+                descriptionSize === "md"
+                  ? styles.descriptionMd
+                  : styles.descriptionSm
+              }
+            >
+              {description}
+            </p>
+          ) : null}
         </div>
-        <div className={styles.ctaRow}>
+        <div className={styles.actions}>
           <Button style={kakaoButtonStyle}>
             <span>실시간 카톡상담</span>
-            <Icon name="message-typing" size={24} style={ctaButtonIconStyle} />
+            <Icon className={styles.icon} name="message-typing" size={24} />
           </Button>
-          <Button style={priceButtonStyle}>
-            <span>정찰제 가격 보기</span>
-            <Icon name="arrow-right" size={24} style={ctaButtonIconStyle} />
-          </Button>
+          {secondaryAction ? (
+            <Link
+              className={styles.secondaryAction}
+              href={secondaryAction.href}
+              style={secondaryActionStyle}
+            >
+              <span>{secondaryAction.label}</span>
+              <Icon className={styles.icon} name="arrow-right" size={24} />
+            </Link>
+          ) : null}
         </div>
       </div>
     </section>
