@@ -42,8 +42,10 @@ export type CustomerInterviewContentBlock =
       type: "quote";
     };
 
+export type CustomerInterviewProjectInfoId = "client" | "deliverable" | "usage";
+
 export type CustomerInterviewProjectInfo = {
-  id: string;
+  id: CustomerInterviewProjectInfoId;
   label: string;
   value: string;
 };
@@ -62,6 +64,7 @@ export type CustomerInterviewDetail = {
   thumbnail: string;
   title: string;
   videoAlt: string;
+  videoUrl?: string;
 };
 
 export type CustomerInterviewDetailSeo = {
@@ -358,19 +361,15 @@ function getCustomerInterviewIntro(record: CustomerInterviewRecord) {
 
 function getCustomerInterviewProjectValue(
   record: CustomerInterviewRecord,
-  label: string,
+  id: CustomerInterviewProjectInfoId,
 ) {
-  return record.projectInfo.find((item) => item.label === label)?.value;
+  return record.projectInfo.find((item) => item.id === id)?.value;
 }
 
 function getCustomerInterviewMeta(record: CustomerInterviewRecord) {
-  const projectName = getCustomerInterviewProjectValue(record, "제작물");
+  const projectName = getCustomerInterviewProjectValue(record, "deliverable");
 
   return projectName ? `${record.company} · ${projectName}` : record.company;
-}
-
-function getCustomerInterviewCardTitle(record: CustomerInterviewRecord) {
-  return `${record.company} — 씨브레인 고객 인터뷰`;
 }
 
 function toCustomerInterviewCard(
@@ -385,7 +384,7 @@ function toCustomerInterviewCard(
     publishedAt: record.publishedAt,
     quote: getCustomerInterviewQuote(record),
     thumbnail: record.thumbnail,
-    title: getCustomerInterviewCardTitle(record),
+    title: record.title,
     videoAlt: record.videoAlt,
   };
 }
@@ -407,6 +406,7 @@ function toCustomerInterviewDetail(
     thumbnail: record.thumbnail,
     title: record.title,
     videoAlt: record.videoAlt,
+    ...(record.videoUrl ? { videoUrl: record.videoUrl } : {}),
   };
 }
 
@@ -439,22 +439,20 @@ export const customerInterviewDetails = customerInterviewRecords.map(
 );
 
 function getLatestCustomerInterviewRecord() {
-  return customerInterviewRecordList.reduce<CustomerInterviewRecord | undefined>(
-    (latestRecord, record) => {
-      if (!latestRecord) return record;
+  return customerInterviewRecordList.reduce<
+    CustomerInterviewRecord | undefined
+  >((latestRecord, record) => {
+    if (!latestRecord) return record;
 
-      return Date.parse(record.publishedAt) >
-        Date.parse(latestRecord.publishedAt)
-        ? record
-        : latestRecord;
-    },
-    undefined,
-  );
+    return Date.parse(record.publishedAt) > Date.parse(latestRecord.publishedAt)
+      ? record
+      : latestRecord;
+  }, undefined);
 }
 
-const featuredCustomerInterviewRecord = customerInterviewRecordList.find(
-  (record) => record.featured,
-) ?? getLatestCustomerInterviewRecord();
+const featuredCustomerInterviewRecord =
+  customerInterviewRecordList.find((record) => record.featured) ??
+  getLatestCustomerInterviewRecord();
 
 export const featuredCustomerInterview = createFeaturedCustomerInterview(
   featuredCustomerInterviewRecord,

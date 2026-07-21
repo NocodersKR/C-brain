@@ -50,9 +50,12 @@ test("customer review detail page follows portfolio detail route conventions", a
   );
   assert.match(source, /if \(pageUrl\)/);
   assert.match(source, /if \(imageUrl\)/);
+  assert.match(source, /if \(videoUrl\)/);
   assert.doesNotMatch(source, /mainEntityOfPage: pageUrl/);
   assert.match(source, /datePublished: detail\.publishedAt/);
   assert.match(source, /dateModified: detail\.publishedAt/);
+  assert.match(source, /data\.video = \{/);
+  assert.match(source, /contentUrl: videoUrl/);
   assert.match(source, /type: "article"/);
   assert.match(source, /getCustomerInterviewDetailBySlug/);
   assert.match(source, /getCustomerInterviewDetailSeo/);
@@ -95,11 +98,12 @@ test("customer review detail page keeps semantic article markup and admin video 
     /<section[\s\S]*aria-labelledby="customer-review-detail-title"[\s\S]*className=\{styles\.reviewDetailContent\}/,
   );
   assert.match(source, /itemProp="articleBody"/);
+  assert.match(source, /const videoUrl = detail\.videoUrl/);
   assert.match(
     source,
-    /<figure[\s\S]*className=\{styles\.reviewDetailVideo\}[\s\S]*itemProp="video"[\s\S]*itemScope[\s\S]*itemType="https:\/\/schema\.org\/VideoObject"/,
+    /detail\.videoUrl \? \([\s\S]*href=\{detail\.videoUrl\}[\s\S]*reviewDetailPlayButton/,
   );
-  assert.match(source, /itemProp="thumbnailUrl"/);
+  assert.doesNotMatch(source, /itemType="https:\/\/schema\.org\/VideoObject"/);
   assert.match(source, /<figcaption className=\{styles\.visuallyHidden\}>/);
   assert.match(source, /alt=\{detail\.videoAlt\}/);
   assert.match(source, /src=\{detail\.thumbnail\}/);
@@ -131,7 +135,7 @@ test("customer review detail page uses stable admin ids for dynamic keys", async
   );
   assert.match(
     content,
-    /export type CustomerInterviewProjectInfo = \{\s*id: string;/,
+    /export type CustomerInterviewProjectInfo = \{\s*id: CustomerInterviewProjectInfoId;/,
   );
   assert.match(content, /id: "intro"/);
   assert.match(content, /id: "client"/);
@@ -150,6 +154,7 @@ test("customer review detail content captures the Figma interview detail copy", 
 
   assert.match(content, /export type CustomerInterviewDetail/);
   assert.match(content, /publishedAt: string/);
+  assert.match(content, /videoUrl\?: string/);
   assert.match(content, /export const customerInterviewDetails/);
   assert.match(content, /export function getCustomerInterviewDetailBySlug/);
   assert.match(content, /export function getCustomerInterviewDetailSeo/);

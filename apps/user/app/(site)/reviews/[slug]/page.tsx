@@ -26,6 +26,7 @@ function getReviewDetailStructuredData(
   detail: CustomerInterviewDetail,
   pageUrl: string | undefined,
   imageUrl: string | undefined,
+  videoUrl: string | undefined,
 ) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -56,6 +57,17 @@ function getReviewDetailStructuredData(
 
   if (imageUrl) {
     data.image = imageUrl;
+  }
+
+  if (videoUrl) {
+    data.video = {
+      "@type": "VideoObject",
+      contentUrl: videoUrl,
+      description: detail.videoAlt,
+      name: detail.title,
+      uploadDate: detail.publishedAt,
+      ...(imageUrl ? { thumbnailUrl: imageUrl } : {}),
+    };
   }
 
   return data;
@@ -131,10 +143,15 @@ export default async function CustomerReviewDetailPage({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const pageUrl = getAbsoluteUrl(`/reviews/${detail.slug}`, siteUrl);
   const imageUrl = getAbsoluteUrl(detail.thumbnail, siteUrl);
+  const videoUrl = detail.videoUrl;
+  const absoluteVideoUrl = videoUrl
+    ? getAbsoluteUrl(videoUrl, siteUrl)
+    : undefined;
   const structuredData = getReviewDetailStructuredData(
     detail,
     pageUrl,
     imageUrl,
+    absoluteVideoUrl,
   );
 
   return (
@@ -186,17 +203,7 @@ export default async function CustomerReviewDetailPage({
           className={styles.reviewDetailContent}
           itemProp="articleBody"
         >
-          <figure
-            className={styles.reviewDetailVideo}
-            itemProp="video"
-            itemScope
-            itemType="https://schema.org/VideoObject"
-          >
-            <meta content={detail.title} itemProp="name" />
-            <meta content={detail.videoAlt} itemProp="description" />
-            {imageUrl ? (
-              <meta content={imageUrl} itemProp="thumbnailUrl" />
-            ) : null}
+          <figure className={styles.reviewDetailVideo}>
             <Image
               alt={detail.videoAlt}
               className={styles.reviewDetailVideoImage}
@@ -205,19 +212,30 @@ export default async function CustomerReviewDetailPage({
               sizes="(min-width: 640px) 640px, calc(100vw - 40px)"
               src={detail.thumbnail}
             />
-            <span
-              aria-hidden="true"
-              className={styles.reviewDetailVideoOverlay}
-            />
-            <span aria-hidden="true" className={styles.reviewDetailPlayButton}>
-              <Image
-                alt=""
-                className={styles.reviewDetailPlayIcon}
-                fill
-                sizes="48px"
-                src={reviewPlayLargeIcon}
-              />
-            </span>
+            {detail.videoUrl ? (
+              <a
+                aria-label={`${detail.title} 영상 보기`}
+                href={detail.videoUrl}
+                className={styles.reviewDetailVideoLink}
+              >
+                <span
+                  aria-hidden="true"
+                  className={styles.reviewDetailVideoOverlay}
+                />
+                <span
+                  aria-hidden="true"
+                  className={styles.reviewDetailPlayButton}
+                >
+                  <Image
+                    alt=""
+                    className={styles.reviewDetailPlayIcon}
+                    fill
+                    sizes="48px"
+                    src={reviewPlayLargeIcon}
+                  />
+                </span>
+              </a>
+            ) : null}
             <figcaption className={styles.visuallyHidden}>
               {detail.videoAlt}
             </figcaption>

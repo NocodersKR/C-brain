@@ -280,33 +280,46 @@ test("customer interview data stays consistent for dynamic admin content", async
     contentSource,
     /export const customerInterviewDetails = customerInterviewRecords\.map/,
   );
-  assert.match(
-    contentSource,
-    /function getLatestCustomerInterviewRecord\(/,
-  );
-  assert.match(
-    contentSource,
-    /Date\.parse\(latestRecord\.publishedAt\)/,
-  );
+  assert.match(contentSource, /function getLatestCustomerInterviewRecord\(/);
+  assert.match(contentSource, /Date\.parse\(latestRecord\.publishedAt\)/);
   assert.match(
     contentSource,
     /const customerInterviewRecordList: readonly CustomerInterviewRecord\[\] =\s*customerInterviewRecords;/,
   );
   assert.match(
     contentSource,
-    /const featuredCustomerInterviewRecord =\s*customerInterviewRecordList\.find[\s\S]*\?\? getLatestCustomerInterviewRecord\(\);/,
+    /const featuredCustomerInterviewRecord =[\s\S]*customerInterviewRecordList\.find[\s\S]*\?\?[\s\S]*getLatestCustomerInterviewRecord\(\);/,
   );
   assert.doesNotMatch(recordsBlock, /featured:/);
   assert.doesNotMatch(contentSource, /대표 고객 인터뷰 데이터가 필요합니다/);
   assert.match(contentSource, /publishedAt: record\.publishedAt/);
   assert.match(contentSource, /id: record\.slug/);
   assert.match(contentSource, /detailSlug: record\.slug/);
+  assert.match(contentSource, /title: record\.title/);
   assert.match(contentSource, /quote: getCustomerInterviewQuote\(record\)/);
   assert.match(contentSource, /thumbnail: record\.thumbnail/);
   assert.match(contentSource, /videoAlt: record\.videoAlt/);
   assert.match(
     contentSource,
-    /const featuredCustomerInterviewRecord = customerInterviewRecordList\.find/,
+    /export type CustomerInterviewProjectInfoId = "client" \| "deliverable" \| "usage";/,
+  );
+  assert.match(
+    contentSource,
+    /function getCustomerInterviewProjectValue\(\s*record: CustomerInterviewRecord,\s*id: CustomerInterviewProjectInfoId,/,
+  );
+  assert.match(contentSource, /item\.id === id/);
+  assert.match(
+    contentSource,
+    /getCustomerInterviewProjectValue\(record, "deliverable"\)/,
+  );
+  assert.doesNotMatch(contentSource, /function getCustomerInterviewCardTitle/);
+  assert.doesNotMatch(
+    contentSource,
+    /getCustomerInterviewProjectValue\(record, "제작물"\)/,
+  );
+  assert.match(
+    contentSource,
+    /const featuredCustomerInterviewRecord =[\s\S]*customerInterviewRecordList\.find/,
   );
   assert.equal(
     chungkangQuoteMatches?.length,
@@ -350,10 +363,7 @@ test("customer testimonials are ready for dynamic admin data", async () => {
   assert.match(testimonialsBlock, /publishedAt: "/);
   assert.match(testimonialsBlock, /title: "/);
   assert.match(pageSource, /key=\{review\.id\}/);
-  assert.match(
-    pageSource,
-    /aria-label=\{`\$\{review\.title\} 고객 후기`\}/,
-  );
+  assert.match(pageSource, /aria-label=\{`\$\{review\.title\} 고객 후기`\}/);
   assert.doesNotMatch(
     pageSource,
     /key=\{`\$\{review\.name\}-\$\{review\.company\}`\}/,
@@ -379,14 +389,8 @@ test("customer review tests are connected to workspace scripts", async () => {
   const turboSource = await readFile(turboConfigPath, "utf8");
 
   assert.match(rootPackageSource, /"test": "turbo run test"/);
-  assert.match(
-    packageSource,
-    /"test": "node --test __tests__\/\*\.test\.mjs"/,
-  );
-  assert.match(
-    turboSource,
-    /"test": \{[\s\S]*"dependsOn": \["\^test"\]/,
-  );
+  assert.match(packageSource, /"test": "node --test __tests__\/\*\.test\.mjs"/);
+  assert.match(turboSource, /"test": \{[\s\S]*"dependsOn": \["\^test"\]/);
 });
 
 test("customer reviews content spans the tablet breakpoint", async () => {
