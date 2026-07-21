@@ -12,12 +12,18 @@ import {
   SavedArrowUpSquareContainedIcon,
 } from "./icons";
 
-type IconName =
+export type IconName =
   | "arrow-left"
   | "arrow-right"
   | "book-open"
   | "calendar"
   | "camera"
+  | "channel-arrow-right"
+  | "channel-home-02"
+  | "channel-instagram"
+  | "channel-message-typing"
+  | "channel-naver-blog"
+  | "channel-youtube"
   | "chevron-down"
   | "credit-card"
   | "dots-horizontal"
@@ -363,6 +369,158 @@ function MessageTypingIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
   );
 }
 
+function ChannelArrowRightIcon({
+  size = 24,
+  ...props
+}: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 16 16"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M6.97222 10.0833L11.4167 5.41667L6.97222 0.750001M11.4167 5.41667L0.75 5.41667"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        transform="translate(1.91665 2.58335)"
+      />
+    </svg>
+  );
+}
+
+function ChannelHome02Icon({ size = 24, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M5.5 15.0625H14.5M9.30457 1.21117L1.50457 6.48603C1.18802 6.7001 1 7.04666 1 7.41605V17.2882C1 18.2336 1.80589 19 2.8 19H17.2C18.1941 19 19 18.2336 19 17.2882V7.41605C19 7.04665 18.812 6.7001 18.4954 6.48603L10.6954 1.21117C10.2791 0.92961 9.72092 0.929609 9.30457 1.21117Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        transform="translate(2 2)"
+      />
+    </svg>
+  );
+}
+
+function ChannelInstagramIcon({
+  size = 24,
+  ...props
+}: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M1 15.64H2V3.4H1H0V15.64H1ZM3.4 1V2H17.8V1V0H3.4V1ZM20.2 3.4H19.2V15.64H20.2H21.2V3.4H20.2ZM20.2 15.64H19.2C19.2 16.4132 18.5732 17.04 17.8 17.04V18.04V19.04C19.6778 19.04 21.2 17.5178 21.2 15.64H20.2ZM17.8 1V2C18.5732 2 19.2 2.6268 19.2 3.4H20.2H21.2C21.2 1.52223 19.6778 0 17.8 0V1ZM1 3.4H2C2 2.6268 2.6268 2 3.4 2V1V0C1.52223 0 0 1.52223 0 3.4H1ZM3.4 18.04V17.04C2.6268 17.04 2 16.4132 2 15.64H1H0C0 17.5178 1.52223 19.04 3.4 19.04V18.04ZM14.2 9.52012H13.2C13.2 10.9561 12.0359 12.1201 10.6 12.1201V13.1201V14.1201C13.1405 14.1201 15.2 12.0606 15.2 9.52012H14.2ZM10.6 13.1201V12.1201C9.16406 12.1201 8 10.9561 8 9.52012H7H6C6 12.0606 8.05949 14.1201 10.6 14.1201V13.1201ZM7 9.52012H8C8 8.08418 9.16406 6.92012 10.6 6.92012V5.92012V4.92012C8.05949 4.92012 6 6.97961 6 9.52012H7ZM10.6 5.92012V6.92012C12.0359 6.92012 13.2 8.08418 13.2 9.52012H14.2H15.2C15.2 6.97961 13.1405 4.92012 10.6 4.92012V5.92012ZM17.8 18.04V17.04H3.4V18.04V19.04H17.8V18.04Z"
+        fill="currentColor"
+        transform="translate(1.4 2.48)"
+      />
+    </svg>
+  );
+}
+
+function ChannelMessageTypingIcon({
+  size = 24,
+  ...props
+}: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M5.49957 10.0846V10M9.99915 10.0846V10M14.4987 10.0846V10M18.9983 10C18.9983 11.2938 18.7253 12.5238 18.2338 13.6356L19 18.9991L14.4039 17.85C13.1019 18.5823 11.5993 19 9.99915 19C5.02906 19 1 14.9706 1 10C1 5.02944 5.02906 1 9.99915 1C14.9692 1 18.9983 5.02944 18.9983 10Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        transform="translate(2 2)"
+      />
+    </svg>
+  );
+}
+
+function ChannelNaverBlogIcon({
+  size = 24,
+  ...props
+}: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M1 9V17H9.1C11.2539 17 13 15.2091 13 13C13 10.7909 11.2539 9 9.1 9H1ZM1 9H7.9C10.0539 9 11.8 7.20914 11.8 5C11.8 2.79086 10.0539 1 7.9 1H1V9Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        transform="translate(5 3)"
+      />
+    </svg>
+  );
+}
+
+function ChannelYoutubeIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <rect
+        height="12"
+        rx="4"
+        stroke="currentColor"
+        strokeWidth="2"
+        width="18"
+        x="3"
+        y="6"
+      />
+      <path
+        d="M10 9.5L15 12L10 14.5V9.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 function Menu04Icon({ size = 24, ...props }: Omit<IconProps, "name">) {
   return (
     <svg
@@ -543,6 +701,12 @@ const icons = {
   "book-open": BookOpenIcon,
   calendar: CalendarIcon,
   camera: CameraIcon,
+  "channel-arrow-right": ChannelArrowRightIcon,
+  "channel-home-02": ChannelHome02Icon,
+  "channel-instagram": ChannelInstagramIcon,
+  "channel-message-typing": ChannelMessageTypingIcon,
+  "channel-naver-blog": ChannelNaverBlogIcon,
+  "channel-youtube": ChannelYoutubeIcon,
   "chevron-down": ChevronDownIcon,
   "credit-card": CreditCardIcon,
   "dots-horizontal": DotsHorizontalIcon,
