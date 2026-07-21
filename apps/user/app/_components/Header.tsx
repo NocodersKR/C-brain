@@ -120,7 +120,6 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
-  const isCompanyPage = pathname.startsWith("/about");
   const isNoticePage = pathname.startsWith("/notice");
   const hasDarkHero =
     (pathname.startsWith("/about") || pathname === "/notice") && !isScrolled;
@@ -135,9 +134,7 @@ export function Header() {
     <header
       className={`${styles.header} ${isScrolled ? styles.headerScrolled : ""} ${
         hasDarkHero ? styles.headerDarkHero : ""
-      } ${isCompanyPage ? styles.headerCompanyPage : ""} ${
-        isNoticePage ? styles.headerNoticePage : ""
-      }`}
+      } ${isNoticePage ? styles.headerNoticePage : ""}`}
     >
       <div className={styles.headerPrimary}>
         <Link aria-label="씨브레인 홈" className={styles.logoLink} href="/">

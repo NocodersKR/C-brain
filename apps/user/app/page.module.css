@@ -2932,10 +2932,6 @@
     white-space: nowrap;
   }
 
-  .headerCompanyPage:not(.headerScrolled) .navLink:not(.navLinkActive) {
-    color: var(--_50, #f8fafc);
-  }
-
   .navLinkActive {
     color: var(--landing-brand-500);
     font-weight: 700;

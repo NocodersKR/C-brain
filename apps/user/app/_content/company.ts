@@ -197,7 +197,7 @@ export const companyChannels: {
     icon: "channel-message-typing",
     title: "카카오톡 1:1 상담",
     description: "빠른 견적 및 상담",
-    href: "http://pf.kakao.com/_JAFAG",
+    href: "https://pf.kakao.com/_JAFAG",
   },
   {
     icon: "channel-home-02",
