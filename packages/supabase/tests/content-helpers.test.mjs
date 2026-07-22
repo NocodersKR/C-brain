@@ -32,6 +32,9 @@ const { createSignedFileUpload, createStoragePath, getFileInfo } = await import(
   "../src/files.ts"
 );
 const { createInquiryAttachment } = await import("../src/inquiries.ts");
+const { createPaymentLink, listAdminPaymentLinks } = await import(
+  "../src/paymentLinks.ts"
+);
 const { getLowestProductUnitPrice, listPublishedProducts } = await import(
   "../src/products.ts"
 );
@@ -299,4 +302,26 @@ test("signed upload and file info helpers use the requested private path", async
       path: "inquiry-submissions/id/proof.png",
     },
   ]);
+});
+
+test("payment link helpers use admin-scoped newest-first access", async () => {
+  const { calls, client } = createFakeClient({ payment_links: [] });
+  const input = {
+    amount: 120000,
+    client_name: "테스트 고객사",
+    payment_name: "브로슈어 제작비",
+  };
+
+  await listAdminPaymentLinks(client);
+  await createPaymentLink(client, input);
+
+  assert.deepEqual(orderCalls(calls, "payment_links"), [
+    ["created_at", { ascending: false }],
+  ]);
+  assert.deepEqual(
+    calls.find(
+      (call) => call.method === "insert" && call.table === "payment_links",
+    )?.value,
+    input,
+  );
 });

@@ -20,6 +20,7 @@ export type PublishStatus = PublicEnums["publish_status"];
 export type ContentMode = PublicEnums["content_mode"];
 export type InquiryStatus = PublicEnums["inquiry_status"];
 export type PostKind = PublicEnums["post_kind"];
+export type PaymentLinkStatus = PublicEnums["payment_link_status"];
 export type ProductStatus = PublicEnums["product_status"];
 export type ReviewKind = PublicEnums["review_kind"];
 export type UserRole = PublicEnums["user_role"];
@@ -258,6 +259,39 @@ export type Database = {
           video_alt?: string | null;
           video_path?: string | null;
           view_count?: number;
+        };
+        Relationships: [];
+      };
+      payment_links: {
+        Row: {
+          amount: number;
+          client_name: string;
+          created_at: string;
+          id: string;
+          payment_name: string;
+          public_token: string;
+          status: PaymentLinkStatus;
+          updated_at: string;
+        };
+        Insert: {
+          amount: number;
+          client_name: string;
+          created_at?: string;
+          id?: string;
+          payment_name: string;
+          public_token?: string;
+          status?: PaymentLinkStatus;
+          updated_at?: string;
+        };
+        Update: {
+          amount?: number;
+          client_name?: string;
+          created_at?: string;
+          id?: string;
+          payment_name?: string;
+          public_token?: string;
+          status?: PaymentLinkStatus;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -531,6 +565,7 @@ export type Database = {
       inquiry_status: "received" | "processing" | "resolved";
       post_kind: "blog" | "notice";
       publish_status: "draft" | "published" | "archived";
+      payment_link_status: "pending" | "paid";
       product_status: "draft" | "published";
       review_kind: "interview" | "testimonial";
       user_role: "user" | "admin";
