@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { OrderPaymentResult } from "../../../order/OrderPaymentResult";
 import { getLinkPayPayment } from "../../../../_content/linkPay";
@@ -30,6 +30,7 @@ export default async function LinkPayPaymentSuccessPage({
   const payment = getLinkPayPayment(id);
 
   if (!payment) notFound();
+  if (payment.status !== "paid") redirect(`/linkpay/${payment.id}`);
 
   return (
     <OrderPaymentResult

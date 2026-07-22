@@ -49,12 +49,22 @@ const findSelectedQuantity = (
   );
 };
 
+const requireOrderOptionConfig = (serviceId: string) => {
+  const optionConfig = getOrderOptionConfig(serviceId);
+
+  if (!optionConfig) {
+    throw new Error(`Order option config for ${serviceId} not found.`);
+  }
+
+  return optionConfig;
+};
+
 export function OrderOptionSelection({
   onConsult,
   onPaymentStart,
   service,
 }: OrderOptionSelectionProps) {
-  const optionConfig = getOrderOptionConfig(service.id);
+  const optionConfig = requireOrderOptionConfig(service.id);
   const [selectedPageId, setSelectedPageId] = useState(
     optionConfig.defaultPageId,
   );

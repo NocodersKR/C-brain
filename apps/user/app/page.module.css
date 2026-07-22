@@ -646,6 +646,9 @@
   background: var(--landing-gray-50);
   box-shadow: inset 0 0 0 1px var(--landing-gray-100);
   padding: 20px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

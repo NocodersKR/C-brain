@@ -48,17 +48,10 @@ export type OrderOptionChoice = {
   label: string;
 };
 
-export type OrderQuantityInput = {
-  amount: number;
-  id: string;
-  unit: string;
-};
-
 export type OrderUnitPriceQuote = {
   pageId: string;
-  paperId?: string;
+  paperId: string;
   quantityId: string;
-  totalPrice?: number;
   unitPrice: number;
 };
 
@@ -80,19 +73,16 @@ export type OrderServiceOption = {
   title: string;
 };
 
-export type OrderOptionConfig = {
-  defaultPageId: string;
-  defaultPaperId: string;
-  defaultQuantityId: string;
-  pageOptions: ReadonlyArray<OrderOptionChoice>;
-  pageSectionTitle: string;
-  paperOptions: ReadonlyArray<OrderOptionChoice>;
-  paperSectionTitle: string;
-  planningService: OrderServiceOption;
-  quantities: ReadonlyArray<OrderQuantityInput>;
-  selectedService: OrderServiceOption;
-  serviceId: string;
-  unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>;
+export type AdminOrderProduct = {
+  design_print_estimate: number;
+  id: string;
+  name: string;
+  order_quantities: ReadonlyArray<number>;
+  page_counts: ReadonlyArray<number>;
+  paper_types: ReadonlyArray<string>;
+  planning_estimate: number;
+  type: string;
+  unit_prices: Readonly<Record<string, number>>;
 };
 
 export type OrderProductRegistration = {
@@ -102,7 +92,22 @@ export type OrderProductRegistration = {
   paperOptions: ReadonlyArray<OrderOptionChoice>;
   paperSectionTitle: string;
   planningService: OrderServiceOption;
-  quantities: ReadonlyArray<OrderQuantityInput>;
+  quantities: ReadonlyArray<number>;
+  serviceId: string;
+  unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>;
+};
+
+export type OrderOptionConfig = {
+  defaultPageId: string;
+  defaultPaperId: string;
+  defaultQuantityId: string;
+  pageOptions: ReadonlyArray<OrderOptionChoice>;
+  pageSectionTitle: string;
+  paperOptions: ReadonlyArray<OrderOptionChoice>;
+  paperSectionTitle: string;
+  planningService: OrderServiceOption;
+  quantities: ReadonlyArray<number>;
+  selectedService: OrderServiceOption;
   serviceId: string;
   unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>;
 };
@@ -129,63 +134,124 @@ export type OrderSelectionSummary = {
   totalPrice: number;
 };
 
+const orderQuantityUnit = "부";
+const defaultPageSectionTitle = "III. 페이지 수 선택";
+const defaultPaperSectionTitle = "IV. 용지 선택";
+
 export const formatOrderCurrency = (amount: number) =>
   `${amount.toLocaleString("ko-KR")}원`;
 
-const defaultPlanningService = {
-  badge: "+ 선택 추가",
-  description: "컨셉 방향·구성안·카피라이팅",
-  fee: 100000,
-  note: "규모에 따라 별도 상담",
-  priceLabel: "+100,000원 ~",
-  title: "기획",
-} as const satisfies OrderServiceOption;
+const formatOrderQuantity = (amount: number) =>
+  `${amount.toLocaleString("ko-KR")}${orderQuantityUnit}`;
 
-type OrderUnitPriceInput = Omit<OrderUnitPriceQuote, "pageId"> & {
-  pageId?: string;
-};
+const getAdminUnitPriceKey = (
+  paperIndex: number,
+  pageIndex: number,
+  quantityIndex: number,
+) => [paperIndex, pageIndex, quantityIndex].join(":");
 
-type OrderProductRegistrationInput = Omit<
-  OrderProductRegistration,
-  "pageSectionTitle" | "paperSectionTitle" | "planningService" | "unitPriceQuotes"
-> & {
-  pageSectionTitle?: string;
-  paperSectionTitle?: string;
-  planningService?: OrderServiceOption;
-  unitPrices: ReadonlyArray<OrderUnitPriceInput>;
-};
+const createAdminUnitPrices = (
+  paperTypes: ReadonlyArray<string>,
+  pageCounts: ReadonlyArray<number>,
+  orderQuantities: ReadonlyArray<number>,
+  unitPricesByQuantity: ReadonlyArray<number>,
+) => {
+  const unit_prices: Record<string, number> = {};
 
-const formatOrderQuantity = ({ amount, unit }: OrderQuantityInput) =>
-  `${amount.toLocaleString("ko-KR")}${unit}`;
+  paperTypes.forEach((_, paperIndex) => {
+    pageCounts.forEach((__, pageIndex) => {
+      orderQuantities.forEach((___, quantityIndex) => {
+        const unitPrice = unitPricesByQuantity[quantityIndex];
 
-const createUnitPriceQuotes = (
-  pageOptions: ReadonlyArray<OrderOptionChoice>,
-  unitPrices: ReadonlyArray<OrderUnitPriceInput>,
-): ReadonlyArray<OrderUnitPriceQuote> =>
-  unitPrices.flatMap((unitPrice) => {
-    if (unitPrice.pageId) {
-      return [{ ...unitPrice, pageId: unitPrice.pageId }];
-    }
-
-    return pageOptions.map((pageOption) => ({
-      ...unitPrice,
-      pageId: pageOption.id,
-    }));
+        if (unitPrice !== undefined) {
+          unit_prices[getAdminUnitPriceKey(paperIndex, pageIndex, quantityIndex)] =
+            unitPrice;
+        }
+      });
+    });
   });
 
-const createProductRegistration = ({
-  pageSectionTitle = "III. 페이지 수 선택",
-  paperSectionTitle = "IV. 용지 선택",
-  planningService = defaultPlanningService,
-  unitPrices,
-  ...registration
-}: OrderProductRegistrationInput): OrderProductRegistration => ({
-  ...registration,
-  pageSectionTitle,
-  paperSectionTitle,
-  planningService,
-  unitPriceQuotes: createUnitPriceQuotes(registration.pageOptions, unitPrices),
+  return unit_prices;
+};
+
+const createAdminOrderProduct = ({
+  unitPricesByQuantity,
+  ...product
+}: Omit<AdminOrderProduct, "unit_prices"> & {
+  unitPricesByQuantity: ReadonlyArray<number>;
+}): AdminOrderProduct => ({
+  ...product,
+  unit_prices: createAdminUnitPrices(
+    product.paper_types,
+    product.page_counts,
+    product.order_quantities,
+    unitPricesByQuantity,
+  ),
 });
+
+const toPageChoice = (pageCount: number): OrderOptionChoice => ({
+  id: String(pageCount),
+  label: `${pageCount}p`,
+});
+
+const toPaperChoice = (paperType: string, index: number): OrderOptionChoice => ({
+  id: `paper-${index}`,
+  label: paperType,
+});
+
+const toQuantityId = (quantity: number) => String(quantity);
+
+const createPriceLabel = (fee: number) => `${formatOrderCurrency(fee)} ~`;
+
+export function fromAdminProductToOrderRegistration(
+  product: AdminOrderProduct,
+): OrderProductRegistration {
+  return {
+    designPrintService: {
+      badge: "기본 포함",
+      description: "편집 디자인·후가공·인쇄 원스톱 진행",
+      fee: product.design_print_estimate,
+      note: "용지·페이지·수량에 따라 상이",
+      priceLabel: createPriceLabel(product.design_print_estimate),
+      title: "디자인 + 인쇄",
+    },
+    pageOptions: product.page_counts.map(toPageChoice),
+    pageSectionTitle: defaultPageSectionTitle,
+    paperOptions: product.paper_types.map(toPaperChoice),
+    paperSectionTitle: defaultPaperSectionTitle,
+    planningService: {
+      badge: "+ 선택 추가",
+      description: "컨셉 방향·구성안·카피라이팅",
+      fee: product.planning_estimate,
+      note: "규모에 따라 별도 상담",
+      priceLabel: createPriceLabel(product.planning_estimate),
+      title: "기획",
+    },
+    quantities: product.order_quantities,
+    serviceId: product.id,
+    unitPriceQuotes: product.paper_types.flatMap((_, paperIndex) =>
+      product.page_counts.flatMap((pageCount, pageIndex) =>
+        product.order_quantities.flatMap((quantity, quantityIndex) => {
+          const unitPrice =
+            product.unit_prices[
+              getAdminUnitPriceKey(paperIndex, pageIndex, quantityIndex)
+            ];
+
+          return unitPrice === undefined
+            ? []
+            : [
+                {
+                  pageId: String(pageCount),
+                  paperId: `paper-${paperIndex}`,
+                  quantityId: toQuantityId(quantity),
+                  unitPrice,
+                },
+              ];
+        }),
+      ),
+    ),
+  };
+}
 
 const findUnitPriceQuote = (
   unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>,
@@ -198,23 +264,17 @@ const findUnitPriceQuote = (
       quote.pageId === pageId &&
       quote.paperId === paperId &&
       quote.quantityId === quantityId,
-  ) ??
-  unitPriceQuotes.find(
-    (quote) =>
-      quote.pageId === pageId &&
-      quote.paperId === undefined &&
-      quote.quantityId === quantityId,
   );
 
 function createQuantityOption(
   selectedService: OrderServiceOption,
-  quantity: OrderQuantityInput,
+  quantity: number,
   quote: OrderUnitPriceQuote,
 ): OrderQuantityOption {
-  const total = quote.totalPrice ?? quote.unitPrice * quantity.amount;
+  const total = quote.unitPrice * quantity;
 
   return {
-    id: quantity.id,
+    id: toQuantityId(quantity),
     printFee: Math.max(total - selectedService.fee, 0),
     quantity: formatOrderQuantity(quantity),
     total,
@@ -236,28 +296,29 @@ const createQuantityOptions = (
       source.unitPriceQuotes,
       pageId,
       paperId,
-      quantity.id,
+      toQuantityId(quantity),
     );
 
-    return quote ? [createQuantityOption(source.selectedService, quantity, quote)] : [];
+    return quote
+      ? [createQuantityOption(source.selectedService, quantity, quote)]
+      : [];
   });
 
-function createOrderOptionConfig(
-  product: OrderProductRegistration,
-): OrderOptionConfig {
-  const selectedService = product.designPrintService;
-  const defaultPage = product.pageOptions[0];
-  const defaultPaper = product.paperOptions[0];
+function createOrderOptionConfig(product: AdminOrderProduct): OrderOptionConfig {
+  const registration = fromAdminProductToOrderRegistration(product);
+  const selectedService = registration.designPrintService;
+  const defaultPage = registration.pageOptions[0];
+  const defaultPaper = registration.paperOptions[0];
 
   if (!defaultPage || !defaultPaper) {
-    throw new Error(`Order option config for ${product.serviceId} needs defaults.`);
+    throw new Error(`Order option config for ${product.id} needs defaults.`);
   }
 
   const quantityOptions = createQuantityOptions(
     {
-      quantities: product.quantities,
+      quantities: registration.quantities,
       selectedService,
-      unitPriceQuotes: product.unitPriceQuotes,
+      unitPriceQuotes: registration.unitPriceQuotes,
     },
     defaultPage.id,
     defaultPaper.id,
@@ -265,22 +326,22 @@ function createOrderOptionConfig(
   const defaultQuantity = quantityOptions[0];
 
   if (!defaultQuantity) {
-    throw new Error(`Order option config for ${product.serviceId} needs prices.`);
+    throw new Error(`Order option config for ${product.id} needs prices.`);
   }
 
   return {
     defaultPageId: defaultPage.id,
     defaultPaperId: defaultPaper.id,
     defaultQuantityId: defaultQuantity.id,
-    pageOptions: product.pageOptions,
-    pageSectionTitle: product.pageSectionTitle,
-    paperOptions: product.paperOptions,
-    paperSectionTitle: product.paperSectionTitle,
-    planningService: product.planningService,
-    quantities: product.quantities,
+    pageOptions: registration.pageOptions,
+    pageSectionTitle: registration.pageSectionTitle,
+    paperOptions: registration.paperOptions,
+    paperSectionTitle: registration.paperSectionTitle,
+    planningService: registration.planningService,
+    quantities: registration.quantities,
     selectedService,
-    serviceId: product.serviceId,
-    unitPriceQuotes: product.unitPriceQuotes,
+    serviceId: registration.serviceId,
+    unitPriceQuotes: registration.unitPriceQuotes,
   };
 }
 
@@ -291,255 +352,98 @@ export const getOrderQuantityOptions = (
 ): ReadonlyArray<OrderQuantityOption> =>
   createQuantityOptions(optionConfig, pageId, paperId);
 
+const standardPaperTypes = ["일반지 (스노우지 유광)", "고급지 (랑데뷰 무광)"];
+const standardPageCounts = [8, 16, 24];
+const standardOrderQuantities = [500, 1000, 2000, 3000];
+
 export const orderProductRegistrations = {
-  "brochure-catalog": createProductRegistration({
-    pageOptions: [
-      { id: "8p", label: "8p" },
-      { id: "12p", label: "12p" },
-      { id: "16p", label: "16p" },
-    ],
-    paperOptions: [
-      { id: "snow", label: "일반지 (스노우지 유광)" },
-      { id: "rendezvous", label: "고급지 (랑데뷰 무광)" },
-    ],
-    quantities: [
-      { id: "500", amount: 500, unit: "부" },
-      { id: "1000", amount: 1000, unit: "부" },
-      { id: "2000", amount: 2000, unit: "부" },
-      { id: "3000", amount: 3000, unit: "부" },
-    ],
-    serviceId: "brochure-catalog",
-    unitPrices: [
-      { quantityId: "500", unitPrice: 1040 },
-      { quantityId: "1000", unitPrice: 700 },
-      { quantityId: "2000", unitPrice: 520 },
-      { quantityId: "3000", totalPrice: 1390000, unitPrice: 463 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "편집 디자인·후가공·인쇄 원스톱 진행",
-      fee: 160000,
-      note: "용지·페이지·수량에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 인쇄",
-    },
+  "brochure-catalog": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "brochure-catalog",
+    name: "브로슈어 · 카탈로그",
+    order_quantities: standardOrderQuantities,
+    page_counts: standardPageCounts,
+    paper_types: standardPaperTypes,
+    planning_estimate: 100000,
+    type: "기업소개, 제품 카탈로그 등 핵심 홍보물. 기획부터 인쇄까지 원스톱",
+    unitPricesByQuantity: [1040, 700, 520, 463],
   }),
-  "leaflet-pamphlet": createProductRegistration({
-    pageOptions: [
-      { id: "2fold", label: "2단" },
-      { id: "3fold", label: "3단" },
-      { id: "4fold", label: "4단" },
-    ],
-    paperOptions: [
-      { id: "art", label: "아트지 150g" },
-      { id: "snow", label: "스노우지 180g" },
-    ],
-    quantities: [
-      { id: "500", amount: 500, unit: "부" },
-      { id: "1000", amount: 1000, unit: "부" },
-      { id: "2000", amount: 2000, unit: "부" },
-      { id: "3000", amount: 3000, unit: "부" },
-    ],
-    serviceId: "leaflet-pamphlet",
-    unitPrices: [
-      { quantityId: "500", unitPrice: 840 },
-      { quantityId: "1000", unitPrice: 560 },
-      { quantityId: "2000", unitPrice: 410 },
-      { quantityId: "3000", totalPrice: 1090000, unitPrice: 363 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "접지 구성·편집 디자인·인쇄 진행",
-      fee: 160000,
-      note: "접지·수량에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 인쇄",
-    },
+  "leaflet-pamphlet": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "leaflet-pamphlet",
+    name: "리플렛 · 팜플렛",
+    order_quantities: standardOrderQuantities,
+    page_counts: [2, 4, 6],
+    paper_types: ["아트지 150g", "스노우지 180g"],
+    planning_estimate: 100000,
+    type: "단면, 양면, 접지 등 다양한 형태의 소책자 및 안내물 제작",
+    unitPricesByQuantity: [840, 560, 410, 363],
   }),
-  "poster-flyer": createProductRegistration({
-    pageOptions: [
-      { id: "a3", label: "A3" },
-      { id: "a2", label: "A2" },
-      { id: "a1", label: "A1" },
-    ],
-    paperOptions: [
-      { id: "standard", label: "일반지 (스노우지 유광)" },
-      { id: "thick", label: "고급지 250g" },
-    ],
-    quantities: [
-      { id: "100", amount: 100, unit: "부" },
-      { id: "300", amount: 300, unit: "부" },
-      { id: "500", amount: 500, unit: "부" },
-      { id: "1000", amount: 1000, unit: "부" },
-    ],
-    serviceId: "poster-flyer",
-    unitPrices: [
-      { quantityId: "100", unitPrice: 3000 },
-      { quantityId: "300", totalPrice: 400000, unitPrice: 1333 },
-      { quantityId: "500", unitPrice: 960 },
-      { quantityId: "1000", unitPrice: 680 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "포스터·전단 편집 디자인 및 인쇄",
-      fee: 160000,
-      note: "규격·수량에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 인쇄",
-    },
+  "poster-flyer": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "poster-flyer",
+    name: "포스터 · 전단지",
+    order_quantities: [100, 300, 500, 1000],
+    page_counts: [1, 2, 3],
+    paper_types: ["일반지 (스노우지 유광)", "고급지 250g"],
+    planning_estimate: 100000,
+    type: "행사·이벤트·홍보용 포스터와 전단지. 빠른 납기 대응 가능.",
+    unitPricesByQuantity: [3000, 1333, 960, 680],
   }),
-  "banner-display": createProductRegistration({
-    pageOptions: [
-      { id: "basic", label: "기본형" },
-      { id: "wide", label: "와이드" },
-      { id: "custom", label: "맞춤형" },
-    ],
-    paperOptions: [
-      { id: "pet", label: "PET 배너" },
-      { id: "fabric", label: "패브릭 현수막" },
-    ],
-    quantities: [
-      { id: "1", amount: 1, unit: "개" },
-      { id: "3", amount: 3, unit: "개" },
-      { id: "5", amount: 5, unit: "개" },
-      { id: "10", amount: 10, unit: "개" },
-    ],
-    serviceId: "banner-display",
-    unitPrices: [
-      { quantityId: "1", unitPrice: 250000 },
-      { quantityId: "3", totalPrice: 370000, unitPrice: 123333 },
-      { quantityId: "5", unitPrice: 96000 },
-      { quantityId: "10", unitPrice: 72000 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "배너 디자인·출력·후가공 진행",
-      fee: 160000,
-      note: "규격·소재에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 출력",
-    },
+  "banner-display": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "banner-display",
+    name: "배너 · 족자 · 현수막",
+    order_quantities: [1, 3, 5, 10],
+    page_counts: [1, 2, 3],
+    paper_types: ["PET 배너", "패브릭 현수막"],
+    planning_estimate: 100000,
+    type: "박람회, 매장, 행사장용 대형 출력물. 설치·운송 상담 가능.",
+    unitPricesByQuantity: [250000, 123333, 96000, 72000],
   }),
-  "business-card-envelope": createProductRegistration({
-    pageOptions: [
-      { id: "business-card", label: "명함" },
-      { id: "envelope", label: "봉투" },
-      { id: "letterhead", label: "레터헤드" },
-    ],
-    paperOptions: [
-      { id: "standard", label: "일반지" },
-      { id: "premium", label: "고급지" },
-    ],
-    quantities: [
-      { id: "200", amount: 200, unit: "매" },
-      { id: "500", amount: 500, unit: "매" },
-      { id: "1000", amount: 1000, unit: "매" },
-      { id: "2000", amount: 2000, unit: "매" },
-    ],
-    serviceId: "business-card-envelope",
-    unitPrices: [
-      { quantityId: "200", unitPrice: 1150 },
-      { quantityId: "500", unitPrice: 560 },
-      { quantityId: "1000", unitPrice: 370 },
-      { quantityId: "2000", unitPrice: 260 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "명함·봉투 편집 디자인 및 인쇄",
-      fee: 160000,
-      note: "품목·수량에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 인쇄",
-    },
+  "business-card-envelope": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "business-card-envelope",
+    name: "명함 · 봉투",
+    order_quantities: [200, 500, 1000, 2000],
+    page_counts: [1, 2, 3],
+    paper_types: ["일반지", "고급지"],
+    planning_estimate: 100000,
+    type: "소량 명함부터 기업용 봉투 · 레터헤드까지 정찰제 가격 제공.",
+    unitPricesByQuantity: [1150, 560, 370, 260],
   }),
-  logo: createProductRegistration({
-    pageOptions: [
-      { id: "basic", label: "베이직" },
-      { id: "standard", label: "스탠다드" },
-      { id: "premium", label: "프리미엄" },
-    ],
-    paperOptions: [
-      { id: "digital", label: "디지털 파일" },
-      { id: "guide", label: "가이드 포함" },
-    ],
-    quantities: [
-      { id: "1", amount: 1, unit: "식" },
-      { id: "2", amount: 2, unit: "안" },
-      { id: "3", amount: 3, unit: "안" },
-      { id: "4", amount: 4, unit: "안" },
-    ],
-    serviceId: "logo",
-    unitPrices: [
-      { quantityId: "1", unitPrice: 360000 },
-      { quantityId: "2", unitPrice: 260000 },
-      { quantityId: "3", totalPrice: 680000, unitPrice: 226667 },
-      { quantityId: "4", unitPrice: 210000 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "로고 콘셉트 설계 및 디자인",
-      fee: 360000,
-      note: "제안안 수에 따라 상이",
-      priceLabel: "360,000원 ~",
-      title: "로고 디자인",
-    },
+  logo: createAdminOrderProduct({
+    design_print_estimate: 360000,
+    id: "logo",
+    name: "로고",
+    order_quantities: [1, 2, 3, 4],
+    page_counts: [1, 2, 3],
+    paper_types: ["디지털 파일", "가이드 포함"],
+    planning_estimate: 100000,
+    type: "브랜드의 첫인상을 결정하는 로고. 전략적 기획 + 감각적 디자인.",
+    unitPricesByQuantity: [360000, 260000, 226667, 210000],
   }),
-  "package-shopping-bag": createProductRegistration({
-    pageOptions: [
-      { id: "label", label: "라벨" },
-      { id: "box", label: "박스" },
-      { id: "bag", label: "쇼핑백" },
-    ],
-    paperOptions: [
-      { id: "standard", label: "일반 패키지지" },
-      { id: "premium", label: "고급 패키지지" },
-    ],
-    quantities: [
-      { id: "500", amount: 500, unit: "개" },
-      { id: "1000", amount: 1000, unit: "개" },
-      { id: "2000", amount: 2000, unit: "개" },
-      { id: "3000", amount: 3000, unit: "개" },
-    ],
-    serviceId: "package-shopping-bag",
-    unitPrices: [
-      { quantityId: "500", unitPrice: 1240 },
-      { quantityId: "1000", unitPrice: 940 },
-      { quantityId: "2000", unitPrice: 740 },
-      { quantityId: "3000", totalPrice: 1990000, unitPrice: 663 },
-    ],
-    designPrintService: {
-      badge: "기본 포함",
-      description: "패키지 지기구조 디자인 및 인쇄",
-      fee: 160000,
-      note: "형태·후가공에 따라 상이",
-      priceLabel: "160,000원 ~",
-      title: "디자인 + 제작",
-    },
+  "package-shopping-bag": createAdminOrderProduct({
+    design_print_estimate: 160000,
+    id: "package-shopping-bag",
+    name: "패키지 · 쇼핑백",
+    order_quantities: standardOrderQuantities,
+    page_counts: [1, 2, 3],
+    paper_types: ["일반 패키지지", "고급 패키지지"],
+    planning_estimate: 100000,
+    type: "브랜드 아이덴티티를 담은 패키지 디자인 및 쇼핑백 제작.",
+    unitPricesByQuantity: [1240, 940, 740, 663],
   }),
-} as const satisfies Record<string, OrderProductRegistration>;
+} as const satisfies Record<string, AdminOrderProduct>;
 
-export const orderOptionCatalog = {
-  "brochure-catalog": createOrderOptionConfig(
-    orderProductRegistrations["brochure-catalog"],
-  ),
-  "leaflet-pamphlet": createOrderOptionConfig(
-    orderProductRegistrations["leaflet-pamphlet"],
-  ),
-  "poster-flyer": createOrderOptionConfig(
-    orderProductRegistrations["poster-flyer"],
-  ),
-  "banner-display": createOrderOptionConfig(
-    orderProductRegistrations["banner-display"],
-  ),
-  "business-card-envelope": createOrderOptionConfig(
-    orderProductRegistrations["business-card-envelope"],
-  ),
-  logo: createOrderOptionConfig(orderProductRegistrations.logo),
-  "package-shopping-bag": createOrderOptionConfig(
-    orderProductRegistrations["package-shopping-bag"],
-  ),
-} as const satisfies Record<string, OrderOptionConfig>;
+export const orderOptionCatalog = Object.fromEntries(
+  Object.entries(orderProductRegistrations).map(([serviceId, product]) => [
+    serviceId,
+    createOrderOptionConfig(product),
+  ]),
+) as Record<keyof typeof orderProductRegistrations, OrderOptionConfig>;
 
-export const getOrderOptionConfig = (serviceId: string): OrderOptionConfig =>
-  orderOptionCatalog[serviceId as keyof typeof orderOptionCatalog] ??
-  orderOptionCatalog["brochure-catalog"];
+export const getOrderOptionConfig = (
+  serviceId: string,
+): OrderOptionConfig | undefined =>
+  orderOptionCatalog[serviceId as keyof typeof orderOptionCatalog];

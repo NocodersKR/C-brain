@@ -65,22 +65,8 @@ type OrderPaymentResultProps = OrderPaymentResultCommonProps &
 const resultStepIndex = 3;
 const kakaoChannelUrl = "https://pf.kakao.com/_JAFAG";
 
-const defaultSuccessSummary: OrderPaymentSummary = {
-  pageLabel: "12p",
-  paperLabel: "일반지 (스노우지 유광)",
-  quantityLabel: "500부",
-  serviceLabel: "디자인 + 인쇄",
-  totalPrice: 520000,
-};
-
-const defaultSuccessResultData: OrderPaymentSuccessData = {
-  companyName: "노코더스",
-  paymentMethod: "카드",
-  summary: defaultSuccessSummary,
-};
-
 const defaultFailureResultData: OrderPaymentFailureData = {
-  failureReason: "{실패사유를 입력해주세요.}",
+  failureReason: "결제가 정상적으로 완료되지 않았습니다.",
 };
 
 const successDescriptionLines = [
@@ -97,7 +83,11 @@ function createPaymentDetailRows(
     return data.detailRows;
   }
 
-  const summary = data.summary ?? defaultSuccessSummary;
+  if (!data.summary) {
+    return [];
+  }
+
+  const { summary } = data;
 
   return [
     { label: "서비스", value: summary.serviceLabel },
@@ -111,7 +101,7 @@ function createPaymentDetailGroups(data: OrderPaymentSuccessData) {
   const totalPrice =
     data.totalPrice ??
     data.summary?.totalPrice ??
-    defaultSuccessSummary.totalPrice;
+    0;
 
   return [
     createPaymentDetailRows(data),
@@ -289,15 +279,12 @@ export function OrderPaymentResult(props: OrderPaymentResultProps) {
     showProgress = true,
     successPrimaryHref = "/order",
     successPrimaryLabel = "다른 제품 주문하기",
-    variant,
   } = props;
-  const isSuccess = variant === "success";
-  const successData = isSuccess
-    ? (props.data ?? defaultSuccessResultData)
-    : defaultSuccessResultData;
-  const failureData = !isSuccess
+  const isSuccess = props.variant === "success";
+  const failureData = props.variant === "failure"
     ? (props.data ?? defaultFailureResultData)
     : defaultFailureResultData;
+  const successData = props.variant === "success" ? props.data : undefined;
   const title = isSuccess ? "결제가 완료되었습니다" : "결제에 실패했습니다";
 
   useEffect(() => {
@@ -309,6 +296,10 @@ export function OrderPaymentResult(props: OrderPaymentResultProps) {
       delete document.body.dataset.orderResultActive;
     };
   }, [showProgress]);
+
+  if (isSuccess && !successData) {
+    return null;
+  }
 
   return (
     <div
@@ -383,7 +374,7 @@ export function OrderPaymentResult(props: OrderPaymentResultProps) {
               </div>
             </div>
 
-            {isSuccess ? (
+            {successData ? (
               <>
                 <OrderResultPaymentCard data={successData} />
                 <OrderResultGuide />

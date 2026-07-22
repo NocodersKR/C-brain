@@ -1,19 +1,19 @@
 "use client";
 
 import { Button } from "@repo/ui/button";
-import { type CSSProperties, type KeyboardEvent } from "react";
+import { type CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import { type ServiceItem, services } from "../_content/services";
 import styles from "../page.module.css";
 
 const textButtonStyle: CSSProperties = {
-  height: 20,
-  padding: 0,
-  border: 0,
-  background: "transparent",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 4,
   color: "#30bac3",
   fontSize: 14,
+  lineHeight: "20px",
 };
 
 const serviceButtonStyle: CSSProperties = {
@@ -57,25 +57,16 @@ export function ServiceCards({
             : onDirectServiceSelect
               ? () => onDirectServiceSelect(service)
               : undefined;
-          const handleCardKeyDown = cardClickHandler
-            ? (event: KeyboardEvent<HTMLElement>) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  cardClickHandler();
-                }
-              }
-            : undefined;
 
           return (
-            <article
+            <button
               className={`${styles.serviceCard} ${
                 cardClickHandler ? styles.serviceCardClickable : ""
               }`}
+              disabled={!cardClickHandler}
               key={service.id}
               onClick={cardClickHandler}
-              onKeyDown={handleCardKeyDown}
-              role={cardClickHandler ? "button" : undefined}
-              tabIndex={cardClickHandler ? 0 : undefined}
+              type="button"
             >
               <div className={styles.serviceContent}>
                 <span
@@ -96,16 +87,7 @@ export function ServiceCards({
                 }`}
               >
                 {service.isQuote ? null : <strong>{service.price}</strong>}
-                <Button
-                  onClick={
-                    cardClickHandler
-                      ? (event) => {
-                          event.stopPropagation();
-                          cardClickHandler();
-                        }
-                      : undefined
-                  }
-                  rightIcon={<Icon name="arrow-right" size={16} />}
+                <span
                   style={
                     service.isQuote ? quoteButtonStyle : serviceButtonStyle
                   }
@@ -113,9 +95,10 @@ export function ServiceCards({
                   {service.isQuote
                     ? "견적 후 주문(카카오톡)"
                     : "정찰제 즉시결제"}
-                </Button>
+                  <Icon name="arrow-right" size={16} />
+                </span>
               </div>
-            </article>
+            </button>
           );
         })}
 

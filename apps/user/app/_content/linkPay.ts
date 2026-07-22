@@ -14,7 +14,7 @@ export type LinkPayPayment = {
   status: LinkPayPaymentStatus;
 };
 
-export const linkPayPayments = [
+export const linkPayPayments: ReadonlyArray<LinkPayPayment> = [
   {
     amount: 520000,
     clientName: "CJ제일제당",
@@ -27,7 +27,7 @@ export const linkPayPayments = [
     paymentName: "민잇 플러스 개발 용역 위탁 결제",
     status: "pending",
   },
-] as const satisfies ReadonlyArray<LinkPayPayment>;
+];
 
 export function getLinkPayPayment(id: string) {
   return linkPayPayments.find((payment) => payment.id === id);

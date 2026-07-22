@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type CSSProperties } from "react";
 
 import { CtaSection } from "../../_components/CtaSection";
@@ -7,13 +8,15 @@ import type { OrderSelectionSummary, OrderStepId } from "../../_content/order";
 import type { ServiceItem } from "../../_content/services";
 import type { OrderPaymentSubmitPayload } from "./OrderCustomerInfoStep";
 import { OrderFlowSection } from "./OrderFlowSection";
+import { submitOrderPayment } from "./payment";
 import styles from "./page.module.css";
 
 const heroStyle = {
-  "--order-hero-background": 'url("/figma-assets/order-hero-background.png")',
+  "--order-hero-background": 'url("/figma-assets/order-hero-background.jpg")',
 } as CSSProperties;
 
 export default function OrderPage() {
+  const router = useRouter();
   const [orderStep, setOrderStep] = useState<OrderStepId>("category");
   const [selectedDirectService, setSelectedDirectService] =
     useState<ServiceItem | null>(null);
@@ -41,8 +44,12 @@ export default function OrderPage() {
     setOrderStep("option");
   };
 
-  const handlePaymentSubmit = (payload: OrderPaymentSubmitPayload) => {
-    void payload;
+  const handlePaymentSubmit = async (payload: OrderPaymentSubmitPayload) => {
+    const result = await submitOrderPayment(payload);
+    const fallbackHref =
+      result.status === "success" ? "/order/success" : "/order/fail";
+
+    router.push(result.redirectHref ?? fallbackHref);
   };
 
   useEffect(() => {

@@ -1,158 +1,102 @@
-# 주문 상품 등록 데이터 구조 인수인계
+# 주문/개인결제 데이터 인수인계
 
-## 현재 상태
+## 핵심 방향
 
-주문·결제 페이지 UI는 프론트엔드 기준으로 구현되어 있으며, 상품 등록 데이터는 현재 `apps/user/app/_content/order.ts`의 정적 데이터로 관리합니다.
+주문 페이지의 원본 상품 데이터는 어드민 상품 등록 구조를 기준으로 맞춥니다. 프론트 화면은 어드민 원본을 그대로 쓰지 않고, `fromAdminProductToOrderRegistration`으로 UI가 쓰기 좋은 옵션 구조로 변환해서 사용합니다.
 
-추후 어드민에서 상품을 등록하면 어드민 저장 데이터가 `OrderProductRegistration` 형태로 내려오도록 맞추면 됩니다. 프론트엔드는 이 원본 상품 등록 데이터를 `OrderOptionConfig`로 변환해 옵션 선택 UI에 사용합니다.
+- 어드민 원본 상품: `AdminOrderProduct`
+- 정적 샘플 위치: `apps/user/app/_content/order.ts`
+- UI 변환 함수: `fromAdminProductToOrderRegistration(product)`
+- 옵션 화면 데이터: `orderOptionCatalog`
+- 단일 상품 조회: `getOrderOptionConfig(serviceId)`
+- 수량별 가격 조회: `getOrderQuantityOptions(optionConfig, pageId, paperId)`
 
-- 상품 등록 원본 데이터: `orderProductRegistrations`
-- UI용 옵션 데이터: `orderOptionCatalog`
-- 단일 상품 조회 함수: `getOrderOptionConfig(serviceId)`
-- 선택한 페이지·용지 기준 수량/단가 계산 함수: `getOrderQuantityOptions(optionConfig, pageId, paperId)`
+## 어드민 상품 저장 구조
 
-## 데이터 흐름
+어드민에서 상품을 등록할 때는 아래처럼 저장하면 됩니다.
 
-1. 카테고리 선택 카드에서 `serviceId`를 선택합니다.
-2. `getOrderOptionConfig(serviceId)`로 해당 상품의 옵션 설정을 가져옵니다.
-3. 사용자가 페이지 수와 용지를 선택하면 `getOrderQuantityOptions`가 해당 조합에 맞는 수량별 단가표를 반환합니다.
-4. 결제하기를 누르면 선택값이 `OrderSelectionSummary`로 정리됩니다.
-5. 주문자 정보 입력 단계에서 `OrderPaymentSubmitPayload`로 고객 정보, 동의값, 주문 요약을 결제 연동 함수에 넘깁니다.
+```ts
+type AdminOrderProduct = {
+  id: string;
+  name: string;
+  type: string;
+  design_print_estimate: number;
+  planning_estimate: number;
+  paper_types: string[];
+  page_counts: number[];
+  order_quantities: number[];
+  unit_prices: Record<string, number>;
+};
+```
 
-## 어드민 등록 구조
+| 필드 | 예시 | 설명 |
+| --- | --- | --- |
+| `id` | `brochure-catalog` | 주문 카드와 결제 payload에서 쓰는 상품 ID입니다. |
+| `name` | `브로슈어 · 카탈로그` | 카테고리 카드 제목입니다. |
+| `type` | `기업소개, 제품 카탈로그...` | 카테고리 카드 설명입니다. |
+| `design_print_estimate` | `160000` | 디자인+인쇄 기본 금액입니다. |
+| `planning_estimate` | `100000` | 기획 추가 금액입니다. |
+| `paper_types` | `["일반지", "고급지"]` | 용지 탭 목록입니다. |
+| `page_counts` | `[8, 16, 24]` | 페이지 수 탭 목록입니다. 화면에서는 `8p`처럼 표시됩니다. |
+| `order_quantities` | `[500, 1000, 2000, 3000]` | 수량 목록입니다. 화면에서는 `500부`처럼 표시됩니다. |
+| `unit_prices` | `{ "0:0:0": 1040 }` | 용지/페이지/수량 조합별 인쇄 단가입니다. |
 
-어드민의 신규 상품 등록 화면은 아래 구조로 저장하면 됩니다.
+## 단가 키 규칙
+
+`unit_prices` 키는 `paperIndex:pageIndex:quantityIndex` 형식입니다.
+
+```ts
+const key = `${paperIndex}:${pageIndex}:${quantityIndex}`;
+```
+
+예를 들어 아래 상품에서:
+
+```ts
+paper_types: ["일반지 (스노우지 유광)", "고급지 (랑데뷰 무광)"],
+page_counts: [8, 16, 24],
+order_quantities: [500, 1000, 2000, 3000],
+unit_prices: {
+  "0:0:0": 1040,
+  "0:0:1": 700,
+}
+```
+
+- `"0:0:0"`은 첫 번째 용지 / 첫 번째 페이지 수 / 첫 번째 수량입니다.
+- 즉 `일반지 (스노우지 유광) / 8p / 500부`의 단가는 `1,040원`입니다.
+- `"0:0:1"`은 `일반지 (스노우지 유광) / 8p / 1,000부`의 단가 `700원`입니다.
+
+## 프론트 변환 결과
+
+프론트는 어드민 원본을 아래 UI용 구조로 바꿔서 옵션 선택 화면에 전달합니다.
 
 ```ts
 type OrderProductRegistration = {
   serviceId: string;
   designPrintService: OrderServiceOption;
   planningService: OrderServiceOption;
-  paperOptions: ReadonlyArray<OrderOptionChoice>;
-  pageOptions: ReadonlyArray<OrderOptionChoice>;
-  quantities: ReadonlyArray<OrderQuantityInput>;
-  unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>;
+  paperOptions: OrderOptionChoice[];
+  pageOptions: OrderOptionChoice[];
+  quantities: number[];
+  unitPriceQuotes: OrderUnitPriceQuote[];
   paperSectionTitle: string;
   pageSectionTitle: string;
 };
 ```
 
-현재 코드에서는 입력 편의를 위해 `createProductRegistration`이 `unitPrices`를 받아 `unitPriceQuotes`로 변환합니다. 실제 API 응답에서는 둘 중 하나로 확정하면 됩니다. 프론트와 맞추기에는 `unitPriceQuotes`를 내려주는 방식이 가장 명확합니다.
-
-## 필드 설명
-
-| 필드 | 형식 | 설명 |
-| --- | --- | --- |
-| `serviceId` | string | 카테고리 카드의 상품 ID와 매칭되는 값입니다. 예: `brochure-catalog` |
-| `designPrintService` | `OrderServiceOption` | 디자인+인쇄 기본 서비스 카드 정보입니다. |
-| `planningService` | `OrderServiceOption` | 기획 추가 선택 카드 정보입니다. |
-| `paperOptions` | `OrderOptionChoice[]` | 용지 선택 버튼 목록입니다. |
-| `pageOptions` | `OrderOptionChoice[]` | 페이지 수 선택 버튼 목록입니다. |
-| `quantities` | `OrderQuantityInput[]` | 주문 수량 목록입니다. 예: 500부, 1,000부 |
-| `unitPriceQuotes` | `OrderUnitPriceQuote[]` | 페이지·용지·수량 조합별 인쇄 단가입니다. |
-| `paperSectionTitle` | string | UI 섹션 제목입니다. 기본값은 `IV. 용지 선택`입니다. |
-| `pageSectionTitle` | string | UI 섹션 제목입니다. 기본값은 `III. 페이지 수 선택`입니다. |
-
-## 세부 타입
+`unit_prices`는 화면에서 찾기 쉬운 `unitPriceQuotes`로 변환됩니다.
 
 ```ts
-type OrderServiceOption = {
-  badge: string;
-  title: string;
-  description: string;
-  fee: number;
-  priceLabel: string;
-  note: string;
-};
-
-type OrderOptionChoice = {
-  id: string;
-  label: string;
-};
-
-type OrderQuantityInput = {
-  id: string;
-  amount: number;
-  unit: string;
-};
-
 type OrderUnitPriceQuote = {
   pageId: string;
-  paperId?: string;
+  paperId: string;
   quantityId: string;
   unitPrice: number;
-  totalPrice?: number;
 };
 ```
 
-## 예시
+## 결제 payload
 
-브로슈어·카탈로그 상품은 아래처럼 등록하면 됩니다.
-
-```ts
-{
-  serviceId: "brochure-catalog",
-  designPrintService: {
-    badge: "기본 포함",
-    title: "디자인 + 인쇄",
-    description: "편집 디자인·후가공·인쇄 원스톱 진행",
-    fee: 160000,
-    priceLabel: "160,000원 ~",
-    note: "용지·페이지·수량에 따라 상이",
-  },
-  planningService: {
-    badge: "+ 선택 추가",
-    title: "기획",
-    description: "컨셉 방향·구성안·카피라이팅",
-    fee: 100000,
-    priceLabel: "+100,000원 ~",
-    note: "규모에 따라 별도 상담",
-  },
-  paperOptions: [
-    { id: "snow", label: "일반지 (스노우지 유광)" },
-    { id: "rendezvous", label: "고급지 (랑데뷰 무광)" },
-  ],
-  pageOptions: [
-    { id: "8p", label: "8p" },
-    { id: "16p", label: "16p" },
-    { id: "24p", label: "24p" },
-  ],
-  quantities: [
-    { id: "500", amount: 500, unit: "부" },
-    { id: "1000", amount: 1000, unit: "부" },
-    { id: "2000", amount: 2000, unit: "부" },
-    { id: "3000", amount: 3000, unit: "부" },
-  ],
-  unitPriceQuotes: [
-    { pageId: "8p", paperId: "snow", quantityId: "500", unitPrice: 1040 },
-    { pageId: "8p", paperId: "snow", quantityId: "1000", unitPrice: 700 },
-    { pageId: "8p", paperId: "snow", quantityId: "2000", unitPrice: 520 },
-    {
-      pageId: "8p",
-      paperId: "snow",
-      quantityId: "3000",
-      unitPrice: 463,
-      totalPrice: 1390000,
-    },
-  ],
-}
-```
-
-`totalPrice`가 없으면 프론트는 `unitPrice * amount`로 총액을 계산합니다. 463원처럼 단가 곱셈과 최종 합계가 반올림 때문에 다를 수 있는 경우에는 `totalPrice`를 함께 내려주세요.
-
-## 용지 공통 단가
-
-용지별 단가가 같다면 `paperId`를 생략할 수 있습니다.
-
-```ts
-{ pageId: "8p", quantityId: "500", unitPrice: 1040 }
-```
-
-이 경우 `8p / 모든 용지 / 500부`에 공통 적용됩니다. 특정 용지만 다른 단가가 필요하면 같은 `pageId`, `quantityId`에 `paperId`를 포함한 값을 추가하면 그 값이 우선 적용됩니다.
-
-## 결제 단계 payload
-
-주문자 정보 입력 단계에서 결제하기를 누르면 아래 구조가 `onPaymentSubmit`으로 전달됩니다.
+주문자 정보 입력 후 결제하기를 누르면 `submitOrderPayment`에 아래 payload가 전달됩니다.
 
 ```ts
 type OrderPaymentSubmitPayload = {
@@ -162,7 +106,7 @@ type OrderPaymentSubmitPayload = {
 };
 ```
 
-`summary.ids`에는 실제 결제 API에 넘기기 좋은 원본 ID가 들어갑니다.
+`summary.ids`에는 서버 검증과 결제 요청에 필요한 원본 ID가 들어갑니다.
 
 ```ts
 type OrderSelectedOptionIds = {
@@ -175,25 +119,16 @@ type OrderSelectedOptionIds = {
 };
 ```
 
-화면 표시용 값은 `summary.serviceLabel`, `summary.paperLabel`, `summary.pageLabel`, `summary.quantityLabel`, `summary.priceRows`, `summary.totalPrice`에 들어갑니다.
+서버 액션 `submitOrderPayment`는 현재 실제 결제사가 연결되기 전 상태입니다. 그래서 상품 존재 여부와 금액 재계산만 검증한 뒤, 성공처럼 보내지 않고 `/order/fail?reason=payment-not-ready`로 보냅니다.
 
-## 결제 연동 지점
+결제 개발자가 붙일 위치:
 
-현재 결제 API 호출은 아직 연결되어 있지 않습니다. 연결 지점은 `apps/user/app/(site)/order/page.tsx`의 `handlePaymentSubmit`입니다.
+- 주문 결제: `apps/user/app/(site)/order/payment.ts`
+- 개인결제: `apps/user/app/(site)/linkpay/[id]/payment.ts`
 
-```ts
-const handlePaymentSubmit = (payload: OrderPaymentSubmitPayload) => {
-  void payload;
-};
-```
+## 개인결제 데이터
 
-결제 개발자는 이 함수에서 결제 요청을 호출하고, 결과에 따라 `/order/success` 또는 `/order/fail`로 이동시키면 됩니다.
-
-## 개인 결제창 데이터
-
-어드민의 신규 링크페이 등록 화면에서 고객사명, 결제명, 결제 금액을 저장하면 사용자에게 `/linkpay/{id}` 형태의 결제 링크를 전달합니다.
-
-사용자 결제창은 `apps/user/app/_content/linkPay.ts`의 `LinkPayPayment` 구조를 기준으로 렌더링합니다. 현재는 정적 예시 데이터지만, 추후 API 응답을 같은 형태로 내려주면 화면 코드는 그대로 사용할 수 있습니다.
+어드민에서 개인 결제창을 만들면 사용자에게 `/linkpay/{id}` 주소를 전달합니다.
 
 ```ts
 type LinkPayPayment = {
@@ -202,14 +137,14 @@ type LinkPayPayment = {
   paymentName: string;
   amount: number;
   status: "pending" | "paid";
-  detailRows: ReadonlyArray<{
+  detailRows: Array<{
     label: string;
     value: string;
   }>;
 };
 ```
 
-`detailRows`는 결제 내역 카드 안에 들어가는 행입니다. 어드민 입력이 고객사명, 결제명, 금액만 있는 단순 결제라면 `결제명` 같은 1개 행만 내려도 되고, 주문형 결제처럼 서비스·용지·페이지 수 / 수량이 있으면 여러 행을 내려주면 됩니다.
+예시:
 
 ```ts
 {
@@ -226,39 +161,24 @@ type LinkPayPayment = {
 }
 ```
 
-사용자가 개인 결제창에서 결제하기를 누르면 `LinkPayPaymentSubmitPayload`가 결제 연동 함수로 전달됩니다.
+개인결제도 실제 결제사가 연결되기 전에는 가짜 성공을 만들지 않습니다. `pending` 상태에서 결제하기를 누르면 `/linkpay/{id}/fail`로 이동합니다. 결제 연동 후에는 실제 결제 성공 시 상태를 `paid`로 바꾸고 `/linkpay/{id}/success`로 보내면 됩니다.
 
-```ts
-type LinkPayPaymentSubmitPayload = {
-  linkPayId: string;
-  customer: LinkPayCustomerInfo;
-  agreements: Record<AgreementId, boolean>;
-};
-```
+## 서버에서 꼭 다시 확인할 것
 
-결제 연동 지점은 `apps/user/app/(site)/linkpay/[id]/payment.ts`의 `submitLinkPayPayment`입니다. 이 함수는 서버 액션이며, 클라이언트에서 전달한 `linkPayId`로 서버가 개인 결제 정보를 다시 조회합니다.
+클라이언트 값은 화면 표시와 UX를 위한 값입니다. 실제 결제 전에는 서버에서 다시 확인해야 합니다.
 
-```ts
-type LinkPayPaymentSubmitResult =
-  | { status: "success"; redirectHref?: string }
-  | { status: "failure"; redirectHref?: string; failureReason?: string };
-```
+- `serviceId`, `pageId`, `paperId`, `quantityId` 조합이 실제 상품에 있는지 확인
+- `unit_prices` 기준으로 금액 재계산
+- `hasPlanning`이 true이면 기획비 반영
+- 고객 필수값, 이메일 형식, 국내 휴대폰 번호 형식 확인
+- 필수 약관 동의 여부 확인
+- 결제 완료 후 결과 페이지에 넘길 `companyName`, `paymentMethod`, `detailRows`, `totalPrice` 구성
 
-현재 함수는 UI 확인을 위해 성공 상태를 반환합니다. 결제 개발자는 이 함수 내부에서 서버 기준 결제 금액과 상태를 조회한 뒤 실제 결제 요청을 호출하고, 결과에 따라 `status`를 반환하면 됩니다. `redirectHref`가 없으면 프론트는 자동으로 아래 기본 결과 페이지로 이동합니다.
+## 결과 페이지 연결
 
-- 성공: `/linkpay/{id}/success`
-- 실패: `/linkpay/{id}/fail`
+결제 결과 페이지는 동적 데이터를 받기 좋게 열려 있습니다.
 
-개인결제 성공·실패 결과 페이지는 주문 스텝리스트를 표시하지 않는 독립 결과 화면입니다. 결과 화면 결제 내역은 `detailRows`, `clientName`, `amount`를 사용해 동적으로 렌더링합니다.
-
-## 서버 검증 권장 사항
-
-클라이언트 계산값은 화면 표시와 UX를 위한 값이므로 서버에서 다시 검증해야 합니다.
-
-- `serviceId`, `pageId`, `paperId`, `quantityId` 조합이 실제 등록 상품에 존재하는지 확인
-- 단가와 총액을 서버 기준으로 재계산
-- `hasPlanning`이 true일 때 기획 비용 반영
-- 주문자 필수값, 이메일 형식, 국내 이동전화 번호 형식 검증
-- 필수 약관 동의 여부 검증
-
-서버 응답에는 결제 추적에 필요한 `orderId`, `paymentId`, `paymentMethod`, `companyName`, `paidAt` 같은 값을 포함하는 것을 권장합니다.
+- 주문 성공 화면은 결제 연동 전 직접 접근을 막기 위해 현재 `/order`로 리다이렉트합니다.
+- 주문 실패 화면은 `/order/fail?reason=invalid-product`처럼 실패 이유를 받을 수 있습니다.
+- 개인결제 성공 화면은 `status: "paid"`일 때만 열립니다.
+- 개인결제 실패 화면은 스텝리스트 없이 글로벌 헤더가 있는 결과 화면으로 표시됩니다.

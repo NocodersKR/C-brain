@@ -32,20 +32,23 @@ export type OrderPaymentSubmitPayload = {
 };
 
 type OrderCustomerInfoStepProps = {
-  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => void;
+  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => Promise<void> | void;
   summary: OrderSelectionSummary;
 };
 
 const agreementItems = [
   {
+    href: "/privacy-collection",
     id: "privacyCollection",
     label: "개인정보 수집 및 이용에 동의합니다.",
   },
   {
+    href: "/privacy-policy",
     id: "privacyPolicy",
     label: "개인정보 처리방침에 동의합니다.",
   },
 ] as const satisfies ReadonlyArray<{
+  href: string;
   id: AgreementId;
   label: string;
 }>;
@@ -174,8 +177,8 @@ export function OrderCustomerInfoStep({
     Partial<Record<OrderCustomerValidationTarget, boolean>>
   >({});
   const [agreements, setAgreements] = useState<Record<AgreementId, boolean>>({
-    privacyCollection: true,
-    privacyPolicy: true,
+    privacyCollection: false,
+    privacyPolicy: false,
   });
   const isAllAgreed = agreementItems.every((item) => agreements[item.id]);
   const isTargetInvalid = (target: OrderCustomerValidationTarget) =>
@@ -286,7 +289,7 @@ export function OrderCustomerInfoStep({
       return;
     }
 
-    onPaymentSubmit?.({
+    void onPaymentSubmit?.({
       agreements,
       customer: fieldValues,
       summary,
@@ -403,7 +406,7 @@ export function OrderCustomerInfoStep({
               </label>
               <a
                 className={styles.agreementViewButton}
-                href="#"
+                href={item.href}
                 rel="noreferrer"
                 target="_blank"
               >

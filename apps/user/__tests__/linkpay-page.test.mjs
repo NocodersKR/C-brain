@@ -68,6 +68,12 @@ test("personal link pay page is driven by admin-style payment data", () => {
   assert.match(formSource, /emailPattern/);
   assert.match(formSource, /linkPayId:\s*payment\.id/);
   assert.doesNotMatch(formSource, /linkPayId:\s*payment\.id,\s*payment,/s);
+  assert.match(formSource, /privacyCollection:\s*false/);
+  assert.match(formSource, /privacyPolicy:\s*false/);
+  assert.doesNotMatch(formSource, /privacyCollection:\s*true/);
+  assert.doesNotMatch(formSource, /privacyPolicy:\s*true/);
+  assert.doesNotMatch(formSource, /href="#"/);
+  assert.match(formSource, /href=\{item\.href\}/);
   assert.match(formSource, /useRouter/);
   assert.match(formSource, /submitLinkPayPayment/);
   assert.match(formSource, /await submitLinkPayPayment\(payload\)/);
@@ -79,10 +85,14 @@ test("personal link pay page is driven by admin-style payment data", () => {
   assert.match(paymentSource, /"use server"/);
   assert.match(paymentSource, /getLinkPayPayment\(payload\.linkPayId\)/);
   assert.doesNotMatch(paymentSource, /payment:\s*LinkPayPayment/);
-  assert.match(paymentSource, /status:\s*"success"/);
+  assert.match(paymentSource, /status:\s*"failure"/);
+  assert.match(paymentSource, /결제 연동 준비 중/);
+  assert.doesNotMatch(paymentSource, /return \{ status: "success" \}/);
 
   assert.match(successRouteSource, /getLinkPayPayment\(id\)/);
   assert.match(successRouteSource, /notFound\(\)/);
+  assert.match(successRouteSource, /payment\.status !== "paid"/);
+  assert.match(successRouteSource, /redirect\(`\/linkpay\/\$\{payment\.id\}`\)/);
   assert.match(successRouteSource, /variant="success"/);
   assert.match(successRouteSource, /showProgress=\{false\}/);
   assert.match(failureRouteSource, /variant="failure"/);

@@ -50,5 +50,9 @@ export async function submitLinkPayPayment(
   void payload.agreements;
   void payload.customer;
 
-  return { status: "success" };
+  return {
+    failureReason: "결제 연동 준비 중입니다.",
+    redirectHref: `/linkpay/${payment.id}/fail`,
+    status: "failure",
+  };
 }

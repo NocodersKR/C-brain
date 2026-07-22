@@ -28,14 +28,17 @@ type LinkPayPaymentFormProps = {
 
 const agreementItems = [
   {
+    href: "/privacy-collection",
     id: "privacyCollection",
     label: "개인정보 수집 및 이용에 동의합니다.",
   },
   {
+    href: "/privacy-policy",
     id: "privacyPolicy",
     label: "개인정보 처리방침에 동의합니다.",
   },
 ] as const satisfies ReadonlyArray<{
+  href: string;
   id: AgreementId;
   label: string;
 }>;
@@ -162,8 +165,8 @@ export function LinkPayPaymentForm({
     Partial<Record<LinkPayValidationTarget, boolean>>
   >({});
   const [agreements, setAgreements] = useState<Record<AgreementId, boolean>>({
-    privacyCollection: true,
-    privacyPolicy: true,
+    privacyCollection: false,
+    privacyPolicy: false,
   });
   const isAllAgreed = agreementItems.every((item) => agreements[item.id]);
   const isTargetInvalid = (target: LinkPayValidationTarget) =>
@@ -400,7 +403,7 @@ export function LinkPayPaymentForm({
                 </label>
                 <a
                   className={styles.agreementViewButton}
-                  href="#"
+                  href={item.href}
                   rel="noreferrer"
                   target="_blank"
                 >

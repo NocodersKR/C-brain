@@ -24,7 +24,7 @@ type OrderFlowSectionProps = {
   onCustomerInfoStart: (summary: OrderSelectionSummary) => void;
   onDirectServiceSelect: (service: ServiceItem) => void;
   onOptionBack: () => void;
-  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => void;
+  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => Promise<void> | void;
   orderStep: OrderStepId;
   selectedDirectService: ServiceItem | null;
   selectedOrderSummary: OrderSelectionSummary | null;
