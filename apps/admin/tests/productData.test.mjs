@@ -92,6 +92,7 @@ test('lowest unit price is rendered as product price', () => {
     page_counts: [8],
     paper_types: ['랑데뷰'],
     planning_estimate: 10000,
+    sort_order: 0,
     status: 'published',
     type: '일반상품',
     unit_prices: { '0:0:0': 1200, '0:0:1': 1000 },
@@ -100,5 +101,25 @@ test('lowest unit price is rendered as product price', () => {
 
   assert.equal(getUnitPriceKey(0, 0, 1), '0:0:1')
   assert.equal(row.price, '1,000원')
+  assert.equal(row.createdAt, '26. 07. 21')
+})
+
+test('product dates are displayed in the administrator KST calendar day', () => {
+  const row = toProductListRow({
+    created_at: '2026-07-20T16:00:00.000Z',
+    design_print_estimate: 0,
+    id: 'kst-product',
+    name: '상품',
+    order_quantities: [100],
+    page_counts: [8],
+    paper_types: ['랑데뷰'],
+    planning_estimate: 0,
+    sort_order: 0,
+    status: 'draft',
+    type: '브로슈어',
+    unit_prices: {},
+    updated_at: '2026-07-20T16:00:00.000Z',
+  })
+
   assert.equal(row.createdAt, '26. 07. 21')
 })

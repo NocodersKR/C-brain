@@ -1,4 +1,5 @@
 import type { Json, ProductStatus, TableInsert, TableRow } from '@repo/supabase/types'
+import { formatAdminDate } from './contentListState.ts'
 
 export type ProductFormState = {
   designPrintEstimate: string
@@ -192,7 +193,7 @@ export function toProductListRow(product: TableRow<'products'>): ProductListRow 
   const lowestUnitPrice = unitPrices.length > 0 ? Math.min(...unitPrices) : null
 
   return {
-    createdAt: product.created_at.slice(2, 10).replaceAll('-', '. '),
+    createdAt: formatAdminDate(product.created_at),
     detailHref: '/products/' + product.id,
     id: product.id,
     name: product.name,

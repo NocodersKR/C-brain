@@ -1,5 +1,6 @@
-import { listAdminProducts } from '@repo/supabase'
-import { useEffect, useMemo, useState } from 'react'
+import { listAdminProducts, reorderProducts } from '@repo/supabase'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { renderAdminContentStatus } from '../components/admin-table/AdminContentTableCells'
 import { AdminDataTableSection } from '../components/admin-table/AdminDataTableSection'
@@ -46,9 +47,9 @@ const productColumns = [
     header: '상세',
     id: 'detail',
     renderCell: (row) => (
-      <a className="admin-data-table__link" href={row.detailHref}>
+      <Link className="admin-data-table__link" to={row.detailHref}>
         상세
-      </a>
+      </Link>
     ),
     track: '120px',
   },
@@ -59,7 +60,9 @@ export function ProductPage() {
   const [filters, setFilters] = useState({ status: '전체' as (typeof statusFilterOptions)[number], type: '전체' })
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isReordering, setIsReordering] = useState(false)
   const [loadError, setLoadError] = useState('')
+  const isReorderingRef = useRef(false)
   const productFilters = useMemo(
     () =>
       [
@@ -108,6 +111,37 @@ export function ProductPage() {
     }
   }
 
+  async function handleRowsReorder(nextRows: readonly ProductListRow[]) {
+    if (isReorderingRef.current) return
+
+    const previousRows = rows
+    isReorderingRef.current = true
+    setIsReordering(true)
+    setRows(nextRows)
+
+    try {
+      await reorderProducts(
+        supabase,
+        nextRows.map((row) => row.id),
+      )
+      toast.success('상품 순서를 변경했습니다.')
+    } catch {
+      setRows(previousRows)
+      toast.error('상품 순서를 저장하지 못했습니다.')
+      window.alert('상품 순서를 저장하지 못했습니다. 다시 시도해주세요.')
+    } finally {
+      isReorderingRef.current = false
+      setIsReordering(false)
+    }
+  }
+
+  const isAcceptDrag =
+    !isLoading &&
+    !isReordering &&
+    !loadError &&
+    !query.trim() &&
+    filters.status === '전체' &&
+    filters.type === '전체'
   return (
     <main className="portfolio-page" aria-label="상품 관리">
       <AdminDataTableSection
@@ -116,8 +150,10 @@ export function ProductPage() {
         emptyMessage={loadError || (isLoading ? '상품을 불러오는 중입니다.' : '조회할 데이터가 없습니다.')}
         filters={productFilters}
         getRowKey={(row) => row.id}
+        isAcceptDrag={isAcceptDrag}
         filterValues={filters}
         onFilterValueChange={handleFilterValueChange}
+        onRowsReorder={handleRowsReorder}
         onSearchValueChange={setQuery}
         rows={filteredRows}
         search={{

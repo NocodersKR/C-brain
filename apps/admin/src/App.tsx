@@ -90,6 +90,7 @@ export function App() {
           <Route element={<LinkPayPage />} path="/linkpay" />
           <Route element={<LinkPayFormPage />} path="/linkpay/new" />
           <Route element={<SalesPage />} path="/sales" />
+          <Route element={<Navigate replace to="/products" />} path="*" />
         </Route>
       </Route>
     </Routes>

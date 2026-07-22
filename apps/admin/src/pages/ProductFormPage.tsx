@@ -1,4 +1,5 @@
-import { createProduct, getAdminProduct, updateProduct } from '@repo/supabase'
+import { createProduct, deleteProduct, getAdminProduct, updateProduct } from '@repo/supabase'
+import { AlertDialog } from '@base-ui/react/alert-dialog'
 import { useEffect, useId, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -185,6 +186,8 @@ export function ProductFormPage() {
   const [productTypeError, setProductTypeError] = useState('')
   const [isLoadingProduct, setIsLoadingProduct] = useState(isEditing)
   const [loadError, setLoadError] = useState('')
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [productTypeInputKey, setProductTypeInputKey] = useState(0)
@@ -246,6 +249,7 @@ export function ProductFormPage() {
       [group]: current[group].map((option, optionIndex) =>
         optionIndex === index ? value : option,
       ),
+      unitPrices: {},
     }))
   }
 
@@ -285,6 +289,8 @@ export function ProductFormPage() {
   }
 
   async function persist(status: 'draft' | 'published') {
+    if (isSaving || isDeleting) return
+
     setIsSaving(true)
     setSaveError('')
 
@@ -305,8 +311,29 @@ export function ProductFormPage() {
     } catch {
       setSaveError('상품을 저장하지 못했습니다. 입력값과 권한을 확인해주세요.')
       toast.error('상품을 저장하지 못했습니다.')
+      window.alert('상품을 저장하지 못했습니다. 다시 시도해주세요.')
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!productId || isSaving || isDeleting) return
+
+    setIsDeleteDialogOpen(false)
+    setIsDeleting(true)
+    setSaveError('')
+
+    try {
+      await deleteProduct(supabase, productId)
+      toast.success('상품을 삭제했습니다.')
+      navigate('/products', { replace: true })
+    } catch {
+      setSaveError('상품을 삭제하지 못했습니다. 권한을 확인해주세요.')
+      toast.error('상품을 삭제하지 못했습니다.')
+      window.alert('상품을 삭제하지 못했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -394,6 +421,43 @@ export function ProductFormPage() {
       {saveError}
     </p>
   ) : null
+  const deleteButton = isEditing ? (
+    <AlertDialog.Root open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <AlertDialog.Trigger
+        className="admin-form__button admin-form__button--danger"
+        disabled={isSaving || isDeleting}
+        type="button"
+      >
+        삭제
+      </AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop className="product-delete-dialog__backdrop" />
+        <AlertDialog.Viewport className="product-delete-dialog__viewport">
+          <AlertDialog.Popup className="product-delete-dialog">
+            <AlertDialog.Title className="product-delete-dialog__title">
+              상품을 삭제할까요?
+            </AlertDialog.Title>
+            <AlertDialog.Description className="product-delete-dialog__description">
+              삭제한 상품은 복구할 수 없습니다.
+            </AlertDialog.Description>
+            <div className="product-delete-dialog__actions">
+              <AlertDialog.Close className="product-delete-dialog__button" type="button">
+                취소
+              </AlertDialog.Close>
+              <button
+                className="product-delete-dialog__button product-delete-dialog__button--danger"
+                disabled={isDeleting}
+                onClick={() => void handleDelete()}
+                type="button"
+              >
+                삭제
+              </button>
+            </div>
+          </AlertDialog.Popup>
+        </AlertDialog.Viewport>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
+  ) : null
 
   return step === 1 ? (
     <AdminFormLayout
@@ -403,9 +467,10 @@ export function ProductFormPage() {
             목록으로
           </Link>
           <div className="admin-form__actions-group">
+            {deleteButton}
             <button
               className="admin-form__button admin-form__button--outline"
-              disabled={isSaving}
+              disabled={isSaving || isDeleting}
               name="intent"
               type="submit"
               value="draft"
@@ -414,7 +479,7 @@ export function ProductFormPage() {
             </button>
             <button
               className="admin-form__button admin-form__button--solid"
-              disabled={isSaving}
+              disabled={isSaving || isDeleting}
               name="intent"
               type="submit"
               value="next"
@@ -436,12 +501,11 @@ export function ProductFormPage() {
             autoComplete="off"
             className="product-form-control__input"
             name="name"
-            onChange={(event) =>
-              setForm((current) => ({
-                ...current,
-                name: event.currentTarget.value,
-              }))
-            }
+            onChange={(event) => {
+              const name = event.currentTarget.value
+
+              setForm((current) => ({ ...current, name }))
+            }}
             placeholder="상품명을 입력해주세요."
             required
             type="text"
@@ -554,9 +618,10 @@ export function ProductFormPage() {
             뒤로가기
           </button>
           <div className="admin-form__actions-group">
+            {deleteButton}
             <button
               className="admin-form__button admin-form__button--outline"
-              disabled={isSaving}
+              disabled={isSaving || isDeleting}
               name="intent"
               type="submit"
               value="draft"
@@ -565,7 +630,7 @@ export function ProductFormPage() {
             </button>
             <button
               className="admin-form__button admin-form__button--solid"
-              disabled={isSaving}
+              disabled={isSaving || isDeleting}
               name="intent"
               type="submit"
               value="publish"

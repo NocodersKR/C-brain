@@ -1,8 +1,8 @@
 import { createBrowserClient } from "@supabase/ssr";
 
-import { getPublicSupabaseEnv } from "./env.js";
-import type { PublicSupabaseEnv } from "./env.js";
-import type { Database } from "./types.js";
+import { getPublicSupabaseEnv } from "./env.ts";
+import type { PublicSupabaseEnv } from "./env.ts";
+import type { Database } from "./types.ts";
 
 export function createBrowserSupabaseClient(
   env: PublicSupabaseEnv = getPublicSupabaseEnv(),

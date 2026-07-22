@@ -1,8 +1,8 @@
 import type { User } from "@supabase/supabase-js";
 
-import { unwrapSupabaseData } from "./result.js";
-import type { CBrainSupabaseClient } from "./server.js";
-import type { TableRow } from "./types.js";
+import { unwrapSupabaseData } from "./result.ts";
+import type { CBrainSupabaseClient } from "./server.ts";
+import type { TableRow } from "./types.ts";
 
 export async function getCurrentUser(client: CBrainSupabaseClient) {
   const { data, error } = await client.auth.getUser();
