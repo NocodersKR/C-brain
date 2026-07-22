@@ -1,10 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import styles from "../page.module.css";
 
 const socials = [
   {
-    href: "#",
+    href: "https://instagram.com/cbrain_design_group",
     icon: "/figma-assets/footer-instagram.png",
     imageClassName: styles.socialIconImageInstagram,
     imageHeight: 20,
@@ -12,7 +13,7 @@ const socials = [
     label: "인스타그램",
   },
   {
-    href: "#",
+    href: "https://blog.naver.com/cbrain_design_group",
     icon: "/figma-assets/footer-naver-blog.png",
     imageClassName: styles.socialIconImageBlog,
     imageHeight: 29,
@@ -20,7 +21,7 @@ const socials = [
     label: "네이버 블로그",
   },
   {
-    href: "#",
+    href: "https://www.youtube.com/@CreateDesigngroup",
     icon: "/figma-assets/footer-youtube.png",
     imageClassName: styles.socialIconImageYoutube,
     imageHeight: 14,
@@ -39,7 +40,7 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerTop}>
-        <a aria-label="씨브레인 홈" className={styles.footerLogo} href="#">
+        <Link aria-label="씨브레인 홈" className={styles.footerLogo} href="/">
           <Image
             alt=""
             height={21}
@@ -52,10 +53,15 @@ export function Footer() {
             src="/figma-assets/cbrain-logo-tagline.svg"
             width={76}
           />
-        </a>
+        </Link>
         <div className={styles.socialLinks}>
           {socials.map((social) => (
-            <a href={social.href} key={social.label}>
+            <a
+              href={social.href}
+              key={social.label}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <span aria-hidden="true" className={styles.socialIcon}>
                 <Image
                   alt=""

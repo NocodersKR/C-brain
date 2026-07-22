@@ -421,6 +421,10 @@ test("complaint attachment limits are managed from shared constants", async () =
 test("footer logo images rely on image dimensions without duplicate inline sizing", async () => {
   const footerSource = await readFile(footerPath, "utf8");
 
+  assert.match(
+    footerSource,
+    /<Link aria-label="씨브레인 홈" className=\{styles\.footerLogo\} href="\/">/,
+  );
   assert.match(footerSource, /height=\{21\}/);
   assert.match(footerSource, /width=\{77\}/);
   assert.match(footerSource, /height=\{4\}/);
@@ -448,6 +452,21 @@ test("footer contains current C-Brain business information", async () => {
   ]) {
     assert.ok(normalizedFooterSource.includes(text));
   }
+});
+
+test("footer social links point to C-Brain channels", async () => {
+  const footerSource = await readFile(footerPath, "utf8");
+
+  for (const href of [
+    "https://instagram.com/cbrain_design_group",
+    "https://blog.naver.com/cbrain_design_group",
+    "https://www.youtube.com/@CreateDesigngroup",
+  ]) {
+    assert.match(footerSource, new RegExp(`href: "${href}"`));
+  }
+
+  assert.match(footerSource, /target="_blank"/);
+  assert.match(footerSource, /rel="noopener noreferrer"/);
 });
 
 test("complaint form delegates required field state to react-hook-form", async () => {
