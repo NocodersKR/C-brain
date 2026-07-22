@@ -12,12 +12,21 @@ test('LinkPay creation route exposes the Figma fields and numeric amount input',
   ])
 
   assert.match(appSource, /<Route element=\{<LinkPayFormPage \/>\} path="\/linkpay\/new" \/>/)
+  assert.match(
+    appSource,
+    /<Route element=\{<LinkPayFormPage \/>\} path="\/linkpay\/:linkPayId" \/>/,
+  )
+  assert.match(formSource, /createPaymentLink/)
+  assert.match(formSource, /getAdminPaymentLink/)
+  assert.match(formSource, /updatePaymentLink/)
+  assert.match(formSource, /toPaymentLinkInput/)
+  assert.match(formSource, /disabled=\{isSaving\}/)
   assert.match(formSource, /신규 링크페이 등록/)
   assert.match(formSource, /고객사명/)
   assert.match(formSource, /결제명/)
   assert.match(formSource, /결제 금액/)
   assert.match(formSource, /inputMode="numeric"/)
-  assert.match(formSource, /replace\(\/\\D\/g, ''\)/)
+  assert.match(formSource, /formatNumericValue\(event\.currentTarget\.value\)/)
   assert.match(formSource, /pattern="\[0-9,\]\+"/)
   assert.match(formSource, /to="\/linkpay"/)
 })

@@ -1,39 +1,107 @@
-import { useId, useState } from 'react'
+import {
+  createPaymentLink,
+  getAdminPaymentLink,
+  updatePaymentLink,
+} from '@repo/supabase'
+import { useEffect, useId, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { AdminIcon } from '../components/AdminIcon'
 import { AdminFormLayout } from '../components/admin-form/AdminFormLayout'
+import { supabase } from '../lib/supabase'
+import {
+  createInitialLinkPayForm,
+  toLinkPayFormState,
+  toPaymentLinkInput,
+} from './linkPayData'
+import type { LinkPayFormState } from './linkPayData'
+import { formatNumericValue } from './productData'
 import './BlogFormPage.css'
 import './LinkPayFormPage.css'
-
-type LinkPayFormState = {
-  readonly amount: string
-  readonly client: string
-  readonly paymentName: string
-}
-
-const initialLinkPayForm: LinkPayFormState = {
-  amount: '',
-  client: '',
-  paymentName: '',
-}
-
-function formatAmount(value: string) {
-  return value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
 
 export function LinkPayFormPage() {
   const formId = useId().replaceAll(':', '')
   const navigate = useNavigate()
-  const [form, setForm] = useState<LinkPayFormState>(initialLinkPayForm)
+  const { linkPayId } = useParams<{ linkPayId: string }>()
+  const isEditing = linkPayId !== undefined
+  const [form, setForm] = useState(createInitialLinkPayForm)
+  const [isLoading, setIsLoading] = useState(isEditing)
+  const [isSaving, setIsSaving] = useState(false)
+  const [loadError, setLoadError] = useState('')
+  const [saveError, setSaveError] = useState('')
+
+  useEffect(() => {
+    let isCurrent = true
+    const id = linkPayId
+
+    if (!id) return
+
+    void getAdminPaymentLink(supabase, id)
+      .then((paymentLink) => {
+        if (isCurrent) setForm(toLinkPayFormState(paymentLink))
+      })
+      .catch(() => {
+        if (!isCurrent) return
+        setLoadError('링크페이 정보를 불러오지 못했습니다.')
+        toast.error('링크페이 정보를 불러오지 못했습니다.')
+      })
+      .finally(() => {
+        if (isCurrent) setIsLoading(false)
+      })
+
+    return () => {
+      isCurrent = false
+    }
+  }, [linkPayId])
 
   function updateForm<Key extends keyof LinkPayFormState>(key: Key, value: LinkPayFormState[Key]) {
     setForm((current) => ({ ...current, [key]: value }))
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    navigate('/linkpay')
+    if (isSaving) return
+
+    setIsSaving(true)
+    setSaveError('')
+
+    try {
+      const input = toPaymentLinkInput(form)
+
+      if (linkPayId) {
+        await updatePaymentLink(supabase, linkPayId, input)
+      } else {
+        await createPaymentLink(supabase, input)
+      }
+
+      toast.success(isEditing ? '링크페이를 수정했습니다.' : '링크페이를 생성했습니다.')
+      navigate('/linkpay')
+    } catch {
+      setSaveError('링크페이를 저장하지 못했습니다. 입력값과 권한을 확인해주세요.')
+      toast.error('링크페이를 저장하지 못했습니다.')
+      window.alert('링크페이를 저장하지 못했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  if (isLoading || loadError) {
+    return (
+      <AdminFormLayout
+        actions={
+          <Link className="admin-form__button admin-form__button--outline" to="/linkpay">
+            목록으로
+          </Link>
+        }
+        onSubmit={(event) => event.preventDefault()}
+        title={isEditing ? '링크페이 수정' : '신규 링크페이 등록'}
+      >
+        <p className="blog-form__error" role={loadError ? 'alert' : 'status'}>
+          {loadError || '링크페이 정보를 불러오는 중입니다.'}
+        </p>
+      </AdminFormLayout>
+    )
   }
 
   return (
@@ -43,15 +111,25 @@ export function LinkPayFormPage() {
           <Link className="admin-form__button admin-form__button--outline" to="/linkpay">
             목록으로
           </Link>
-          <button className="admin-form__button admin-form__button--solid" type="submit">
-            <span>등록하기</span>
+          <button
+            className="admin-form__button admin-form__button--solid"
+            disabled={isSaving}
+            type="submit"
+          >
+            <span>{isSaving ? '저장 중...' : isEditing ? '수정하기' : '등록하기'}</span>
             <AdminIcon name="arrow-right" />
           </button>
         </>
       }
       onSubmit={handleSubmit}
-      title="신규 링크페이 등록"
+      title={isEditing ? '링크페이 수정' : '신규 링크페이 등록'}
     >
+      {saveError ? (
+        <p className="blog-form__error" role="alert">
+          {saveError}
+        </p>
+      ) : null}
+
       <label className="blog-form__field" htmlFor={`${formId}-client`}>
         <span className="blog-form__label">고객사명</span>
         <input
@@ -92,7 +170,7 @@ export function LinkPayFormPage() {
             inputMode="numeric"
             name="amount"
             onChange={(event) =>
-              updateForm('amount', formatAmount(event.currentTarget.value))
+              updateForm('amount', formatNumericValue(event.currentTarget.value))
             }
             pattern="[0-9,]+"
             placeholder="결제 금액을 입력해주세요.(숫자만 입력)"
