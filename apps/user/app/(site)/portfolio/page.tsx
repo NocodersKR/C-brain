@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getPublicAssetUrl } from "@repo/supabase/files";
 import { listPublishedPortfolioItems } from "@repo/supabase/portfolio";
 
@@ -66,7 +67,14 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
   return (
     <div className={styles.portfolioPage}>
       <section className={styles.hero}>
-        <div aria-hidden="true" className={styles.heroBackground} />
+        <Image
+          alt="MBC 베이비페어 박람회 포스터 디자인 및 인쇄 제작 사례, 핑크 톤 베이비 일러스트가 돋보이는 행사 홍보물"
+          className={styles.heroBackground}
+          fill
+          priority
+          sizes="100vw"
+          src="/figma-assets/portfolio-hero-background.png"
+        />
         <div aria-hidden="true" className={styles.heroOverlay} />
         <div className={styles.heroContent}>
           <p className={styles.badge}>Portfolio</p>

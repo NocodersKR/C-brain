@@ -157,6 +157,15 @@ test("customer reviews page keeps Figma image assets local", async () => {
   assert.doesNotMatch(contentSource, /figma\.com\/api\/mcp\/asset/);
 });
 
+test("customer reviews hero image exposes descriptive alternative text", async () => {
+  const pageSource = await readFile(pagePath, "utf8");
+
+  assert.match(
+    pageSource,
+    /alt="씨브레인 편집디자인 팀이 고객 브로슈어 시안을 함께 검토하는 사무실 장면"/,
+  );
+});
+
 test("customer reviews page uses shared navigation and CTA", async () => {
   const headerSource = await readFile(headerPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");

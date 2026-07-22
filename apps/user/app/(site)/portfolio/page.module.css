@@ -21,9 +21,8 @@
 }
 
 .heroBackground {
-  background-image: url("/figma-assets/portfolio-hero-background.png");
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
 }
 
 .heroOverlay {

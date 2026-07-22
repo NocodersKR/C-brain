@@ -90,9 +90,8 @@
 }
 
 .heroBackground {
-  background-image: var(--order-hero-background);
-  background-position: 62% center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: 62% center;
 }
 
 .heroOverlay {

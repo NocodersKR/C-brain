@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 
 import { CtaSection } from "../../_components/CtaSection";
 import type { OrderSelectionSummary, OrderStepId } from "../../_content/order";
@@ -10,10 +11,6 @@ import type { OrderPaymentSubmitPayload } from "./OrderCustomerInfoStep";
 import { OrderFlowSection } from "./OrderFlowSection";
 import { submitOrderPayment } from "./payment";
 import styles from "./page.module.css";
-
-const heroStyle = {
-  "--order-hero-background": 'url("/figma-assets/order-hero-background.jpg")',
-} as CSSProperties;
 
 export default function OrderPage() {
   const router = useRouter();
@@ -70,8 +67,15 @@ export default function OrderPage() {
       data-order-option-active={selectedDirectService ? "true" : undefined}
     >
       {selectedDirectService ? null : (
-        <section className={styles.hero} style={heroStyle}>
-          <div className={styles.heroBackground} />
+        <section className={styles.hero}>
+          <Image
+            alt="씨브레인 팀원들이 화이트보드 앞에서 디자인 컨셉과 레이아웃을 논의하는 기획 회의 장면"
+            className={styles.heroBackground}
+            fill
+            priority
+            sizes="100vw"
+            src="/figma-assets/order-hero-background.jpg"
+          />
           <div className={styles.heroOverlay} />
           <div className={styles.heroInner}>
             <div className={styles.heroCopy}>

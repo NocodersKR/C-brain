@@ -38,6 +38,7 @@ export function Hero() {
           </Button>
         </>
       }
+      backgroundAlt="편집디자인 전문회사 씨브레인 브랜드 이미지"
       backgroundImage="/figma-assets/landing-hero-background.png"
       backgroundPosition="62% center"
       badge="홍보물 기획 · 디자인 · 인쇄 원스톱 전문 회사"

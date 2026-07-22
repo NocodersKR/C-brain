@@ -1,9 +1,11 @@
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 
 import styles from "./PageHero.module.css";
 
 type PageHeroProps = {
   actions?: ReactNode;
+  backgroundAlt: string;
   backgroundImage: string;
   backgroundPosition?: CSSProperties["backgroundPosition"];
   mobileBackgroundPosition?: CSSProperties["backgroundPosition"];
@@ -16,6 +18,7 @@ type PageHeroProps = {
 
 export function PageHero({
   actions,
+  backgroundAlt,
   backgroundImage,
   backgroundPosition = "center",
   mobileBackgroundPosition,
@@ -27,15 +30,18 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <section className={`${styles.hero} ${styles[variant]} ${styles[tone]}`}>
-      <div
-        aria-hidden="true"
+      <Image
+        alt={backgroundAlt}
         className={styles.background}
+        fill
+        priority
+        sizes="100vw"
+        src={backgroundImage}
         style={
           {
             "--page-hero-background-position": backgroundPosition,
             "--page-hero-mobile-background-position":
               mobileBackgroundPosition ?? backgroundPosition,
-            backgroundImage: `url("${backgroundImage}")`,
           } as CSSProperties
         }
       />

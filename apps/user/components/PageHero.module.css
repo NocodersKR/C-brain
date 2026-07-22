@@ -14,8 +14,8 @@
 }
 
 .background {
-  background-position: var(--page-hero-mobile-background-position, center);
-  background-size: cover;
+  object-fit: cover;
+  object-position: var(--page-hero-mobile-background-position, center);
 }
 
 .overlay {
@@ -215,7 +215,7 @@
 
 @media (min-width: 640px) {
   .background {
-    background-position: var(--page-hero-background-position, center);
+    object-position: var(--page-hero-background-position, center);
   }
 
   .hero.subpage {

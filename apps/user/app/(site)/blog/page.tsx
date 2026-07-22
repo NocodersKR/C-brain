@@ -38,6 +38,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className={styles.page}>
       <PageHero
+        backgroundAlt="대전화병원 브로슈어 디자인 및 인쇄 제작 사례, 화이트 톤 표지와 병원 외관 사진을 활용한 내지 구성"
         backgroundImage="/figma-assets/blog-hero-background.png"
         backgroundPosition="center"
         badge="C · Brain Blog"

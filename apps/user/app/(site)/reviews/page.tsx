@@ -129,7 +129,7 @@ export default async function CustomerReviewsPage() {
     <>
       <section className={styles.reviewsPageHero}>
         <Image
-          alt=""
+          alt="씨브레인 편집디자인 팀이 고객 브로슈어 시안을 함께 검토하는 사무실 장면"
           className={styles.reviewsHeroImage}
           fill
           priority

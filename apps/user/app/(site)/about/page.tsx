@@ -81,7 +81,7 @@ export default function AboutPage() {
     <>
       <section className={styles.hero}>
         <Image
-          alt=""
+          alt="편집디자인 전문회사 씨브레인 로고"
           className={styles.heroImage}
           fill
           priority

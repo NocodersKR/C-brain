@@ -23,6 +23,7 @@ export default async function NoticePage({ searchParams }: NoticePageProps) {
   return (
     <>
       <PageHero
+        backgroundAlt="편집디자인 전문회사 씨브레인 로고"
         backgroundImage="/figma-assets/notice-hero-background.webp"
         badge="C · Brain Notice"
         description={<p>씨브레인의 공식 소식과 안내를 빠르게 확인하세요.</p>}
