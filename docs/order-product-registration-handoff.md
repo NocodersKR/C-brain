@@ -231,13 +231,12 @@ type LinkPayPayment = {
 ```ts
 type LinkPayPaymentSubmitPayload = {
   linkPayId: string;
-  payment: LinkPayPayment;
   customer: LinkPayCustomerInfo;
   agreements: Record<AgreementId, boolean>;
 };
 ```
 
-결제 연동 지점은 `apps/user/app/(site)/linkpay/[id]/payment.ts`의 `submitLinkPayPayment`입니다.
+결제 연동 지점은 `apps/user/app/(site)/linkpay/[id]/payment.ts`의 `submitLinkPayPayment`입니다. 이 함수는 서버 액션이며, 클라이언트에서 전달한 `linkPayId`로 서버가 개인 결제 정보를 다시 조회합니다.
 
 ```ts
 type LinkPayPaymentSubmitResult =
@@ -245,7 +244,7 @@ type LinkPayPaymentSubmitResult =
   | { status: "failure"; redirectHref?: string; failureReason?: string };
 ```
 
-현재 함수는 UI 확인을 위해 성공 상태를 반환합니다. 결제 개발자는 이 함수 내부에서 실제 결제 요청을 호출하고, 결과에 따라 `status`를 반환하면 됩니다. `redirectHref`가 없으면 프론트는 자동으로 아래 기본 결과 페이지로 이동합니다.
+현재 함수는 UI 확인을 위해 성공 상태를 반환합니다. 결제 개발자는 이 함수 내부에서 서버 기준 결제 금액과 상태를 조회한 뒤 실제 결제 요청을 호출하고, 결과에 따라 `status`를 반환하면 됩니다. `redirectHref`가 없으면 프론트는 자동으로 아래 기본 결과 페이지로 이동합니다.
 
 - 성공: `/linkpay/{id}/success`
 - 실패: `/linkpay/{id}/fail`

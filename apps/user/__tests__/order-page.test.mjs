@@ -767,9 +767,9 @@ test("order payment success and failure result routes are wired", () => {
   const resultSource = read(resultComponentPath);
   const stylesSource = read(stylesPath);
   const appStylesSource = read(appStylesPath);
-  const compactGuideSource = extractBetween(
+  const guideLinesSource = extractBetween(
     resultSource,
-    "const successGuideCompact",
+    "const successGuideLines",
     "] as const;",
   );
 
@@ -848,8 +848,8 @@ test("order payment success and failure result routes are wired", () => {
   assert.match(resultSource, /className=\{styles\.resultActionIcon\}/);
   assert.match(resultSource, /다른 제품 주문하기/);
   assert.match(resultSource, /다시 결제하기/);
-  assert.equal(countMatches(compactGuideSource, /\n\s*["']/g), 4);
-  assert.match(compactGuideSource, /아래 \[결제완료 상담하기\]/);
+  assert.equal(countMatches(guideLinesSource, /\n\s*["']/g), 4);
+  assert.match(guideLinesSource, /아래 \[결제완료 상담하기\]/);
   assert.match(resultSource, /https:\/\/pf\.kakao\.com\/_JAFAG/);
   assert.match(resultSource, /target="_blank"/);
   assert.match(resultSource, /rel="noreferrer"/);

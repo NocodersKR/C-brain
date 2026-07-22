@@ -90,7 +90,6 @@ export type OrderOptionConfig = {
   paperSectionTitle: string;
   planningService: OrderServiceOption;
   quantities: ReadonlyArray<OrderQuantityInput>;
-  quantityOptions: ReadonlyArray<OrderQuantityOption>;
   selectedService: OrderServiceOption;
   serviceId: string;
   unitPriceQuotes: ReadonlyArray<OrderUnitPriceQuote>;
@@ -279,7 +278,6 @@ function createOrderOptionConfig(
     paperSectionTitle: product.paperSectionTitle,
     planningService: product.planningService,
     quantities: product.quantities,
-    quantityOptions,
     selectedService,
     serviceId: product.serviceId,
     unitPriceQuotes: product.unitPriceQuotes,

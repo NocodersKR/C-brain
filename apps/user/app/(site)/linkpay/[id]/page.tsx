@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { getLinkPayPayment } from "../../../_content/linkPay";
 import { LinkPayPaymentForm } from "./LinkPayPaymentForm";
@@ -29,6 +29,7 @@ export default async function LinkPayPage({ params }: LinkPayPageProps) {
   const payment = getLinkPayPayment(id);
 
   if (!payment) notFound();
+  if (payment.status !== "pending") redirect(`/linkpay/${payment.id}/success`);
 
   return <LinkPayPaymentForm payment={payment} />;
 }

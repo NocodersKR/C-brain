@@ -83,14 +83,7 @@ const defaultFailureResultData: OrderPaymentFailureData = {
   failureReason: "{실패사유를 입력해주세요.}",
 };
 
-const successDescriptionDesktop = [
-  "주문이 접수되었습니다.",
-  '아래 씨브레인 카카오톡 채널로 "결제완료" 메시지를 남겨주시면 담당자가',
-  "확인 후 빠르게 일정 안내드리겠습니다.",
-  "감사합니다.",
-] as const;
-
-const successDescriptionCompact = [
+const successDescriptionLines = [
   "주문이 접수되었습니다.",
   '아래 씨브레인 카카오톡 채널로 "결제완료" 메시지를 남겨주시면 담당자가',
   "확인 후 빠르게 일정 안내드리겠습니다.",
@@ -136,14 +129,7 @@ function createPaymentDetailGroups(data: OrderPaymentSuccessData) {
   ];
 }
 
-const successGuideDesktop = [
-  '아래 [결제완료 상담하기] 클릭 후 씨브레인 카카오톡 채널로 "결제완료" 메시지를 남겨주세요.',
-  "담당자가 확인 후 집중 상담 및 제작 일정을 안내드립니다.",
-  "파일 전달 후 디자인·인쇄 제작을 시작합니다.",
-  "제작 완료 후 배송 또는 방문 수령합니다.",
-] as const;
-
-const successGuideCompact = [
+const successGuideLines = [
   '아래 [결제완료 상담하기] 클릭 후 씨브레인 카카오톡 채널로 "결제완료" 메시지를 남겨주세요.',
   "담당자가 확인 후 집중 상담 및 제작 일정을 안내드립니다.",
   "파일 전달 후 디자인·인쇄 제작을 시작합니다.",
@@ -168,12 +154,12 @@ function OrderResultDescription({
   return (
     <div className={styles.resultDescription}>
       <div className={styles.resultDescriptionDesktop}>
-        {successDescriptionDesktop.map((line) => (
+        {successDescriptionLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
       </div>
       <div className={styles.resultDescriptionCompact}>
-        {successDescriptionCompact.map((line) => (
+        {successDescriptionLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
       </div>
@@ -227,14 +213,14 @@ function OrderResultGuide() {
       <ol
         className={`${styles.resultGuideList} ${styles.resultGuideListDesktop}`}
       >
-        {successGuideDesktop.map((line) => (
+        {successGuideLines.map((line) => (
           <li key={line}>{line}</li>
         ))}
       </ol>
       <ol
         className={`${styles.resultGuideList} ${styles.resultGuideListCompact}`}
       >
-        {successGuideCompact.map((line) => (
+        {successGuideLines.map((line) => (
           <li key={line}>{line}</li>
         ))}
       </ol>

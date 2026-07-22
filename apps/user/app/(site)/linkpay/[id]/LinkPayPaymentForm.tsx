@@ -6,10 +6,14 @@ import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import type { LinkPayPayment } from "../../../_content/linkPay";
 import { formatOrderCurrency } from "../../../_content/order";
 import { Icon } from "../../../../components/Icon";
-import { submitLinkPayPayment } from "./payment";
+import {
+  type LinkPayAgreementId,
+  type LinkPayPaymentSubmitPayload,
+  submitLinkPayPayment,
+} from "./payment";
 import styles from "./page.module.css";
 
-type AgreementId = "privacyCollection" | "privacyPolicy";
+type AgreementId = LinkPayAgreementId;
 type CustomerFieldId =
   | "customerName"
   | "customerCompany"
@@ -17,20 +21,6 @@ type CustomerFieldId =
   | "customerEmail";
 type RequiredCustomerFieldId = Exclude<CustomerFieldId, "customerCompany">;
 type LinkPayValidationTarget = CustomerFieldId | AgreementId;
-
-type LinkPayCustomerInfo = {
-  customerCompany: string;
-  customerEmail: string;
-  customerName: string;
-  customerPhone: string;
-};
-
-export type LinkPayPaymentSubmitPayload = {
-  agreements: Record<AgreementId, boolean>;
-  customer: LinkPayCustomerInfo;
-  linkPayId: string;
-  payment: LinkPayPayment;
-};
 
 type LinkPayPaymentFormProps = {
   payment: LinkPayPayment;
@@ -284,11 +274,10 @@ export function LinkPayPaymentForm({
       return;
     }
 
-    const payload = {
+    const payload: LinkPayPaymentSubmitPayload = {
       agreements,
       customer: fieldValues,
       linkPayId: payment.id,
-      payment,
     };
 
     setIsSubmitting(true);

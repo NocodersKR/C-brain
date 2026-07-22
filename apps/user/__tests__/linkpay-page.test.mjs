@@ -48,6 +48,7 @@ test("personal link pay page is driven by admin-style payment data", () => {
 
   assert.match(routeSource, /getLinkPayPayment\(id\)/);
   assert.match(routeSource, /notFound\(\)/);
+  assert.match(routeSource, /redirect\(`\/linkpay\/\$\{payment\.id\}\/success`\)/);
   assert.match(routeSource, /<LinkPayPaymentForm payment=\{payment\} \/>/);
 
   assert.match(formSource, /"use client"/);
@@ -66,6 +67,7 @@ test("personal link pay page is driven by admin-style payment data", () => {
   assert.match(formSource, /koreanMobilePhonePattern/);
   assert.match(formSource, /emailPattern/);
   assert.match(formSource, /linkPayId:\s*payment\.id/);
+  assert.doesNotMatch(formSource, /linkPayId:\s*payment\.id,\s*payment,/s);
   assert.match(formSource, /useRouter/);
   assert.match(formSource, /submitLinkPayPayment/);
   assert.match(formSource, /await submitLinkPayPayment\(payload\)/);
@@ -74,6 +76,9 @@ test("personal link pay page is driven by admin-style payment data", () => {
 
   assert.match(paymentSource, /export type LinkPayPaymentSubmitResult/);
   assert.match(paymentSource, /export async function submitLinkPayPayment/);
+  assert.match(paymentSource, /"use server"/);
+  assert.match(paymentSource, /getLinkPayPayment\(payload\.linkPayId\)/);
+  assert.doesNotMatch(paymentSource, /payment:\s*LinkPayPayment/);
   assert.match(paymentSource, /status:\s*"success"/);
 
   assert.match(successRouteSource, /getLinkPayPayment\(id\)/);
