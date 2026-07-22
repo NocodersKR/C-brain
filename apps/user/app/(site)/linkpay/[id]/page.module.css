@@ -1,0 +1,322 @@
+.linkPaySection {
+  width: 100%;
+  padding: 112px 20px 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.linkPayInner {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.linkPayHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  word-break: keep-all;
+}
+
+.linkPayHeader h1 {
+  margin: 0;
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+.linkPayHeader p {
+  margin: 0;
+  color: var(--landing-gray-600);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.paymentCard {
+  border-radius: 12px;
+  background: var(--landing-gray-50);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.paymentCard h2 {
+  margin: 0;
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.paymentDetailList {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.paymentDetailList div,
+.paymentTotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.paymentDetailList dt,
+.paymentDetailList dd,
+.paymentTotal span {
+  margin: 0;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.paymentDetailList dt,
+.paymentTotal span {
+  color: var(--landing-gray-600);
+}
+
+.paymentDetailList dd {
+  color: var(--landing-gray-800);
+  text-align: right;
+  word-break: keep-all;
+}
+
+.paymentDivider {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--landing-gray-100) 0 2px,
+    transparent 2px 4px
+  );
+}
+
+.paymentTotal strong {
+  color: var(--landing-brand-500);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+}
+
+.customerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.customerField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customerLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.customerLabelRow label {
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.customerLabelRow span {
+  color: var(--landing-gray-500);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.customerInput {
+  width: 100%;
+  height: 52px;
+  border: 1px solid var(--landing-gray-100);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 0 20px;
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.customerInput::placeholder {
+  color: var(--landing-gray-500);
+}
+
+.customerField[data-invalid="true"] .customerInput {
+  border-color: #ef4444;
+}
+
+.customerField[data-invalid="true"] .customerInput:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.14);
+  outline: none;
+}
+
+.agreementList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.agreementRow {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.agreementRow strong {
+  font-weight: 700;
+}
+
+.agreementCheckboxInput {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  position: absolute;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.agreementCheckboxMark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--landing-gray-200);
+  border-radius: 8px;
+  background: #ffffff;
+  position: relative;
+  flex: 0 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agreementCheckboxInput:checked + .agreementCheckboxMark {
+  border-color: var(--landing-brand-500);
+  background: var(--landing-brand-500);
+}
+
+.agreementCheckboxIcon {
+  opacity: 0;
+}
+
+.agreementCheckboxInput:checked
+  + .agreementCheckboxMark
+  .agreementCheckboxIcon {
+  opacity: 1;
+}
+
+.agreementRow[data-invalid="true"] .agreementCheckboxMark {
+  border-color: #ef4444;
+  background: #ffffff;
+}
+
+.agreementRow[data-invalid="true"]
+  .agreementCheckboxInput:focus-visible
+  + .agreementCheckboxMark {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.14);
+}
+
+.agreementDivider {
+  height: 1px;
+  background: var(--landing-gray-100);
+}
+
+.agreementDetailRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.agreementDetailRow .agreementRow {
+  flex: 1 1 auto;
+}
+
+.agreementViewButton {
+  color: #64748b;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.paymentButton {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--landing-brand-500);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.customerInput:focus,
+.paymentButton:focus-visible,
+.agreementCheckboxInput:focus-visible + .agreementCheckboxMark,
+.agreementViewButton:focus-visible {
+  outline: 2px solid rgba(48, 186, 195, 0.42);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .linkPaySection {
+    padding-top: 132px;
+    padding-bottom: 104px;
+  }
+
+  .paymentCard {
+    padding: 24px 32px;
+  }
+}

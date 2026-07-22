@@ -11,7 +11,10 @@ import {
 } from "../../_content/order";
 import type { ServiceItem } from "../../_content/services";
 import { OrderConsultDialog } from "./OrderConsultDialog";
-import { OrderCustomerInfoStep } from "./OrderCustomerInfoStep";
+import {
+  OrderCustomerInfoStep,
+  type OrderPaymentSubmitPayload,
+} from "./OrderCustomerInfoStep";
 import { OrderMethodSelector } from "./OrderMethodSelector";
 import { OrderOptionSelection } from "./OrderOptionSelection";
 import styles from "./page.module.css";
@@ -21,6 +24,7 @@ type OrderFlowSectionProps = {
   onCustomerInfoStart: (summary: OrderSelectionSummary) => void;
   onDirectServiceSelect: (service: ServiceItem) => void;
   onOptionBack: () => void;
+  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => void;
   orderStep: OrderStepId;
   selectedDirectService: ServiceItem | null;
   selectedOrderSummary: OrderSelectionSummary | null;
@@ -31,6 +35,7 @@ export function OrderFlowSection({
   onCustomerInfoStart,
   onDirectServiceSelect,
   onOptionBack,
+  onPaymentSubmit,
   orderStep,
   selectedDirectService,
   selectedOrderSummary,
@@ -122,7 +127,10 @@ export function OrderFlowSection({
 
         {selectedDirectService ? (
           isCustomerStep ? (
-            <OrderCustomerInfoStep summary={selectedOrderSummary} />
+            <OrderCustomerInfoStep
+              onPaymentSubmit={onPaymentSubmit}
+              summary={selectedOrderSummary}
+            />
           ) : (
             <OrderOptionSelection
               key={selectedDirectService.id}

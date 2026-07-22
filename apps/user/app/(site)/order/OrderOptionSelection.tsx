@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Icon } from "../../../components/Icon";
 import {
@@ -9,6 +9,7 @@ import {
   type OrderSelectionSummary,
   formatOrderCurrency,
   getOrderOptionConfig,
+  getOrderQuantityOptions,
 } from "../../_content/order";
 import type { ServiceItem } from "../../_content/services";
 import styles from "./page.module.css";
@@ -73,8 +74,29 @@ export function OrderOptionSelection({
     optionConfig.paperOptions,
     selectedPaperId,
   );
+  const quantityOptions = useMemo(
+    () =>
+      getOrderQuantityOptions(
+        optionConfig,
+        selectedPage.id,
+        selectedPaper.id,
+      ),
+    [optionConfig, selectedPage.id, selectedPaper.id],
+  );
+
+  useEffect(() => {
+    const firstQuantity = quantityOptions[0];
+
+    if (
+      firstQuantity &&
+      !quantityOptions.some((quantity) => quantity.id === selectedQuantityId)
+    ) {
+      setSelectedQuantityId(firstQuantity.id);
+    }
+  }, [quantityOptions, selectedQuantityId]);
+
   const selectedQuantity = findSelectedQuantity(
-    optionConfig.quantityOptions,
+    quantityOptions,
     selectedQuantityId,
   );
   const planningFee = hasPlanning ? optionConfig.planningService.fee : 0;
@@ -97,6 +119,14 @@ export function OrderOptionSelection({
       : []),
   ];
   const selectedSummary: OrderSelectionSummary = {
+    ids: {
+      hasPlanning,
+      pageId: selectedPage.id,
+      paperId: selectedPaper.id,
+      quantityId: selectedQuantity.id,
+      serviceId: optionConfig.serviceId,
+      unitPrice: selectedQuantity.unitPriceAmount,
+    },
     pageLabel: selectedPage.label,
     paperLabel: selectedPaper.label,
     priceRows,
@@ -223,45 +253,48 @@ export function OrderOptionSelection({
             aria-labelledby="quantity-option-title"
           >
             <h3 id="quantity-option-title">V. 수량 선택</h3>
-            <div className={styles.quantityTable} role="table">
-              <div className={styles.quantityTableHeader} role="row">
-                <span role="columnheader">선택</span>
-                <span role="columnheader">수량</span>
-                <span role="columnheader">인쇄 단가</span>
-                <span role="columnheader">합계</span>
-              </div>
-              <div className={styles.quantityTableBody}>
-                {optionConfig.quantityOptions.map((quantityOption) => {
-                  const isSelected = selectedQuantityId === quantityOption.id;
+            <div className={styles.quantityTableScroll}>
+              <div className={styles.quantityTable} role="table">
+                <div className={styles.quantityTableHeader} role="row">
+                  <span role="columnheader">선택</span>
+                  <span role="columnheader">수량</span>
+                  <span role="columnheader">인쇄 단가</span>
+                  <span role="columnheader">합계</span>
+                </div>
+                <div className={styles.quantityTableBody}>
+                  {quantityOptions.map((quantityOption) => {
+                    const isSelected =
+                      selectedQuantityId === quantityOption.id;
 
-                  return (
-                    <button
-                      className={styles.quantityRow}
-                      key={quantityOption.id}
-                      onClick={() => setSelectedQuantityId(quantityOption.id)}
-                      role="row"
-                      type="button"
-                    >
-                      <span
-                        className={`${styles.quantitySelectBadge} ${
-                          isSelected ? styles.quantitySelectBadgeActive : ""
-                        }`}
-                        role="cell"
+                    return (
+                      <button
+                        className={styles.quantityRow}
+                        key={quantityOption.id}
+                        onClick={() => setSelectedQuantityId(quantityOption.id)}
+                        role="row"
+                        type="button"
                       >
-                        {isSelected ? "선택됨" : "선택"}
-                      </span>
-                      <span role="cell">{quantityOption.quantity}</span>
-                      <span className={styles.quantityUnitPrice} role="cell">
-                        {quantityOption.unitPrice}
-                      </span>
-                      <strong role="cell">
-                        {formatOrderCurrency(
-                          quantityOption.total + planningFee,
-                        )}
-                      </strong>
-                    </button>
-                  );
-                })}
+                        <span
+                          className={`${styles.quantitySelectBadge} ${
+                            isSelected ? styles.quantitySelectBadgeActive : ""
+                          }`}
+                          role="cell"
+                        >
+                          {isSelected ? "선택됨" : "선택"}
+                        </span>
+                        <span role="cell">{quantityOption.quantity}</span>
+                        <span className={styles.quantityUnitPrice} role="cell">
+                          {quantityOption.unitPrice}
+                        </span>
+                        <strong role="cell">
+                          {formatOrderCurrency(
+                            quantityOption.total + planningFee,
+                          )}
+                        </strong>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </section>
@@ -312,7 +345,9 @@ export function OrderOptionSelection({
               <Icon name="arrow-right" size={16} />
             </button>
             <p>
-              결제 전 상담이 필요하신가요?
+              <span className={styles.summaryConsultLead}>
+                결제 전 상담이 필요하신가요?
+              </span>
               <button onClick={onConsult} type="button">
                 카카오톡 1:1 상담
                 <Icon name="arrow-right" size={16} />

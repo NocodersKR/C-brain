@@ -5,6 +5,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { CtaSection } from "../../_components/CtaSection";
 import type { OrderSelectionSummary, OrderStepId } from "../../_content/order";
 import type { ServiceItem } from "../../_content/services";
+import type { OrderPaymentSubmitPayload } from "./OrderCustomerInfoStep";
 import { OrderFlowSection } from "./OrderFlowSection";
 import styles from "./page.module.css";
 
@@ -38,6 +39,10 @@ export default function OrderPage() {
 
   const handleOptionBack = () => {
     setOrderStep("option");
+  };
+
+  const handlePaymentSubmit = (payload: OrderPaymentSubmitPayload) => {
+    void payload;
   };
 
   useEffect(() => {
@@ -92,6 +97,7 @@ export default function OrderPage() {
         onCustomerInfoStart={handleCustomerInfoStart}
         onDirectServiceSelect={handleDirectServiceSelect}
         onOptionBack={handleOptionBack}
+        onPaymentSubmit={handlePaymentSubmit}
         orderStep={orderStep}
         selectedDirectService={selectedDirectService}
         selectedOrderSummary={selectedOrderSummary}

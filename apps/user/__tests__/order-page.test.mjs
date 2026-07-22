@@ -121,6 +121,9 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(routeSource, /useState<OrderStepId>\("category"\)/);
   assert.match(routeSource, /useState<ServiceItem \| null>\(null\)/);
   assert.match(routeSource, /useState<OrderSelectionSummary \| null>\(null\)/);
+  assert.match(routeSource, /OrderPaymentSubmitPayload/);
+  assert.match(routeSource, /handlePaymentSubmit/);
+  assert.match(routeSource, /void payload/);
   assert.match(routeSource, /setOrderStep\("category"\)/);
   assert.match(routeSource, /setOrderStep\("option"\)/);
   assert.match(routeSource, /setOrderStep\("customer"\)/);
@@ -148,6 +151,7 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(routeSource, /orderStep=\{orderStep\}/);
   assert.match(routeSource, /onCustomerInfoStart=\{handleCustomerInfoStart\}/);
   assert.match(routeSource, /onOptionBack=\{handleOptionBack\}/);
+  assert.match(routeSource, /onPaymentSubmit=\{handlePaymentSubmit\}/);
   assert.match(routeSource, /selectedOrderSummary=\{selectedOrderSummary\}/);
   assert.doesNotMatch(routeSource, /orderProducts\.map/);
   assert.match(routeSource, /order-hero-background\.png/);
@@ -182,7 +186,7 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(flowSectionSource, /onCategoryReset:\s*\(\) => void/);
   assert.match(flowSectionSource, /import \{ OrderMethodSelector \}/);
   assert.match(flowSectionSource, /import \{ OrderOptionSelection \}/);
-  assert.match(flowSectionSource, /import \{ OrderCustomerInfoStep \}/);
+  assert.match(flowSectionSource, /OrderCustomerInfoStep/);
   assert.match(flowSectionSource, /import \{ OrderConsultDialog \}/);
   assert.match(flowSectionSource, /orderStep:\s*OrderStepId/);
   assert.match(
@@ -193,6 +197,11 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(
     flowSectionSource,
     /selectedOrderSummary:\s*OrderSelectionSummary \| null/,
+  );
+  assert.match(flowSectionSource, /type OrderPaymentSubmitPayload/);
+  assert.match(
+    flowSectionSource,
+    /onPaymentSubmit\?:\s*\(payload:\s*OrderPaymentSubmitPayload\) => void/,
   );
   assert.match(flowSectionSource, /<OrderMethodSelector onQuoteSelect=/);
   assert.match(flowSectionSource, /selectedDirectService/);
@@ -223,6 +232,7 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(flowSectionSource, /onClick=\{handleOptionHeaderBack\}/);
   assert.match(flowSectionSource, /onPaymentStart=\{onCustomerInfoStart\}/);
   assert.match(flowSectionSource, /<OrderCustomerInfoStep/);
+  assert.match(flowSectionSource, /onPaymentSubmit=\{onPaymentSubmit\}/);
   assert.match(flowSectionSource, /summary=\{selectedOrderSummary\}/);
   assert.match(
     flowSectionSource,
@@ -243,22 +253,40 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(methodSelectorSource, /methodCardActiveQuote/);
   assert.match(optionSelectionSource, /"use client"/);
   assert.match(optionSelectionSource, /getOrderOptionConfig\(service\.id\)/);
+  assert.match(optionSelectionSource, /getOrderQuantityOptions/);
+  assert.match(optionSelectionSource, /selectedPageId/);
+  assert.match(optionSelectionSource, /selectedPaperId/);
   assert.match(optionSelectionSource, /II\. 서비스 선택/);
   assert.match(optionSelectionSource, /optionConfig\.pageSectionTitle/);
   assert.match(optionSelectionSource, /optionConfig\.paperSectionTitle/);
   assert.match(optionSelectionSource, /V\. 수량 선택/);
+  assert.match(optionSelectionSource, /quantityTableScroll/);
   assert.match(optionSelectionSource, /주문 요약/);
   assert.match(optionSelectionSource, /mobilePaymentBar/);
   assert.match(optionSelectionSource, /결제하기/);
   assert.match(optionSelectionSource, /onPaymentStart/);
   assert.match(optionSelectionSource, /OrderSelectionSummary/);
+  assert.match(optionSelectionSource, /ids:\s*\{/);
+  assert.match(optionSelectionSource, /serviceId:\s*optionConfig\.serviceId/);
+  assert.match(optionSelectionSource, /pageId:\s*selectedPage\.id/);
+  assert.match(optionSelectionSource, /paperId:\s*selectedPaper\.id/);
+  assert.match(optionSelectionSource, /quantityId:\s*selectedQuantity\.id/);
+  assert.match(optionSelectionSource, /unitPrice:\s*selectedQuantity\.unitPriceAmount/);
+  assert.match(optionSelectionSource, /hasPlanning,/);
   assert.match(optionSelectionSource, /handlePaymentStart/);
   assert.match(optionSelectionSource, /onClick=\{handlePaymentStart\}/);
   assert.match(optionSelectionSource, /카카오톡 1:1 상담/);
+  assert.match(optionSelectionSource, /summaryConsultLead/);
   assert.match(customerInfoSource, /"use client"/);
   assert.match(customerInfoSource, /useRef/);
   assert.match(customerInfoSource, /OrderSelectionSummary/);
   assert.match(customerInfoSource, /formatOrderCurrency/);
+  assert.match(customerInfoSource, /export type OrderCustomerInfo/);
+  assert.match(customerInfoSource, /export type OrderPaymentSubmitPayload/);
+  assert.match(
+    customerInfoSource,
+    /onPaymentSubmit\?:\s*\(payload:\s*OrderPaymentSubmitPayload\) => void/,
+  );
   assert.match(customerInfoSource, /type RequiredCustomerFieldId/);
   assert.match(customerInfoSource, /type OrderCustomerValidationTarget/);
   assert.match(customerInfoSource, /requiredCustomerFieldIds/);
@@ -286,6 +314,11 @@ test("order page route, content, responsive styles, and navigation are wired", (
     /scrollIntoView\(\{\s*behavior:\s*"smooth",\s*block:\s*"center",?\s*\}\)/s,
   );
   assert.match(customerInfoSource, /focus\(\{\s*preventScroll:\s*true\s*\}\)/s);
+  assert.match(customerInfoSource, /if \(firstInvalidTarget\) \{[\s\S]*?return;/);
+  assert.match(customerInfoSource, /onPaymentSubmit\?\.\(\{/);
+  assert.match(customerInfoSource, /summary,/);
+  assert.match(customerInfoSource, /customer:\s*fieldValues/);
+  assert.match(customerInfoSource, /agreements/);
   assert.match(customerInfoSource, /<form[^>]*noValidate/s);
   assert.match(customerInfoSource, /onSubmit=\{handleCustomerInfoSubmit\}/);
   assert.match(customerInfoSource, /III\. 주문자 정보 입력/);
@@ -505,9 +538,25 @@ test("order page route, content, responsive styles, and navigation are wired", (
   );
   assert.match(
     stylesSource,
-    /\.quantityTableHeader,\s*\.quantityRow\s*\{[^}]*grid-template-columns:\s*69px repeat\(3,/s,
+    /\.quantityTableHeader,\s*\.quantityRow\s*\{[^}]*grid-template-columns:\s*69px repeat\(3,\s*minmax\(max-content,\s*1fr\)\)/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.quantityTableScroll\s*\{[^}]*width:\s*calc\(100% \+ 40px\)[^}]*margin-inline:\s*-20px[^}]*padding-inline:\s*20px[^}]*box-sizing:\s*border-box[^}]*overflow-x:\s*auto[^}]*scroll-padding-inline:\s*20px/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.quantityTableScroll::-webkit-scrollbar\s*\{[^}]*display:\s*none/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.quantityTable\s*\{[^}]*min-width:\s*max-content/s,
   );
   assert.match(stylesSource, /\.quantityTable\s*\{[^}]*gap:\s*20px/s);
+  assert.match(
+    stylesSource,
+    /\.quantityTableHeader span,\s*\.quantityRow span,\s*\.quantityRow strong\s*\{[^}]*white-space:\s*nowrap/s,
+  );
   assert.match(
     stylesSource,
     /\.quantityTableHeader,\s*\.quantityRow\s*\{[^}]*gap:\s*20px/s,
@@ -528,6 +577,26 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(
     stylesSource,
     /\.orderSummary\s*\{[^}]*background:\s*var\(--landing-gray-50\)/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.summaryList\s*\{[^}]*background-image:\s*repeating-linear-gradient\([^}]*var\(--landing-gray-100\) 0 2px,[^}]*transparent 2px 4px/s,
+  );
+  assert.doesNotMatch(
+    stylesSource,
+    /\.summaryList\s*\{[^}]*border-bottom:\s*1px solid/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.summaryActions p\s*\{[^}]*flex-wrap:\s*wrap[^}]*gap:\s*4px/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.summaryConsultLead\s*\{[^}]*white-space:\s*nowrap/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.summaryActions button:not\(\.paymentButton\)\s*\{[^}]*white-space:\s*nowrap/s,
   );
   assert.match(stylesSource, /\.mobilePaymentBar\s*\{[^}]*position:\s*sticky/s);
   assert.match(
@@ -604,6 +673,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
   );
   assert.match(
     stylesSource,
+    /@media \(min-width:\s*768px\)[\s\S]*?\.quantityTableScroll\s*\{[\s\S]*?width:\s*100%[\s\S]*?margin-inline:\s*0[\s\S]*?padding-inline:\s*0[\s\S]*?scroll-padding-inline:\s*0/,
+  );
+  assert.match(
+    stylesSource,
     /@media \(min-width:\s*768px\)[\s\S]*?\.mobilePaymentBar\s*\{[^}]*display:\s*none/s,
   );
   assert.match(
@@ -634,17 +707,29 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(contentSource, /규격 협의 필요하거나 대량 주문/);
   assert.match(contentSource, /Ⅲ\. 정보 입력/);
   assert.match(contentSource, /export type OrderStepId/);
+  assert.match(contentSource, /export type OrderProductRegistration/);
+  assert.match(contentSource, /export type OrderUnitPriceQuote/);
+  assert.match(contentSource, /export type OrderSelectedOptionIds/);
   assert.match(contentSource, /export type OrderSelectionSummary/);
   assert.match(contentSource, /export const formatOrderCurrency/);
+  assert.match(contentSource, /export const orderProductRegistrations/);
   assert.match(contentSource, /export const orderOptionCatalog/);
   assert.match(contentSource, /export const getOrderOptionConfig/);
-  assert.match(contentSource, /pageSectionTitle:\s*"III\. 페이지 수 선택"/);
-  assert.match(contentSource, /paperSectionTitle:\s*"IV\. 용지 선택"/);
+  assert.match(contentSource, /export const getOrderQuantityOptions/);
+  assert.match(contentSource, /function createOrderOptionConfig/);
+  assert.match(contentSource, /function createQuantityOption/);
+  assert.match(contentSource, /unitPriceQuotes/);
+  assert.match(contentSource, /paperId\?: string/);
+  assert.match(contentSource, /quantityId: string/);
+  assert.match(contentSource, /unitPrice: number/);
+  assert.match(contentSource, /pageSectionTitle\s*=\s*"III\. 페이지 수 선택"/);
+  assert.match(contentSource, /paperSectionTitle\s*=\s*"IV\. 용지 선택"/);
   assert.match(contentSource, /"brochure-catalog"/);
   assert.match(contentSource, /"leaflet-pamphlet"/);
   assert.match(contentSource, /"package-shopping-bag"/);
   assert.match(contentSource, /디자인 \+ 인쇄/);
-  assert.match(contentSource, /500부/);
+  assert.match(contentSource, /formatOrderQuantity/);
+  assert.match(contentSource, /amount:\s*500,\s*unit:\s*"부"/);
   assert.equal(countMatches(servicesArraySource, /title:/g), 9);
   assert.equal(countMatches(servicesArraySource, /id:/g), 9);
   assert.match(servicesSource, /브로슈어 · 카탈로그/);
@@ -662,5 +747,177 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.doesNotMatch(
     [routeSource, stylesSource, contentSource, headerSource].join("\n"),
     /figma\.com\/api\/mcp\/asset|https:\/\/www\.figma\.com\/api/,
+  );
+});
+
+test("order payment success and failure result routes are wired", () => {
+  const successRoutePath = "apps/user/app/(site)/order/success/page.tsx";
+  const failRoutePath = "apps/user/app/(site)/order/fail/page.tsx";
+  const resultComponentPath =
+    "apps/user/app/(site)/order/OrderPaymentResult.tsx";
+  const stylesPath = "apps/user/app/(site)/order/page.module.css";
+  const appStylesPath = "apps/user/app/page.module.css";
+
+  assert.equal(existsSync(path.join(repoRoot, successRoutePath)), true);
+  assert.equal(existsSync(path.join(repoRoot, failRoutePath)), true);
+  assert.equal(existsSync(path.join(repoRoot, resultComponentPath)), true);
+
+  const successRouteSource = read(successRoutePath);
+  const failRouteSource = read(failRoutePath);
+  const resultSource = read(resultComponentPath);
+  const stylesSource = read(stylesPath);
+  const appStylesSource = read(appStylesPath);
+  const compactGuideSource = extractBetween(
+    resultSource,
+    "const successGuideCompact",
+    "] as const;",
+  );
+
+  assert.match(successRouteSource, /variant="success"/);
+  assert.match(successRouteSource, /결제 완료/);
+  assert.match(failRouteSource, /variant="failure"/);
+  assert.match(failRouteSource, /결제 실패/);
+  assert.match(resultSource, /"use client"/);
+  assert.match(resultSource, /useEffect/);
+  assert.match(resultSource, /type OrderSelectionSummary/);
+  assert.match(resultSource, /formatOrderCurrency/);
+  assert.match(resultSource, /export type OrderPaymentSuccessData/);
+  assert.match(resultSource, /export type OrderPaymentFailureData/);
+  assert.match(resultSource, /data\?: OrderPaymentSuccessData/);
+  assert.match(resultSource, /data\?: OrderPaymentFailureData/);
+  assert.match(resultSource, /contentHeight\?: boolean/);
+  assert.match(resultSource, /contentHeight = false/);
+  assert.match(resultSource, /styles\.resultPageContentHeight/);
+  assert.match(resultSource, /defaultSuccessResultData/);
+  assert.match(resultSource, /defaultFailureResultData/);
+  assert.match(resultSource, /function createPaymentDetailGroups/);
+  assert.doesNotMatch(resultSource, /const paymentDetailGroups = \[/);
+  assert.match(resultSource, /data-order-result-active/);
+  assert.match(
+    resultSource,
+    /document\.body\.dataset\.orderResultActive = "true"/,
+  );
+  assert.match(
+    resultSource,
+    /delete document\.body\.dataset\.orderResultActive/,
+  );
+  assert.match(resultSource, /orderSteps/);
+  assert.match(resultSource, /const resultStepIndex = 3/);
+  assert.match(resultSource, /stepItemComplete/);
+  assert.match(resultSource, /stepItemActive/);
+  assert.match(resultSource, /name="order-option-back"/);
+  assert.match(resultSource, /정보 입력으로/);
+  assert.match(resultSource, /IV\. 결제 완료/);
+  assert.match(resultSource, /\/figma-assets\/order-payment-result-icon\.png/);
+  assert.match(resultSource, /결제가 완료되었습니다/);
+  assert.match(resultSource, /결제에 실패했습니다/);
+  assert.match(resultSource, /주문이 접수되었습니다\./);
+  assert.match(
+    resultSource,
+    /아래 씨브레인 카카오톡 채널로 "결제완료" 메시지를 남겨주시면 담당자가/,
+  );
+  assert.match(resultSource, /확인 후 빠르게 일정 안내드리겠습니다\./);
+  assert.match(resultSource, /failureReason:\s*"\{실패사유를 입력해주세요\.\}"/);
+  assert.match(resultSource, /실패사유 : \{failureReason\}/);
+  assert.match(resultSource, /결제 내역/);
+  assert.match(
+    resultSource,
+    /function OrderResultPaymentCard\(\{\s*data,\s*\}:\s*\{\s*data:\s*OrderPaymentSuccessData;\s*\}\)/s,
+  );
+  assert.match(resultSource, /summary\.serviceLabel/);
+  assert.match(resultSource, /summary\.paperLabel/);
+  assert.match(resultSource, /summary\.pageLabel/);
+  assert.match(resultSource, /summary\.quantityLabel/);
+  assert.match(resultSource, /data\.companyName/);
+  assert.match(resultSource, /data\.paymentMethod/);
+  assert.match(resultSource, /formatOrderCurrency\(totalPrice\)/);
+  assert.match(resultSource, /failureReason=\{failureData\.failureReason\}/);
+  assert.match(resultSource, /data=\{successData\}/);
+  assert.match(resultSource, /디자인 \+ 인쇄/);
+  assert.match(resultSource, /일반지 \(스노우지 유광\)/);
+  assert.match(resultSource, /12p/);
+  assert.match(resultSource, /500부/);
+  assert.match(resultSource, /노코더스/);
+  assert.match(resultSource, /카드/);
+  assert.match(resultSource, /totalPrice:\s*520000/);
+  assert.doesNotMatch(resultSource, /520,000원/);
+  assert.match(resultSource, /결제완료 상담하기/);
+  assert.doesNotMatch(resultSource, /카카오톡 채널 열기/);
+  assert.doesNotMatch(resultSource, /resultActionTextDesktop/);
+  assert.doesNotMatch(resultSource, /resultActionTextCompact/);
+  assert.match(resultSource, /className=\{styles\.resultActionIcon\}/);
+  assert.match(resultSource, /다른 제품 주문하기/);
+  assert.match(resultSource, /다시 결제하기/);
+  assert.equal(countMatches(compactGuideSource, /\n\s*["']/g), 4);
+  assert.match(compactGuideSource, /아래 \[결제완료 상담하기\]/);
+  assert.match(resultSource, /https:\/\/pf\.kakao\.com\/_JAFAG/);
+  assert.match(resultSource, /target="_blank"/);
+  assert.match(resultSource, /rel="noreferrer"/);
+  assert.match(stylesSource, /\.resultPage\s*\{/);
+  assert.match(stylesSource, /\.resultPageContentHeight\s*\{/);
+  assert.match(stylesSource, /min-height:\s*auto/);
+  assert.match(stylesSource, /\.resultSection\s*\{/);
+  assert.match(stylesSource, /\.resultPageContentHeight \.resultSection\s*\{/);
+  assert.match(stylesSource, /\.resultInner\s*\{/);
+  assert.match(stylesSource, /\.resultProgress\s*\{/);
+  assert.match(stylesSource, /\.resultStepList\s*\{/);
+  assert.match(stylesSource, /\.resultMobileHeader\s*\{/);
+  assert.match(stylesSource, /\.resultContent\s*\{/);
+  assert.match(stylesSource, /\.resultIcon\s*\{/);
+  assert.match(stylesSource, /\.resultTitle\s*\{/);
+  assert.match(stylesSource, /\.resultDescription\s*\{/);
+  assert.match(stylesSource, /\.resultPaymentCard\s*\{/);
+  assert.match(
+    stylesSource,
+    /\.resultPaymentCard\s*\{[^}]*background:\s*var\(--landing-gray-50\)/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.resultPaymentDivider\s*\{[^}]*background-image:\s*repeating-linear-gradient\([^}]*var\(--landing-gray-100\) 0 2px,[^}]*transparent 2px 4px/s,
+  );
+  assert.match(stylesSource, /\.resultGuideList\s*\{/);
+  assert.match(
+    stylesSource,
+    /\.resultGuideList li\s*\{[^}]*color:\s*#475569[^}]*font-weight:\s*500/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.resultGuideList li::before\s*\{[^}]*color:\s*#475569[^}]*font-weight:\s*500/s,
+  );
+  assert.match(stylesSource, /\.resultActionList\s*\{/);
+  assert.match(
+    stylesSource,
+    /\.resultActionList\s*\{[^}]*flex-wrap:\s*nowrap/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.resultActionButton\s*\{[^}]*width:\s*min\(148px,\s*calc\(\(100% - 8px\) \/ 2\)\)/s,
+  );
+  assert.match(stylesSource, /\.resultActionIcon\s*\{/);
+  assert.match(
+    stylesSource,
+    /@media \(max-width:\s*359px\)[\s\S]*?\.resultActionIcon\s*\{[\s\S]*?display:\s*none/,
+  );
+  assert.match(stylesSource, /\.resultActionBrand\s*\{/);
+  assert.match(stylesSource, /\.resultActionKakao\s*\{/);
+  assert.match(
+    stylesSource,
+    /@media \(max-width:\s*399px\)[\s\S]*?\.resultProgress\s*\{[\s\S]*?display:\s*none/,
+  );
+  assert.match(
+    stylesSource,
+    /@media \(min-width:\s*400px\)[\s\S]*?\.resultMobileHeader\s*\{[\s\S]*?display:\s*none/,
+  );
+  assert.match(
+    stylesSource,
+    /@media \(min-width:\s*768px\)[\s\S]*?\.resultPaymentCard\s*\{[\s\S]*?padding:\s*24px 32px/,
+  );
+  assert.match(
+    stylesSource,
+    /@media \(min-width:\s*1080px\)[\s\S]*?\.resultSection\s*\{[\s\S]*?padding-top:\s*104px[\s\S]*?padding-bottom:\s*104px/,
+  );
+  assert.match(
+    appStylesSource,
+    /@media \(max-width:\s*399px\)[\s\S]*?:global\(body\[data-order-result-active="true"\]\) \.header\s*\{[\s\S]*?display:\s*none/,
   );
 });

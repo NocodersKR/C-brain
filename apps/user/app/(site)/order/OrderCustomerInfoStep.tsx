@@ -9,7 +9,7 @@ import {
 } from "../../_content/order";
 import styles from "./page.module.css";
 
-type AgreementId = "privacyCollection" | "privacyPolicy";
+export type AgreementId = "privacyCollection" | "privacyPolicy";
 type CustomerFieldId =
   | "customerName"
   | "customerCompany"
@@ -18,7 +18,21 @@ type CustomerFieldId =
 type RequiredCustomerFieldId = Exclude<CustomerFieldId, "customerCompany">;
 type OrderCustomerValidationTarget = CustomerFieldId | AgreementId;
 
+export type OrderCustomerInfo = {
+  customerCompany: string;
+  customerEmail: string;
+  customerName: string;
+  customerPhone: string;
+};
+
+export type OrderPaymentSubmitPayload = {
+  agreements: Record<AgreementId, boolean>;
+  customer: OrderCustomerInfo;
+  summary: OrderSelectionSummary;
+};
+
 type OrderCustomerInfoStepProps = {
+  onPaymentSubmit?: (payload: OrderPaymentSubmitPayload) => void;
   summary: OrderSelectionSummary;
 };
 
@@ -148,7 +162,10 @@ function AgreementCheckIcon() {
   );
 }
 
-export function OrderCustomerInfoStep({ summary }: OrderCustomerInfoStepProps) {
+export function OrderCustomerInfoStep({
+  onPaymentSubmit,
+  summary,
+}: OrderCustomerInfoStepProps) {
   const validationTargetRefs = useRef<
     Partial<Record<OrderCustomerValidationTarget, HTMLElement>>
   >({});
@@ -266,7 +283,14 @@ export function OrderCustomerInfoStep({ summary }: OrderCustomerInfoStepProps) {
 
     if (firstInvalidTarget) {
       scrollToValidationTarget(firstInvalidTarget);
+      return;
     }
+
+    onPaymentSubmit?.({
+      agreements,
+      customer: fieldValues,
+      summary,
+    });
   };
 
   return (

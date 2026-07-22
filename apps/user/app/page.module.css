@@ -308,6 +308,12 @@
   }
 }
 
+@media (max-width: 399px) {
+  :global(body[data-order-result-active="true"]) .header {
+    display: none;
+  }
+}
+
 .heroGradientButton::before {
   content: "";
   position: absolute;

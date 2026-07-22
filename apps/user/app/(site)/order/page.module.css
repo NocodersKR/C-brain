@@ -674,8 +674,24 @@
   color: var(--landing-brand-500);
 }
 
+.quantityTableScroll {
+  width: calc(100% + 40px);
+  margin-inline: -20px;
+  padding-inline: 20px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  scroll-padding-inline: 20px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quantityTableScroll::-webkit-scrollbar {
+  display: none;
+}
+
 .quantityTable {
   width: 100%;
+  min-width: max-content;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -685,7 +701,7 @@
 .quantityRow {
   width: 100%;
   display: grid;
-  grid-template-columns: 69px repeat(3, minmax(0, 1fr));
+  grid-template-columns: 69px repeat(3, minmax(max-content, 1fr));
   gap: 20px;
   align-items: center;
   text-align: center;
@@ -701,6 +717,12 @@
   font-weight: 500;
   line-height: 16px;
   letter-spacing: -0.18px;
+}
+
+.quantityTableHeader span,
+.quantityRow span,
+.quantityRow strong {
+  white-space: nowrap;
 }
 
 .quantityTableBody {
@@ -782,7 +804,14 @@
 .summaryList {
   margin: 0;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--landing-gray-100);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--landing-gray-100) 0 2px,
+    transparent 2px 4px
+  );
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -853,10 +882,12 @@
 }
 
 .summaryActions p {
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 4px;
   font-family: "Pretendard GOV Variable", var(--font-sans);
   font-size: 14px;
   font-weight: 500;
@@ -864,6 +895,10 @@
   letter-spacing: -0.21px;
   color: var(--landing-gray-800);
   word-break: keep-all;
+}
+
+.summaryConsultLead {
+  white-space: nowrap;
 }
 
 .summaryActions button:not(.paymentButton) {
@@ -875,6 +910,7 @@
   align-items: center;
   gap: 4px;
   font: inherit;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -1245,6 +1281,324 @@
   white-space: nowrap;
 }
 
+.resultPage {
+  min-height: 100svh;
+}
+
+.resultPageContentHeight {
+  min-height: auto;
+}
+
+.resultSection {
+  width: 100%;
+  padding: 100px 20px 72px;
+}
+
+.resultPageContentHeight .resultSection {
+  padding-bottom: 52px;
+}
+
+.resultInner {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.resultProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.resultBackLink {
+  width: fit-content;
+  min-height: 24px;
+  color: var(--landing-gray-600);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Pretendard", var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.24px;
+  text-decoration: none;
+}
+
+.resultStepList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.resultMobileHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 100vw;
+  height: 64px;
+  box-sizing: border-box;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--landing-gray-100);
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resultMobileHeader p {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000000;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  white-space: nowrap;
+}
+
+.resultMobileBackButton,
+.resultMobileHeaderSpacer {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.resultMobileBackButton {
+  color: #222222;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.resultContent {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+}
+
+.resultStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.resultIcon {
+  width: 132px;
+  height: 132px;
+  display: block;
+  object-fit: contain;
+}
+
+.resultCopy,
+.resultDescription,
+.resultDescriptionDesktop,
+.resultDescriptionCompact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resultCopy {
+  gap: 12px;
+}
+
+.resultTitle {
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0;
+  word-break: keep-all;
+}
+
+.resultDescription {
+  color: var(--landing-gray-600);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  word-break: keep-all;
+}
+
+.resultDescriptionDesktop {
+  display: none;
+}
+
+.resultDescriptionCompact {
+  gap: 4px;
+}
+
+.resultPaymentCard {
+  width: 100%;
+  border-radius: 12px;
+  background: var(--landing-gray-50);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+.resultPaymentCard h2 {
+  color: var(--landing-gray-800);
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.resultPaymentGroupBlock,
+.resultPaymentGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.resultPaymentGroupBlock {
+  gap: 20px;
+}
+
+.resultPaymentGroup {
+  margin: 0;
+  padding: 0;
+  gap: 12px;
+}
+
+.resultPaymentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.resultPaymentRow dt,
+.resultPaymentRow dd {
+  margin: 0;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+}
+
+.resultPaymentRow dt {
+  color: var(--landing-gray-600);
+}
+
+.resultPaymentRow dd {
+  color: var(--landing-gray-800);
+  text-align: right;
+  word-break: keep-all;
+}
+
+.resultPaymentDivider {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--landing-gray-100) 0 2px,
+    transparent 2px 4px
+  );
+}
+
+.resultPaymentTotal dd {
+  color: var(--landing-brand-500);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.resultGuideList {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: result-guide;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.resultGuideList li {
+  color: #475569;
+  display: flex;
+  gap: 8px;
+  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.21px;
+  word-break: keep-all;
+}
+
+.resultGuideList li::before {
+  content: counter(result-guide) ".";
+  counter-increment: result-guide;
+  color: #475569;
+  flex: 0 0 auto;
+  font-weight: 500;
+}
+
+.resultGuideListDesktop {
+  display: none;
+}
+
+.resultActionList {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.resultActionButton {
+  width: min(148px, calc((100% - 8px) / 2));
+  height: 52px;
+  border: 1px solid #ffffff;
+  border-radius: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: "Pretendard", var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.resultActionIcon {
+  flex: 0 0 auto;
+}
+
+.resultActionBrand {
+  background: var(--landing-button-brand-fill);
+  color: var(--landing-gray-50);
+}
+
+.resultActionKakao {
+  background: var(--landing-button-kakao-fill);
+  color: var(--landing-kakao-dark);
+}
+
 @media (max-width: 639px) {
   .orderPage[data-order-option-active="true"] .orderFlow {
     padding-top: 100px;
@@ -1311,6 +1665,28 @@
   }
 }
 
+@media (max-width: 399px) {
+  .resultProgress {
+    display: none;
+  }
+}
+
+@media (max-width: 359px) {
+  .resultActionIcon {
+    display: none;
+  }
+}
+
+@media (min-width: 400px) {
+  .resultSection {
+    padding-top: 132px;
+  }
+
+  .resultMobileHeader {
+    display: none;
+  }
+}
+
 @media (min-width: 520px) {
   .optionServiceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1337,6 +1713,10 @@
 
   .methodGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resultStepList {
+    gap: 20px;
   }
 }
 
@@ -1368,9 +1748,20 @@
     padding: 24px 32px;
   }
 
+  .resultPaymentCard {
+    padding: 24px 32px;
+  }
+
+  .quantityTableScroll {
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+  }
+
   .quantityTableHeader,
   .quantityRow {
-    grid-template-columns: 69px repeat(3, minmax(0, 1fr));
+    grid-template-columns: 69px repeat(3, minmax(max-content, 1fr));
   }
 
   .quantityRow {
@@ -1403,6 +1794,11 @@
     padding-bottom: 104px;
   }
 
+  .resultSection {
+    padding-top: 104px;
+    padding-bottom: 104px;
+  }
+
   .optionLayout {
     grid-template-columns: minmax(0, 1fr) 360px;
   }
@@ -1414,6 +1810,44 @@
     width: 1360px;
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .resultInner {
+    width: 1360px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .resultProgress {
+    gap: 52px;
+  }
+
+  .resultTitle {
+    font-size: 28px;
+    line-height: 40px;
+  }
+
+  .resultDescription {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.24px;
+  }
+
+  .resultDescriptionDesktop {
+    display: flex;
+    gap: 4px;
+  }
+
+  .resultDescriptionCompact {
+    display: none;
+  }
+
+  .resultGuideListDesktop {
+    display: flex;
+  }
+
+  .resultGuideListCompact {
+    display: none;
   }
 
   .heroHeading h1 {
