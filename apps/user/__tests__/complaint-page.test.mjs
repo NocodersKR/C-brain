@@ -429,6 +429,27 @@ test("footer logo images rely on image dimensions without duplicate inline sizin
   assert.doesNotMatch(footerSource, /style=\{\{ height: 4, width: 76 \}\}/);
 });
 
+test("footer contains current C-Brain business information", async () => {
+  const footerSource = await readFile(footerPath, "utf8");
+  const normalizedFooterSource = footerSource.replace(/\s+/g, " ");
+
+  for (const text of [
+    "전화번호 : 070-8830-2219",
+    "월~목 : 8:00 - 17:00 / 금 : 8:00 - 16:00",
+    "점심시간 : 11:00 - 12:30",
+    "씨브레인 | 대표자명 : 정혜영 | 사업자 등록번호 : 120-07-84415",
+    "통신판매 신고번호 : 2022-성남중원-0006",
+    "본사 : 경기도 성남시 중원구 사기막골로 99 센트럴비즈타워2차 B타워 218호",
+    "일산지사 : 경기도 고양시 일산동구 장발산로 15 드림월드빌딩 415호",
+    "성수동 출고실(인쇄물) : 서울특별시 성동구 성수일로80",
+    "파주 출고실(인쇄물) : 경기도 파주시 산업단지길 179",
+    "오산 출고실(실사) : 경기도 오산시 독산성로 232번길 14-24",
+    "개인정보관리책임자 : 김훈(jhy@cbrain.kr)",
+  ]) {
+    assert.ok(normalizedFooterSource.includes(text));
+  }
+});
+
 test("complaint form delegates required field state to react-hook-form", async () => {
   const formSource = await readFile(formPath, "utf8");
   const stylesSource = await readFile(stylesPath, "utf8");
