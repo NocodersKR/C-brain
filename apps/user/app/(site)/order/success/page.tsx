@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "결제 완료 | 씨브레인",
-};
+import { createNoIndexMetadata } from "../../../_content/seo";
+
+export const metadata: Metadata = createNoIndexMetadata({
+  path: "/order/success",
+  title: "결제 완료 | C-Brain",
+});
 
 export default function OrderPaymentSuccessPage() {
   redirect("/order");

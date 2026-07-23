@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
+import { createNoIndexMetadata } from "../../../_content/seo";
 import { OrderPaymentResult } from "../OrderPaymentResult";
 
-export const metadata: Metadata = {
-  title: "결제 실패 | 씨브레인",
-};
+export const metadata: Metadata = createNoIndexMetadata({
+  path: "/order/fail",
+  title: "결제 실패 | C-Brain",
+});
 
 type OrderPaymentFailPageProps = {
   searchParams?: Promise<{ reason?: string }>;

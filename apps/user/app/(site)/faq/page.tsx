@@ -3,8 +3,11 @@ import type { CSSProperties } from "react";
 
 import { CtaSection } from "../../_components/CtaSection";
 import { faqCategories } from "../../_content/faqs";
+import { createPageMetadata } from "../../_content/seo";
 import { FaqCategoryNavigation } from "./FaqCategoryNavigation";
 import styles from "./page.module.css";
+
+export const metadata = createPageMetadata("faq");
 
 const faqAccordionStyle = {
   width: "100%",

@@ -11,7 +11,10 @@ import {
   companyTimelineCompact,
   companyTimelineDesktop,
 } from "../../_content/company";
+import { createPageMetadata } from "../../_content/seo";
 import styles from "./page.module.css";
+
+export const metadata = createPageMetadata("about");
 
 function SectionBadge({ children }: { children: string }) {
   return (

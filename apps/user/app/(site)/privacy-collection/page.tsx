@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
-
+import { createPageMetadata } from "../../_content/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "개인정보 수집 및 이용 안내 | 씨브레인",
-};
+export const metadata = createPageMetadata("privacyCollection");
 
 export default function PrivacyCollectionPage() {
   return (

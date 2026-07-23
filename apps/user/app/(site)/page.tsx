@@ -8,6 +8,9 @@ import { Metrics } from "../_components/Metrics";
 import { PortfolioSection } from "../_components/PortfolioSection";
 import { ServicesSection } from "../_components/ServicesSection";
 import { landingFaqs } from "../_content/faqs";
+import { createPageMetadata } from "../_content/seo";
+
+export const metadata = createPageMetadata("home");
 
 export default function Home() {
   return (

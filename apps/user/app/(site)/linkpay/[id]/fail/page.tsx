@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { OrderPaymentResult } from "../../../order/OrderPaymentResult";
 import { getLinkPayPayment } from "../../../../_content/linkPay";
+import { createNoIndexMetadata } from "../../../../_content/seo";
 
 type LinkPayPaymentFailurePageProps = {
   params: Promise<{ id: string }>;
@@ -15,12 +16,15 @@ export async function generateMetadata({
   const payment = getLinkPayPayment(id);
 
   if (!payment) {
-    return { title: "개인 결제 결과를 찾을 수 없습니다 | 씨브레인" };
+    return createNoIndexMetadata({
+      title: "개인 결제 결과를 찾을 수 없습니다 | C-Brain",
+    });
   }
 
-  return {
-    title: `${payment.clientName} 결제 실패 | 씨브레인`,
-  };
+  return createNoIndexMetadata({
+    path: `/linkpay/${payment.id}/fail`,
+    title: `${payment.clientName} 결제 실패 | C-Brain`,
+  });
 }
 
 export default async function LinkPayPaymentFailurePage({

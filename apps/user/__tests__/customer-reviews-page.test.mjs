@@ -170,13 +170,16 @@ test("customer reviews page uses shared navigation and CTA", async () => {
   const headerSource = await readFile(headerPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");
 
-  assert.match(pageSource, /import type \{ Metadata \} from "next"/);
   assert.match(pageSource, /import Link from "next\/link"/);
-  assert.match(pageSource, /customerReviewPageSeo/);
-  assert.match(pageSource, /export const metadata: Metadata/);
-  assert.match(pageSource, /description: customerReviewPageSeo\.description/);
-  assert.match(pageSource, /openGraph:/);
-  assert.match(pageSource, /twitter:/);
+  assert.match(
+    pageSource,
+    /import \{ createPageMetadata \} from "..\/..\/_content\/seo"/,
+  );
+  assert.match(
+    pageSource,
+    /export const metadata = createPageMetadata\("reviews"\)/,
+  );
+  assert.doesNotMatch(pageSource, /siteName: "C-Brain"/);
   assert.match(headerSource, /label: "고객 후기", href: "\/reviews"/);
   assert.match(
     headerSource,

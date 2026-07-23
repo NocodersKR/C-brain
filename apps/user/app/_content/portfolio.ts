@@ -53,20 +53,6 @@ export type PortfolioListHref =
 export type PortfolioDetailHref =
   `/portfolio/${string}?category=${PortfolioCategoryId}`;
 
-export const portfolioPageSeo: PortfolioSeo = {
-  description:
-    "씨브레인의 브로슈어, 카탈로그, 리플렛, 포스터, 명함 등 실제 디자인 제작 사례를 확인하세요.",
-  keywords: [
-    "씨브레인",
-    "포트폴리오",
-    "브로슈어 디자인",
-    "카탈로그 제작",
-    "리플렛 제작",
-    "홍보물 디자인",
-  ],
-  title: "포트폴리오 | C-Brain",
-};
-
 type PortfolioItemSeed = Omit<
   PortfolioItem,
   "author" | "description" | "summary"

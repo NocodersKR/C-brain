@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { getPublicAssetUrl } from "@repo/supabase/files";
 import { listPublishedPortfolioItems } from "@repo/supabase/portfolio";
@@ -9,8 +8,8 @@ import {
   mapPortfolioRows,
   portfolioCategories,
   portfolioItems,
-  portfolioPageSeo,
 } from "../../_content/portfolio";
+import { createPageMetadata } from "../../_content/seo";
 import { createUserSupabaseClient } from "../../../lib/supabase";
 import { PortfolioGallery } from "./PortfolioGallery";
 import styles from "./page.module.css";
@@ -21,23 +20,7 @@ type PortfolioPageProps = {
   }>;
 };
 
-export const metadata: Metadata = {
-  description: portfolioPageSeo.description,
-  keywords: portfolioPageSeo.keywords,
-  openGraph: {
-    description: portfolioPageSeo.description,
-    locale: "ko_KR",
-    siteName: "C-Brain",
-    title: portfolioPageSeo.title,
-    type: "website",
-  },
-  title: portfolioPageSeo.title,
-  twitter: {
-    card: "summary",
-    description: portfolioPageSeo.description,
-    title: portfolioPageSeo.title,
-  },
-};
+export const metadata = createPageMetadata("portfolio");
 
 async function loadPortfolioItems() {
   const supabase = await createUserSupabaseClient();

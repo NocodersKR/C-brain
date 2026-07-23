@@ -1,15 +1,11 @@
-import type { Metadata } from "next";
-
 import { PageHero } from "../../../components/PageHero";
 import { SectionLayout } from "../../../components/SectionLayout";
+import { createPageMetadata } from "../../_content/seo";
 import { NoticeBoard } from "./_components/NoticeBoard";
 import { getNoticePageData, resolveNoticeCategory } from "./_data/notices";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "공지사항 | 씨브레인",
-  description: "씨브레인의 공식 소식과 안내를 빠르게 확인하세요.",
-};
+export const metadata = createPageMetadata("notice");
 
 type NoticePageProps = {
   searchParams: Promise<{ category?: string }>;

@@ -76,12 +76,9 @@ test("blog page keeps the shared header, hero, category, and CTA contracts", asy
 test("blog list page exposes SEO metadata", async () => {
   const page = await source("page");
 
-  assert.match(page, /import type \{ Metadata \} from "next"/);
-  assert.match(page, /export const metadata: Metadata = \{/);
-  assert.match(page, /title: "블로그 \| C-Brain"/);
-  assert.match(page, /description:/);
-  assert.match(page, /openGraph:/);
-  assert.match(page, /twitter:/);
+  assert.match(page, /import \{ createPageMetadata \} from "..\/..\/_content\/seo"/);
+  assert.match(page, /export const metadata = createPageMetadata\("blog"\)/);
+  assert.doesNotMatch(page, /siteName: "C-Brain"/);
 });
 
 test("blog featured carousel supports configurable autoplay and hover pause", async () => {

@@ -1,11 +1,8 @@
-import type { Metadata } from "next";
+import { createRootMetadata } from "./_content/seo";
 import "./globals.css";
 import "../../../design-system.css";
 
-export const metadata: Metadata = {
-  title: "C-Brain",
-  description: "C-Brain",
-};
+export const metadata = createRootMetadata();
 
 export default function RootLayout({
   children,

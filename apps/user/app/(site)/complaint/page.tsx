@@ -1,9 +1,8 @@
 import styles from "../../page.module.css";
+import { createPageMetadata } from "../../_content/seo";
 import { ComplaintForm } from "./ComplaintForm";
 
-export const metadata = {
-  title: "불편 접수 | 씨브레인",
-};
+export const metadata = createPageMetadata("complaint");
 
 export default function ComplaintPage() {
   return (

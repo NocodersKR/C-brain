@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { CtaSection } from "../../_components/CtaSection";
 import {
-  customerReviewPageSeo,
   type FeaturedCustomerInterview,
   getCustomerReviewPageData,
   reviewHeroImage,
@@ -12,25 +10,10 @@ import {
   reviewPlaySmallIcon,
   reviewQuoteMarkIcon,
 } from "../../_content/customerReviews";
+import { createPageMetadata } from "../../_content/seo";
 import styles from "../../page.module.css";
 
-export const metadata: Metadata = {
-  description: customerReviewPageSeo.description,
-  keywords: customerReviewPageSeo.keywords,
-  openGraph: {
-    description: customerReviewPageSeo.description,
-    locale: "ko_KR",
-    siteName: "C-Brain",
-    title: customerReviewPageSeo.title,
-    type: "website",
-  },
-  title: customerReviewPageSeo.title,
-  twitter: {
-    card: "summary",
-    description: customerReviewPageSeo.description,
-    title: customerReviewPageSeo.title,
-  },
-};
+export const metadata = createPageMetadata("reviews");
 
 function PlayButton({ size = "small" }: { size?: "large" | "small" }) {
   return (

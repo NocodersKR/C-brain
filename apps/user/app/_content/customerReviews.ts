@@ -18,20 +18,6 @@ export const reviewPlayLargeIcon = "/figma-assets/review-play-large.svg";
 export const reviewPlaySmallIcon = "/figma-assets/review-play-small.svg";
 export const reviewQuoteMarkIcon = "/figma-assets/review-quote-mark.svg";
 
-export const customerReviewPageSeo = {
-  description:
-    "제조, 헬스케어, 교육 등 다양한 업종의 고객이 직접 전하는 씨브레인 홍보물 디자인 제작 후기를 확인하세요.",
-  keywords: [
-    "씨브레인",
-    "고객 후기",
-    "고객 인터뷰",
-    "홍보물 디자인",
-    "브로슈어 제작",
-    "카탈로그 제작",
-  ],
-  title: "고객 후기 | C-Brain",
-};
-
 export type CustomerInterviewContentBlock =
   | {
       id: string;
