@@ -25,23 +25,27 @@ export async function load(url, context, nextLoad) {
 
 register(`data:text/javascript,${encodeURIComponent(loader)}`, import.meta.url);
 
-const { createPost, listPublishedPosts, reorderPosts } = await import(
-  "../src/content.ts"
-);
-const { createSignedFileUpload, createStoragePath, getFileInfo } = await import(
-  "../src/files.ts"
-);
+const { createPost, listPublishedPosts, reorderPosts } =
+  await import("../src/content.ts");
+const { createSignedFileUpload, createStoragePath, getFileInfo } =
+  await import("../src/files.ts");
 const { createInquiryAttachment } = await import("../src/inquiries.ts");
-const { getLowestProductUnitPrice, listPublishedProducts } = await import(
-  "../src/products.ts"
-);
 const {
-  listPublishedPortfolioItems,
-  reorderPortfolioItems,
-} = await import("../src/portfolio.ts");
-const { listPublishedReviews, reorderReviews } = await import(
-  "../src/reviews.ts"
-);
+  completePaymentOrder,
+  createPaymentLink,
+  deletePaymentLink,
+  getOrCreatePaymentOrder,
+  getPaymentOrderByOrderId,
+  getPublicPaymentLink,
+  listAdminPaymentLinks,
+  updatePaymentOrder,
+} = await import("../src/paymentLinks.ts");
+const { getLowestProductUnitPrice, listPublishedProducts } =
+  await import("../src/products.ts");
+const { listPublishedPortfolioItems, reorderPortfolioItems } =
+  await import("../src/portfolio.ts");
+const { listPublishedReviews, reorderReviews } =
+  await import("../src/reviews.ts");
 
 function createFakeClient(dataByTable = {}) {
   const calls = [];
@@ -68,6 +72,13 @@ function createFakeClient(dataByTable = {}) {
         order(column, options) {
           calls.push({ column, method: "order", options, table });
           return chain;
+        },
+        maybeSingle() {
+          calls.push({ method: "maybeSingle", table });
+          return Promise.resolve({
+            data: dataByTable[table] ?? null,
+            error: null,
+          });
         },
         select(columns) {
           calls.push({ columns, method: "select", table });
@@ -98,9 +109,25 @@ function createFakeClient(dataByTable = {}) {
 
       return chain;
     },
-    async rpc(name, args) {
+    rpc(name, args) {
       calls.push({ args, method: "rpc", name });
-      return { data: null, error: null };
+      const result = {
+        data:
+          name === "get_or_create_payment_order"
+            ? (dataByTable.payment_orders ?? { id: "payment-order-id" })
+            : null,
+        error: null,
+      };
+
+      return {
+        single() {
+          calls.push({ method: "single", rpc: name });
+          return Promise.resolve(result);
+        },
+        then(resolve, reject) {
+          return Promise.resolve(result).then(resolve, reject);
+        },
+      };
     },
   };
 
@@ -237,10 +264,7 @@ test("storage paths discard unsafe path and extension characters", () => {
   const path = createStoragePath("complaints/../proofs", "invoice.P N G");
   const extensionlessPath = createStoragePath("complaints", "README");
 
-  assert.match(
-    path,
-    /^complaints\/proofs\/[0-9a-f-]{36}\.png$/,
-  );
+  assert.match(path, /^complaints\/proofs\/[0-9a-f-]{36}\.png$/);
   assert.match(extensionlessPath, /^complaints\/[0-9a-f-]{36}\.bin$/);
   assert.doesNotMatch(path, /\.\.|\s/);
 });
@@ -299,4 +323,122 @@ test("signed upload and file info helpers use the requested private path", async
       path: "inquiry-submissions/id/proof.png",
     },
   ]);
+});
+
+test("payment link helpers use admin-scoped newest-first access", async () => {
+  const { calls, client } = createFakeClient({ payment_links: [] });
+  const input = {
+    amount: 120000,
+    category: "브로슈어",
+    client_name: "테스트 고객사",
+    page_quantity: "12p / 500부",
+    paper: "일반지",
+    payment_name: "브로슈어 제작비",
+    service: "디자인",
+  };
+
+  await listAdminPaymentLinks(client);
+  await createPaymentLink(client, input);
+  await deletePaymentLink(client, "payment-link-id");
+
+  assert.deepEqual(orderCalls(calls, "payment_links"), [
+    ["created_at", { ascending: false }],
+  ]);
+  assert.deepEqual(
+    calls.find(
+      (call) => call.method === "insert" && call.table === "payment_links",
+    )?.value,
+    input,
+  );
+  assert.ok(
+    calls.some(
+      (call) => call.method === "delete" && call.table === "payment_links",
+    ),
+  );
+  assert.ok(
+    calls.some(
+      (call) =>
+        call.method === "eq" &&
+        call.table === "payment_links" &&
+        call.column === "id" &&
+        call.value === "payment-link-id",
+    ),
+  );
+});
+
+test("payment order helpers use server-only lookup and atomic RPC contracts", async () => {
+  const paymentLink = { id: "payment-link-id", public_token: "public-token" };
+  const paymentOrder = {
+    id: "payment-order-id",
+    order_id: "LPORDER",
+    payment_link_id: paymentLink.id,
+  };
+  const { calls, client } = createFakeClient({
+    payment_links: paymentLink,
+    payment_orders: paymentOrder,
+  });
+
+  await getPublicPaymentLink(client, paymentLink.public_token);
+  await getPaymentOrderByOrderId(client, paymentOrder.order_id);
+  await getOrCreatePaymentOrder(client, paymentLink.public_token);
+  await completePaymentOrder(client, {
+    amount: 120000,
+    nicepayTid: "nicepay-tid",
+    orderId: paymentOrder.order_id,
+    paidAt: "2026-07-23T00:00:00.000Z",
+    payMethod: "card",
+    receiptUrl: "https://example.com/receipt",
+    resultCode: "0000",
+    resultMessage: "정상 처리되었습니다.",
+  });
+  await updatePaymentOrder(client, paymentOrder.order_id, {
+    provider_status: "failed",
+    result_code: "9999",
+  });
+
+  assert.ok(
+    calls.some(
+      (call) =>
+        call.method === "eq" &&
+        call.table === "payment_links" &&
+        call.column === "public_token" &&
+        call.value === paymentLink.public_token,
+    ),
+  );
+  assert.ok(
+    calls.some(
+      (call) =>
+        call.method === "eq" &&
+        call.table === "payment_orders" &&
+        call.column === "order_id" &&
+        call.value === paymentOrder.order_id,
+    ),
+  );
+  assert.deepEqual(
+    calls
+      .filter((call) => call.method === "rpc")
+      .map(({ args, name }) => ({
+        args,
+        name,
+      })),
+    [
+      {
+        args: { p_public_token: paymentLink.public_token },
+        name: "get_or_create_payment_order",
+      },
+      {
+        args: {
+          p_amount: 120000,
+          p_nicepay_tid: "nicepay-tid",
+          p_order_id: paymentOrder.order_id,
+          p_paid_at: "2026-07-23T00:00:00.000Z",
+          p_pay_method: "card",
+          p_receipt_url: "https://example.com/receipt",
+          p_result_code: "0000",
+          p_result_message: "정상 처리되었습니다.",
+        },
+        name: "complete_payment_order",
+      },
+    ],
+  );
 });
