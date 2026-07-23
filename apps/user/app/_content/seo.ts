@@ -176,7 +176,7 @@ type NoIndexMetadataInput = {
   title: string;
 };
 
-function getSiteUrl() {
+export function getSiteUrl() {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
   try {
@@ -186,7 +186,7 @@ function getSiteUrl() {
   }
 }
 
-function getPageUrl(path: StaticPageSeoEntry["path"] | `/${string}`) {
+export function getPageUrl(path: StaticPageSeoEntry["path"] | `/${string}`) {
   return new URL(path, getSiteUrl());
 }
 

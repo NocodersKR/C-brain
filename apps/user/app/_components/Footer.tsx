@@ -42,13 +42,13 @@ export function Footer() {
       <div className={styles.footerTop}>
         <Link aria-label="씨브레인 홈" className={styles.footerLogo} href="/">
           <Image
-            alt=""
+            alt="씨브레인"
             height={21}
             src="/figma-assets/cbrain-logo-main.svg"
             width={77}
           />
           <Image
-            alt=""
+            alt="크리에이티브 디자인 그룹"
             height={4}
             src="/figma-assets/cbrain-logo-tagline.svg"
             width={76}

@@ -141,7 +141,7 @@ export function Header() {
         <Link aria-label="씨브레인 홈" className={styles.logoLink} href="/">
           <span className={styles.logoMark}>
             <Image
-              alt=""
+              alt="씨브레인"
               className={styles.logoMain}
               height={20}
               src="/figma-assets/cbrain-logo-main.svg"
@@ -149,7 +149,7 @@ export function Header() {
               width={77}
             />
             <Image
-              alt=""
+              alt="크리에이티브 디자인 그룹"
               className={styles.logoTagline}
               height={4}
               src="/figma-assets/cbrain-logo-tagline.svg"
