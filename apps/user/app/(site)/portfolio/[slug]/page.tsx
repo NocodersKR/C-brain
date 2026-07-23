@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublicAssetUrl } from "@repo/supabase/files";
-import { listPublishedPortfolioItems } from "@repo/supabase/portfolio";
-import { cache } from "react";
 
 import {
   getPortfolioCategoryIdFromValue,
@@ -13,10 +10,8 @@ import {
   getPortfolioDetailHref,
   getPortfolioDetailSeo,
   getPortfolioListHref,
-  mapPortfolioRows,
   portfolioItems,
 } from "../../../_content/portfolio";
-import { createUserSupabaseClient } from "../../../../lib/supabase";
 import styles from "./page.module.css";
 
 type PortfolioDetailPageProps = {
@@ -28,27 +23,17 @@ type PortfolioDetailPageProps = {
   }>;
 };
 
-const loadPortfolioItems = cache(async () => {
-  const supabase = await createUserSupabaseClient();
-
-  if (!supabase) {
-    return portfolioItems;
-  }
-
-  try {
-    const rows = await listPublishedPortfolioItems(supabase);
-    return mapPortfolioRows(rows, (path) => getPublicAssetUrl(supabase, path));
-  } catch (error) {
-    console.error("Failed to load published portfolio detail.", error);
-    return [];
-  }
-});
+export function generateStaticParams() {
+  return portfolioItems.map((item) => ({
+    slug: item.slug,
+  }));
+}
 
 export async function generateMetadata({
   params,
 }: PortfolioDetailPageProps): Promise<Metadata> {
-  const [{ slug }, items] = await Promise.all([params, loadPortfolioItems()]);
-  const detail = getPortfolioDetailBySlug(slug, items);
+  const { slug } = await params;
+  const detail = getPortfolioDetailBySlug(slug);
 
   if (!detail) {
     return {
@@ -95,12 +80,11 @@ export default async function PortfolioDetailPage({
   params,
   searchParams,
 }: PortfolioDetailPageProps) {
-  const [{ slug }, resolvedSearchParams, items] = await Promise.all([
+  const [{ slug }, resolvedSearchParams] = await Promise.all([
     params,
     searchParams,
-    loadPortfolioItems(),
   ]);
-  const detail = getPortfolioDetailBySlug(slug, items);
+  const detail = getPortfolioDetailBySlug(slug);
 
   if (!detail) {
     notFound();
