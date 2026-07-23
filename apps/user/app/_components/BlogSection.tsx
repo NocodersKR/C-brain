@@ -1,11 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { HorizontalDragScroll } from "../../components/HorizontalDragScroll";
 import { Icon } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
+import { blogPosts } from "../(site)/blog/_data/blogPosts";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
 const buttonStyle = createGradientBorderButtonStyle();
+const landingPosts = blogPosts
+  .filter((post) => post.landingRank !== undefined)
+  .sort(
+    (firstPost, secondPost) =>
+      (firstPost.landingRank ?? Infinity) -
+      (secondPost.landingRank ?? Infinity),
+  )
+  .slice(0, 3);
 
 export function BlogSection() {
   return (
@@ -25,6 +36,37 @@ export function BlogSection() {
       }
       titleClassName={styles.blogTitle}
     >
+      <HorizontalDragScroll
+        ariaLabel="블로그 게시글 목록"
+        className={styles.blogGrid}
+      >
+        {landingPosts.map((post) => (
+          <Link
+            className={styles.blogCard}
+            href={`/blog/${post.slug}`}
+            key={post.id}
+          >
+            <div className={styles.blogImage}>
+              <Image
+                alt={post.title}
+                className={styles.coverImage}
+                fill
+                sizes="(min-width: 1440px) 440px, (min-width: 1080px) 33vw, (min-width: 640px) 400px, 350px"
+                src={post.image}
+              />
+            </div>
+            <div className={styles.blogCardBody}>
+              <div className={styles.blogCopy}>
+                <p className={styles.blogCategory}>{post.category}</p>
+                <h3>{post.title}</h3>
+                <p>{post.summary}</p>
+              </div>
+              <time dateTime={post.publishedAtIso}>{post.publishedAt}</time>
+            </div>
+          </Link>
+        ))}
+      </HorizontalDragScroll>
+
       <div className={styles.centerAction}>
         <Link
           className={styles.blogMoreLink}
