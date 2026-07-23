@@ -11,36 +11,59 @@ import {
 
 const paymentLink = {
   amount: 120000,
+  category: '브로슈어',
   client_name: '테스트 고객사',
   created_at: '2026-07-21T16:00:00.000Z',
   id: 'payment-link-id',
+  page_quantity: '12p / 500부',
+  paper: '일반지',
   payment_name: '브로슈어 제작비',
   public_token: '11111111-1111-4111-8111-111111111111',
+  service: '디자인',
   status: 'pending',
   updated_at: '2026-07-21T16:00:00.000Z',
+}
+
+const validForm = {
+  amount: '120,000',
+  category: '브로슈어',
+  client: '테스트 고객사',
+  pageQuantity: '12p / 500부',
+  paper: '일반지',
+  paymentName: '브로슈어 제작비',
+  service: '디자인',
 }
 
 test('payment link input trims text and stores integer won', () => {
   assert.deepEqual(
     toPaymentLinkInput({
-      amount: '120,000',
+      ...validForm,
+      category: ' 브로슈어 ',
       client: ' 테스트 고객사 ',
+      pageQuantity: ' 12p / 500부 ',
+      paper: ' 일반지 ',
       paymentName: ' 브로슈어 제작비 ',
+      service: ' 디자인 ',
     }),
     {
       amount: 120000,
+      category: '브로슈어',
       client_name: '테스트 고객사',
+      page_quantity: '12p / 500부',
+      paper: '일반지',
       payment_name: '브로슈어 제작비',
+      service: '디자인',
     },
   )
 })
 
 test('payment link input rejects empty text and invalid amount', () => {
   for (const form of [
-    { amount: '0', client: '고객사', paymentName: '결제명' },
-    { amount: '1,000,000,000,000', client: '고객사', paymentName: '결제명' },
-    { amount: '1,000', client: ' ', paymentName: '결제명' },
-    { amount: '1,000', client: '고객사', paymentName: ' ' },
+    { ...validForm, amount: '0' },
+    { ...validForm, amount: '1,000,000,000,000' },
+    ...['category', 'service', 'paper', 'pageQuantity', 'client', 'paymentName'].map(
+      (field) => ({ ...validForm, [field]: ' ' }),
+    ),
   ]) {
     assert.throws(() => toPaymentLinkInput(form), {
       message: '링크페이 정보를 확인해주세요.',
@@ -53,9 +76,8 @@ test('payment link input rejects malformed numeric text', () => {
     assert.throws(
       () =>
         toPaymentLinkInput({
+          ...validForm,
           amount,
-          client: '고객사',
-          paymentName: '결제명',
         }),
       { message: '링크페이 정보를 확인해주세요.' },
     )
@@ -65,8 +87,12 @@ test('payment link input rejects malformed numeric text', () => {
 test('database rows map to editable form and formatted list values', () => {
   assert.deepEqual(toLinkPayFormState(paymentLink), {
     amount: '120,000',
+    category: '브로슈어',
     client: '테스트 고객사',
+    pageQuantity: '12p / 500부',
+    paper: '일반지',
     paymentName: '브로슈어 제작비',
+    service: '디자인',
   })
 
   assert.deepEqual(toLinkPayListRow(paymentLink), {
@@ -123,7 +149,11 @@ test('public URL uses the configured user app origin and UUID token', () => {
 test('initial form is empty', () => {
   assert.deepEqual(createInitialLinkPayForm(), {
     amount: '',
+    category: '',
     client: '',
+    pageQuantity: '',
+    paper: '',
     paymentName: '',
+    service: '',
   })
 })

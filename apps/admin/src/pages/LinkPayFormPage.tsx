@@ -1,5 +1,6 @@
 import {
   createPaymentLink,
+  deletePaymentLink,
   getAdminPaymentLink,
   updatePaymentLink,
 } from '@repo/supabase'
@@ -8,13 +9,10 @@ import type { FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { AdminIcon } from '../components/AdminIcon'
+import { AdminDeleteDialog } from '../components/admin-form/AdminDeleteDialog'
 import { AdminFormLayout } from '../components/admin-form/AdminFormLayout'
 import { supabase } from '../lib/supabase'
-import {
-  createInitialLinkPayForm,
-  toLinkPayFormState,
-  toPaymentLinkInput,
-} from './linkPayData'
+import { createInitialLinkPayForm, toLinkPayFormState, toPaymentLinkInput } from './linkPayData'
 import type { LinkPayFormState } from './linkPayData'
 import { formatNumericValue } from './productData'
 import './BlogFormPage.css'
@@ -37,6 +35,7 @@ function LinkPayForm({ linkPayId }: LinkPayFormProps) {
   const isMounted = useRef(true)
   const [form, setForm] = useState(createInitialLinkPayForm)
   const [isLoading, setIsLoading] = useState(isEditing)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [loadError, setLoadError] = useState('')
   const [saveError, setSaveError] = useState('')
@@ -79,7 +78,7 @@ function LinkPayForm({ linkPayId }: LinkPayFormProps) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (isSaving) return
+    if (isSaving || isDeleting) return
 
     setIsSaving(true)
     setSaveError('')
@@ -108,6 +107,25 @@ function LinkPayForm({ linkPayId }: LinkPayFormProps) {
     }
   }
 
+  async function handleDelete() {
+    if (!linkPayId || isSaving || isDeleting) return
+
+    setIsDeleting(true)
+    setSaveError('')
+
+    try {
+      await deletePaymentLink(supabase, linkPayId)
+      toast.success('링크페이를 삭제했습니다.')
+      navigate('/linkpay', { replace: true })
+    } catch {
+      setSaveError('링크페이를 삭제하지 못했습니다. 결제가 시작된 링크는 삭제할 수 없습니다.')
+      toast.error('링크페이를 삭제하지 못했습니다.')
+      window.alert('링크페이를 삭제하지 못했습니다. 결제가 시작된 링크인지 확인해주세요.')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
   if (isLoading || loadError) {
     return (
       <AdminFormLayout
@@ -133,14 +151,24 @@ function LinkPayForm({ linkPayId }: LinkPayFormProps) {
           <Link className="admin-form__button admin-form__button--outline" to="/linkpay">
             목록으로
           </Link>
-          <button
-            className="admin-form__button admin-form__button--solid"
-            disabled={isSaving}
-            type="submit"
-          >
-            <span>{isSaving ? '저장 중...' : isEditing ? '수정하기' : '등록하기'}</span>
-            <AdminIcon name="arrow-right" />
-          </button>
+          <div className="admin-form__actions-group">
+            {isEditing ? (
+              <AdminDeleteDialog
+                disabled={isSaving}
+                isDeleting={isDeleting}
+                itemLabel="링크페이"
+                onConfirm={handleDelete}
+              />
+            ) : null}
+            <button
+              className="admin-form__button admin-form__button--solid"
+              disabled={isSaving || isDeleting}
+              type="submit"
+            >
+              <span>{isSaving ? '저장 중...' : isEditing ? '수정하기' : '등록하기'}</span>
+              <AdminIcon name="arrow-right" />
+            </button>
+          </div>
         </>
       }
       onSubmit={handleSubmit}
@@ -151,6 +179,66 @@ function LinkPayForm({ linkPayId }: LinkPayFormProps) {
           {saveError}
         </p>
       ) : null}
+
+      <label className="blog-form__field" htmlFor={`${formId}-category`}>
+        <span className="blog-form__label">카테고리</span>
+        <input
+          autoComplete="off"
+          className="blog-form__control"
+          id={`${formId}-category`}
+          name="category"
+          onChange={(event) => updateForm('category', event.currentTarget.value)}
+          placeholder="카테고리를 입력해주세요. (ex. 브로슈어)"
+          required
+          type="text"
+          value={form.category}
+        />
+      </label>
+
+      <label className="blog-form__field" htmlFor={`${formId}-service`}>
+        <span className="blog-form__label">서비스</span>
+        <input
+          autoComplete="off"
+          className="blog-form__control"
+          id={`${formId}-service`}
+          name="service"
+          onChange={(event) => updateForm('service', event.currentTarget.value)}
+          placeholder="서비스를 입력해주세요 (ex. 디자인)"
+          required
+          type="text"
+          value={form.service}
+        />
+      </label>
+
+      <label className="blog-form__field" htmlFor={`${formId}-paper`}>
+        <span className="blog-form__label">용지</span>
+        <input
+          autoComplete="off"
+          className="blog-form__control"
+          id={`${formId}-paper`}
+          name="paper"
+          onChange={(event) => updateForm('paper', event.currentTarget.value)}
+          placeholder="용지를 입력해주세요. (ex. 일반지)"
+          required
+          type="text"
+          value={form.paper}
+        />
+      </label>
+
+      <label className="blog-form__field" htmlFor={`${formId}-page-quantity`}>
+        <span className="blog-form__label">페이지 수 / 수량</span>
+        <input
+          autoComplete="off"
+          className="blog-form__control"
+          id={`${formId}-page-quantity`}
+          name="pageQuantity"
+          onChange={(event) => updateForm('pageQuantity', event.currentTarget.value)}
+          placeholder="페이지 수 및 수량을 입력해주세요. (ex. 12p / 500부)"
+          required
+          type="text"
+          value={form.pageQuantity}
+        />
+      </label>
 
       <label className="blog-form__field" htmlFor={`${formId}-client`}>
         <span className="blog-form__label">고객사명</span>

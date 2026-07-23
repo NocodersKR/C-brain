@@ -21,6 +21,13 @@ export type ContentMode = PublicEnums["content_mode"];
 export type InquiryStatus = PublicEnums["inquiry_status"];
 export type PostKind = PublicEnums["post_kind"];
 export type PaymentLinkStatus = PublicEnums["payment_link_status"];
+export type PaymentOrderStatus =
+  | "ready"
+  | "paid"
+  | "failed"
+  | "cancelled"
+  | "partialCancelled"
+  | "expired";
 export type ProductStatus = PublicEnums["product_status"];
 export type ReviewKind = PublicEnums["review_kind"];
 export type UserRole = PublicEnums["user_role"];
@@ -265,32 +272,95 @@ export type Database = {
       payment_links: {
         Row: {
           amount: number;
+          category: string;
           client_name: string;
           created_at: string;
           id: string;
+          page_quantity: string;
+          paper: string;
           payment_name: string;
           public_token: string;
+          service: string;
           status: PaymentLinkStatus;
           updated_at: string;
         };
         Insert: {
           amount: number;
+          category: string;
           client_name: string;
           created_at?: string;
           id?: string;
+          page_quantity: string;
+          paper: string;
           payment_name: string;
           public_token?: string;
+          service: string;
           status?: PaymentLinkStatus;
           updated_at?: string;
         };
         Update: {
           amount?: number;
+          category?: string;
           client_name?: string;
           created_at?: string;
           id?: string;
+          page_quantity?: string;
+          paper?: string;
           payment_name?: string;
           public_token?: string;
+          service?: string;
           status?: PaymentLinkStatus;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      payment_orders: {
+        Row: {
+          amount: number;
+          cancelled_at: string | null;
+          created_at: string;
+          id: string;
+          nicepay_tid: string | null;
+          order_id: string;
+          paid_at: string | null;
+          pay_method: string | null;
+          payment_link_id: string;
+          provider_status: PaymentOrderStatus;
+          receipt_url: string | null;
+          result_code: string | null;
+          result_message: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          amount: number;
+          cancelled_at?: string | null;
+          created_at?: string;
+          id?: string;
+          nicepay_tid?: string | null;
+          order_id: string;
+          paid_at?: string | null;
+          pay_method?: string | null;
+          payment_link_id: string;
+          provider_status?: PaymentOrderStatus;
+          receipt_url?: string | null;
+          result_code?: string | null;
+          result_message?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          amount?: number;
+          cancelled_at?: string | null;
+          created_at?: string;
+          id?: string;
+          nicepay_tid?: string | null;
+          order_id?: string;
+          paid_at?: string | null;
+          pay_method?: string | null;
+          payment_link_id?: string;
+          provider_status?: PaymentOrderStatus;
+          receipt_url?: string | null;
+          result_code?: string | null;
+          result_message?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -530,6 +600,25 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      complete_payment_order: {
+        Args: {
+          p_amount: number;
+          p_nicepay_tid: string;
+          p_order_id: string;
+          p_paid_at: string;
+          p_pay_method: string | null;
+          p_receipt_url: string | null;
+          p_result_code: string;
+          p_result_message: string;
+        };
+        Returns: undefined;
+      };
+      get_or_create_payment_order: {
+        Args: {
+          p_public_token: string;
+        };
+        Returns: PublicTables["payment_orders"]["Row"][];
+      };
       is_admin: {
         Args: Record<string, never>;
         Returns: boolean;

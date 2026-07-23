@@ -7,8 +7,12 @@ import { formatNumericValue } from './productData.ts'
 
 export type LinkPayFormState = {
   amount: string
+  category: string
   client: string
+  pageQuantity: string
+  paper: string
   paymentName: string
+  service: string
 }
 
 export type LinkPayListRow = {
@@ -23,7 +27,13 @@ export type LinkPayListRow = {
 
 export type PaymentLinkInput = Pick<
   TableInsert<'payment_links'>,
-  'amount' | 'client_name' | 'payment_name'
+  | 'amount'
+  | 'category'
+  | 'client_name'
+  | 'page_quantity'
+  | 'paper'
+  | 'payment_name'
+  | 'service'
 >
 
 export type LinkPayFilters = {
@@ -35,17 +45,29 @@ export type LinkPayFilters = {
 export function createInitialLinkPayForm(): LinkPayFormState {
   return {
     amount: '',
+    category: '',
     client: '',
+    pageQuantity: '',
+    paper: '',
     paymentName: '',
+    service: '',
   }
 }
 
 export function toPaymentLinkInput(form: LinkPayFormState): PaymentLinkInput {
   const amountText = form.amount.replaceAll(',', '')
+  const category = form.category.trim()
   const clientName = form.client.trim()
+  const pageQuantity = form.pageQuantity.trim()
+  const paper = form.paper.trim()
   const paymentName = form.paymentName.trim()
+  const service = form.service.trim()
 
-  if (!clientName || !paymentName || !/^\d+$/.test(amountText)) {
+  if (
+    [category, service, paper, pageQuantity, clientName, paymentName].some(
+      (value) => !value,
+    ) || !/^\d+$/.test(amountText)
+  ) {
     throw new Error('링크페이 정보를 확인해주세요.')
   }
 
@@ -57,8 +79,12 @@ export function toPaymentLinkInput(form: LinkPayFormState): PaymentLinkInput {
 
   return {
     amount,
+    category,
     client_name: clientName,
+    page_quantity: pageQuantity,
+    paper,
     payment_name: paymentName,
+    service,
   }
 }
 
@@ -67,8 +93,12 @@ export function toLinkPayFormState(
 ): LinkPayFormState {
   return {
     amount: formatNumericValue(String(paymentLink.amount)),
+    category: paymentLink.category,
     client: paymentLink.client_name,
+    pageQuantity: paymentLink.page_quantity,
+    paper: paymentLink.paper,
     paymentName: paymentLink.payment_name,
+    service: paymentLink.service,
   }
 }
 
