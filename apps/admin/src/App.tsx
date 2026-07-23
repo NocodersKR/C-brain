@@ -89,6 +89,7 @@ export function App() {
           <Route element={<ComplaintDetailPage />} path="/complaints/:complaintId" />
           <Route element={<LinkPayPage />} path="/linkpay" />
           <Route element={<LinkPayFormPage />} path="/linkpay/new" />
+          <Route element={<LinkPayFormPage />} path="/linkpay/:linkPayId" />
           <Route element={<SalesPage />} path="/sales" />
           <Route element={<Navigate replace to="/products" />} path="*" />
         </Route>

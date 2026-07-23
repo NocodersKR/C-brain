@@ -6,6 +6,7 @@ export * from "./env.ts";
 export * from "./faqs.ts";
 export * from "./files.ts";
 export * from "./inquiries.ts";
+export * from "./paymentLinks.ts";
 export * from "./portfolio.ts";
 export * from "./products.ts";
 export * from "./reviews.ts";

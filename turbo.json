@@ -1,5 +1,11 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
+  "globalEnv": [
+    "NICEPAY_MODE",
+    "NICEPAY_SECRET_KEY",
+    "NEXT_PUBLIC_NICEPAY_CLIENT_KEY",
+    "NEXT_PUBLIC_SITE_URL"
+  ],
   "ui": "tui",
   "tasks": {
     "build": {
