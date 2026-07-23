@@ -27,30 +27,31 @@ async function source(name) {
 
 test("notice data feeds pinned, regular, filtered, and detail views", async () => {
   const data = await source("data");
+  const fixtureBlock = data.slice(
+    data.indexOf("const noticeFixtures = ["),
+    data.indexOf("] satisfies NoticeSummary[];"),
+  );
 
   assert.match(data, /const noticeFixtures = \[/);
+  assert.equal(fixtureBlock.match(/\bid: "/g)?.length, 15);
   assert.match(data, /isPinned: true/);
   assert.match(data, /isPinned: false/);
-  assert.match(data, /listPublishedPosts\(client, "notice"\)/);
-  assert.match(data, /getPublishedPost\(client, "notice", id\)/);
-  assert.match(data, /createUserSupabaseClient\(\)/);
   assert.match(data, /activeCategory === "all"/);
-  assert.match(data, /Number\(secondPost\.is_pinned\) - Number\(firstPost\.is_pinned\)/);
-  assert.match(data, /firstPost\.sort_order - secondPost\.sort_order/);
   assert.match(data, /item\.id === id/);
+  assert.match(data, /\.\.\.sharedDetailContent/);
   assert.doesNotMatch(data, /dangerouslySetInnerHTML/);
 });
 
-test("notice loaders keep fixtures for missing env and fail closed on query errors", async () => {
+test("notice list and detail stay fixture-only", async () => {
   const data = await source("data");
 
-  assert.match(data, /if \(!client\) return \[\.\.\.noticeFixtures\]/);
-  assert.match(data, /if \(!client\) return noticeFixtures\.find/);
-  assert.match(data, /console\.error\("Failed to load published notices\./);
-  assert.match(data, /console\.error\("Failed to load published notice detail\./);
-  assert.match(data, /catch \(error\)/);
-  assert.match(data, /return \[\]/);
-  assert.match(data, /return undefined/);
+  assert.doesNotMatch(data, /@repo\/supabase/);
+  assert.doesNotMatch(data, /createUserSupabaseClient/);
+  assert.doesNotMatch(data, /listPublishedPosts/);
+  assert.doesNotMatch(data, /getPublishedPost/);
+  assert.match(data, /export function getNoticePageData/);
+  assert.match(data, /totalCount: noticeFixtures\.length/);
+  assert.match(data, /export function getNoticeById/);
 });
 
 test("notice list keeps category, pinned, detail-link, and shared-icon contracts", async () => {

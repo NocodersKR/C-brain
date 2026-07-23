@@ -7,31 +7,19 @@ const sectionPath = new URL(
   import.meta.url,
 );
 
-test("landing services use published product order and preserve env-only fallback", async () => {
+test("landing services always render the nine design QA fixtures", async () => {
   const source = await readFile(sectionPath, "utf8");
 
-  assert.match(source, /listPublishedProducts\(client\)/);
-  assert.match(source, /product\.name/);
-  assert.match(source, /product\.type/);
-  assert.match(source, /getLowestProductUnitPrice\(product\.unit_prices\)/);
-  assert.match(
-    source,
-    /products === undefined \? fallbackServices : products\.map\(toServiceCard\)/,
+  assert.doesNotMatch(source, /@repo\/supabase/);
+  assert.doesNotMatch(source, /createUserSupabaseClient/);
+  assert.doesNotMatch(source, /listPublishedProducts/);
+  assert.doesNotMatch(source, /loadLandingServices/);
+  assert.match(source, /const services = \[/);
+  assert.match(source, /\{services\.map\(\(service\) =>/);
+
+  const fixtureBlock = source.slice(
+    source.indexOf("const services"),
+    source.indexOf("const textButtonStyle"),
   );
-  assert.doesNotMatch(source, /products\.length.*fallbackServices/);
-
-  const fallbackBlock = source.slice(
-    source.indexOf("const fallbackServices"),
-    source.indexOf("const priceFormatter"),
-  );
-  assert.equal(fallbackBlock.match(/title: /g)?.length, 9);
-});
-
-test("an empty published product result stays empty instead of using fixtures", () => {
-  const fallback = Array.from({ length: 9 }, (_, index) => `fixture-${index}`);
-  const selectServices = (products) =>
-    products === undefined ? fallback : products;
-
-  assert.equal(selectServices(undefined).length, 9);
-  assert.deepEqual(selectServices([]), []);
+  assert.equal(fixtureBlock.match(/title: /g)?.length, 9);
 });

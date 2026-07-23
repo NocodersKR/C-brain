@@ -1,16 +1,12 @@
 import Image from "next/image";
-import { getPublicAssetUrl } from "@repo/supabase/files";
-import { listPublishedPortfolioItems } from "@repo/supabase/portfolio";
 
 import { CtaSection } from "../../_components/CtaSection";
 import {
   getPortfolioCategoryIdFromValue,
-  mapPortfolioRows,
   portfolioCategories,
   portfolioItems,
 } from "../../_content/portfolio";
 import { createPageMetadata } from "../../_content/seo";
-import { createUserSupabaseClient } from "../../../lib/supabase";
 import { PortfolioGallery } from "./PortfolioGallery";
 import styles from "./page.module.css";
 
@@ -22,27 +18,8 @@ type PortfolioPageProps = {
 
 export const metadata = createPageMetadata("portfolio");
 
-async function loadPortfolioItems() {
-  const supabase = await createUserSupabaseClient();
-
-  if (!supabase) {
-    return portfolioItems;
-  }
-
-  try {
-    const rows = await listPublishedPortfolioItems(supabase);
-    return mapPortfolioRows(rows, (path) => getPublicAssetUrl(supabase, path));
-  } catch (error) {
-    console.error("Failed to load published portfolio items.", error);
-    return [];
-  }
-}
-
 export default async function PortfolioPage({ searchParams }: PortfolioPageProps) {
-  const [resolvedSearchParams, items] = await Promise.all([
-    searchParams,
-    loadPortfolioItems(),
-  ]);
+  const resolvedSearchParams = await searchParams;
   const initialCategoryId = getPortfolioCategoryIdFromValue(
     resolvedSearchParams?.category,
   );
@@ -86,7 +63,7 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
           <PortfolioGallery
             categories={portfolioCategories}
             initialCategoryId={initialCategoryId}
-            items={items}
+            items={portfolioItems}
           />
         </div>
       </section>

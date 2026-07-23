@@ -69,6 +69,15 @@ test("blog page keeps the shared header, hero, category, and CTA contracts", asy
     /aria-current=\{activeCategory === category \? "page" : undefined\}/,
   );
   assert.match(blogSection, /import Link from "next\/link"/);
+  assert.match(blogSection, /import Image from "next\/image"/);
+  assert.match(blogSection, /import \{ blogPosts \}/);
+  assert.match(blogSection, /post\.landingRank !== undefined/);
+  assert.match(blogSection, /<HorizontalDragScroll/);
+  assert.match(blogSection, /className=\{styles\.blogGrid\}/);
+  assert.match(blogSection, /href=\{`\/blog\/\$\{post\.slug\}`\}/);
+  assert.match(blogSection, /src=\{post\.image\}/);
+  assert.match(blogSection, /\{post\.summary\}/);
+  assert.match(blogSection, /dateTime=\{post\.publishedAtIso\}/);
   assert.match(blogSection, /<Link[\s\S]*href="\/blog"/);
   assert.doesNotMatch(blogSection, /<Button/);
 });
