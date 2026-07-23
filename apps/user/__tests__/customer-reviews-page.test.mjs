@@ -90,22 +90,32 @@ test("customer review content is shared by the reviews page", async () => {
   assert.match(pageSource, /featuredCustomerInterview/);
 });
 
-test("published reviews feed list, detail, and landing with fixture fallback", async () => {
+test("review list, detail, and landing stay fixture-only", async () => {
   const contentSource = await readFile(contentPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");
   const landingSource = await readFile(landingSectionPath, "utf8");
+  const detailSource = await readFile(
+    new URL("../app/(site)/reviews/[slug]/page.tsx", import.meta.url),
+    "utf8",
+  );
 
-  assert.match(contentSource, /createUserSupabaseClient/);
-  assert.match(contentSource, /listPublishedReviews/);
-  assert.match(contentSource, /getPublishedReview/);
-  assert.match(contentSource, /getPublicAssetUrl/);
-  assert.match(contentSource, /if \(!client\)/);
-  assert.match(contentSource, /review\.kind !== "interview"/);
-  assert.match(contentSource, /review\.kind !== "testimonial"/);
-  assert.match(contentSource, /review\.is_landing_enabled/);
-  assert.match(contentSource, /review\.content_mode === "html"/);
+  assert.doesNotMatch(contentSource, /@repo\/supabase/);
+  assert.doesNotMatch(contentSource, /createUserSupabaseClient/);
+  assert.doesNotMatch(contentSource, /listPublishedReviews/);
+  assert.doesNotMatch(contentSource, /getPublishedReview/);
+  assert.doesNotMatch(contentSource, /getPublicAssetUrl/);
+  assert.match(contentSource, /export function getCustomerReviewPageData/);
+  assert.match(contentSource, /customerInterviews: \[\.\.\.customerInterviews\]/);
+  assert.match(
+    contentSource,
+    /customerTestimonials: \[\.\.\.customerTestimonials\]/,
+  );
+  assert.match(contentSource, /return customerTestimonials\.slice\(0, 3\)/);
+  assert.doesNotMatch(contentSource, /getPublishedCustomerInterviewDetailBySlug/);
   assert.match(pageSource, /await getCustomerReviewPageData\(\)/);
   assert.match(landingSource, /await getLandingCustomerTestimonials\(\)/);
+  assert.match(detailSource, /getCustomerInterviewDetailBySlug/);
+  assert.doesNotMatch(detailSource, /getPublishedCustomerInterviewDetailBySlug/);
 });
 
 test("review list and landing render clear empty states", async () => {
@@ -122,19 +132,6 @@ test("review list and landing render clear empty states", async () => {
   assert.match(landingSource, /reviews\.length > 0/);
   assert.match(landingSource, /등록된 고객 후기가 없습니다\./);
   assert.match(stylesSource, /\.contentEmptyState/);
-});
-
-test("review loaders keep fixtures for missing env and fail closed on query errors", async () => {
-  const contentSource = await readFile(contentPath, "utf8");
-
-  assert.match(contentSource, /if \(!client\)[\s\S]*customerInterviews/);
-  assert.match(contentSource, /if \(!client\) return customerTestimonials\.slice/);
-  assert.match(contentSource, /async function loadPublishedReviews/);
-  assert.match(contentSource, /catch \(error\)/);
-  assert.match(contentSource, /console\.error\("Failed to load published reviews\./);
-  assert.match(contentSource, /console\.error\("Failed to load published review detail\./);
-  assert.match(contentSource, /return \[\]/);
-  assert.match(contentSource, /return undefined/);
 });
 
 test("customer reviews page keeps Figma image assets local", async () => {
