@@ -52,7 +52,7 @@ export function FaqSection({
     <SectionLayout
       align="center"
       badge={badge}
-      badgeAs="h1"
+      badgeAs="p"
       badgeClassName={styles.faqKicker}
       className={styles.faqSection}
       description={description}
