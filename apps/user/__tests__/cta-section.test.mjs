@@ -39,6 +39,14 @@ test("CTA section owns its styles and conditionally renders the second action", 
   assert.match(styles, /\.descriptionMd/);
   assert.match(styles, /\.badge::before/);
   assert.match(styles, /var\(--landing-button-border-end\)/);
+  assert.match(
+    styles,
+    /\.section\s*\{[\s\S]*?--cta-action-width: 164px;/,
+  );
+  assert.match(
+    styles,
+    /\.actions\s*\{[\s\S]*?align-items: center;/,
+  );
   assert.doesNotMatch(styles, /\.section\s*\{[^}]*min-height/s);
 });
 
