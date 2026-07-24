@@ -79,14 +79,20 @@
   letter-spacing: -0.21px;
 }
 
-.blogDetailAuthorLine,
+.blogDetailAuthorLine {
+  margin: 0;
+  gap: 8px;
+  font-style: normal;
+}
+
 .blogDetailDateLine {
   gap: 4px;
 }
 
-.blogDetailAuthorLine {
-  margin: 0;
-  font-style: normal;
+.blogDetailAuthorIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .blogDetailAuthorLine > span:first-child,

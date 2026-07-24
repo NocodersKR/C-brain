@@ -134,8 +134,12 @@ test("portfolio detail body is associated with its heading and images", async ()
   );
   assert.match(detailPage, /alt=\{image\.alt\}/);
   assert.match(detailPage, /src="\/figma-assets\/cbrain-author\.svg"/);
+  assert.match(detailPage, /className=\{styles\.authorIdentity\}/);
   assert.doesNotMatch(detailPage, /name="cbrain-author"/);
   assert.doesNotMatch(icons, /cbrain-author/);
+
+  assert.match(detailStyles, /\.authorLine\s*\{[\s\S]*gap: 8px;/);
+  assert.match(detailStyles, /\.authorIdentity\s*\{[\s\S]*gap: 4px;/);
 
   const authorIconRule = detailStyles.match(/\.authorIcon\s*\{([^}]*)\}/)?.[1];
   assert.ok(authorIconRule);

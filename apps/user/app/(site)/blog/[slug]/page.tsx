@@ -219,14 +219,16 @@ export default async function BlogDetailPage({
                 itemType="https://schema.org/Organization"
               >
                 <span>작성자</span>
-                <Image
-                  alt=""
-                  className={styles.blogDetailAuthorIcon}
-                  height={20}
-                  src="/figma-assets/cbrain-author.svg"
-                  width={20}
-                />
-                <span itemProp="name">{post.author}</span>
+                <span className={styles.blogDetailAuthorIdentity}>
+                  <Image
+                    alt=""
+                    className={styles.blogDetailAuthorIcon}
+                    height={20}
+                    src="/figma-assets/cbrain-author.svg"
+                    width={20}
+                  />
+                  <span itemProp="name">{post.author}</span>
+                </span>
               </address>
               <span aria-hidden="true" className={styles.blogDetailMetaDot} />
               <div className={styles.blogDetailDateLine}>

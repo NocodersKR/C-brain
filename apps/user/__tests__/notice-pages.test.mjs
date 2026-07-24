@@ -13,6 +13,10 @@ const paths = {
     import.meta.url,
   ),
   detailPage: new URL("../app/(site)/notice/[id]/page.tsx", import.meta.url),
+  detailStyles: new URL(
+    "../app/(site)/notice/[id]/page.module.css",
+    import.meta.url,
+  ),
   icon: new URL("../components/Icon.tsx", import.meta.url),
   item: new URL(
     "../app/(site)/notice/_components/NoticeItem.tsx",
@@ -75,14 +79,19 @@ test("notice list keeps category, pinned, detail-link, and shared-icon contracts
 });
 
 test("notice detail keeps metadata, 404, structured content, and list return", async () => {
-  const [page, article] = await Promise.all([
+  const [page, article, detailStyles] = await Promise.all([
     source("detailPage"),
     source("detailArticle"),
+    source("detailStyles"),
   ]);
 
   assert.match(page, /notFound\(\)/);
   assert.match(page, /await getNoticeById\(id\)/);
   assert.match(page, /title: `\$\{notice\.title\} \| 씨브레인`/);
+  assert.match(article, /<strong>작성자<\/strong>/);
+  assert.match(article, /className=\{styles\.author\}/);
+  assert.match(detailStyles, /\.metaGroup\s*\{[\s\S]*gap: 8px;/);
+  assert.match(detailStyles, /\.author\s*\{[\s\S]*gap: 4px;/);
   assert.match(article, /<time dateTime=\{notice\.publishedAt\}>/);
   assert.match(article, /notice\.content\.map/);
   assert.match(article, /block\.type === "paragraph"/);

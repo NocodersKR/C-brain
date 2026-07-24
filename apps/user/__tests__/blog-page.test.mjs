@@ -342,8 +342,10 @@ test("blog detail page follows portfolio detail route conventions", async () => 
 });
 
 test("blog detail page keeps semantic article markup and list restoration", async () => {
-  const [detailPage, detailBackLink, historyUtils] = await Promise.all([
+  const [detailPage, detailStyles, detailBackLink, historyUtils] =
+    await Promise.all([
     source("detailPage"),
+    source("detailStyles"),
     source("detailBackLink"),
     source("historyUtils"),
   ]);
@@ -360,6 +362,15 @@ test("blog detail page keeps semantic article markup and list restoration", asyn
   assert.match(
     detailPage,
     /<address[\s\S]*className=\{styles\.blogDetailAuthorLine\}[\s\S]*itemProp="author"[\s\S]*itemScope[\s\S]*itemType="https:\/\/schema\.org\/Organization"/,
+  );
+  assert.match(detailPage, /className=\{styles\.blogDetailAuthorIdentity\}/);
+  assert.match(
+    detailStyles,
+    /\.blogDetailAuthorLine\s*\{[\s\S]*gap: 8px;/,
+  );
+  assert.match(
+    detailStyles,
+    /\.blogDetailAuthorIdentity\s*\{[\s\S]*gap: 4px;/,
   );
   assert.match(detailPage, /<time[\s\S]*dateTime=\{post\.publishedAtIso\}/);
   assert.match(

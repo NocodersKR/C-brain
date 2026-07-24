@@ -119,14 +119,16 @@ export default async function PortfolioDetailPage({
             </h1>
             <p className={styles.authorLine}>
               <span>작성자</span>
-              <Image
-                alt=""
-                className={styles.authorIcon}
-                height={20}
-                src="/figma-assets/cbrain-author.svg"
-                width={20}
-              />
-              <span>{item.author}</span>
+              <span className={styles.authorIdentity}>
+                <Image
+                  alt=""
+                  className={styles.authorIcon}
+                  height={20}
+                  src="/figma-assets/cbrain-author.svg"
+                  width={20}
+                />
+                <span>{item.author}</span>
+              </span>
             </p>
           </div>
         </header>

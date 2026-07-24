@@ -57,7 +57,7 @@
   color: var(--landing-gray-800);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
@@ -67,6 +67,12 @@
 
 .authorLine > span:first-child {
   font-weight: 700;
+}
+
+.authorIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .authorIcon {
