@@ -123,3 +123,32 @@ test("about mobile timeline keeps title fragments on the same line", async () =>
     /year:\s*"2015"[\s\S]*?detailPrefix:\s*" \/ "/,
   );
 });
+
+test("about info section fills narrow screens", async () => {
+  const stylesSource = await readFile(stylesUrl, "utf8");
+  const tabletStart = stylesSource.indexOf("@media (max-width: 1099px)");
+  const channelStart = stylesSource.indexOf(
+    "@media (max-width: 1137px)",
+    tabletStart,
+  );
+  const mobileStart = stylesSource.indexOf("@media (max-width: 699px)");
+  const compactMobileStart = stylesSource.indexOf(
+    "@media (max-width: 480px)",
+    mobileStart,
+  );
+  const tabletStyles = stylesSource.slice(tabletStart, channelStart);
+  const mobileStyles = stylesSource.slice(mobileStart, compactMobileStart);
+
+  assert.notEqual(tabletStart, -1);
+  assert.notEqual(channelStart, -1);
+  assert.notEqual(mobileStart, -1);
+  assert.notEqual(compactMobileStart, -1);
+
+  assert.match(cssBlock(tabletStyles, ".infoContent {"), /width:\s*100%;/);
+  assert.match(cssBlock(tabletStyles, ".mapWrap {"), /width:\s*100%;/);
+  assert.match(cssBlock(tabletStyles, ".mapWrap {"), /justify-self:\s*stretch;/);
+
+  assert.match(cssBlock(mobileStyles, ".infoGrid {"), /justify-items:\s*stretch;/);
+  assert.match(cssBlock(mobileStyles, ".infoContent {"), /width:\s*100%;/);
+  assert.match(cssBlock(mobileStyles, ".mapWrap {"), /width:\s*100%;/);
+});

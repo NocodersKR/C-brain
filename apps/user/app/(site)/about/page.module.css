@@ -1301,7 +1301,7 @@
   }
 
   .infoContent {
-    width: min(100%, 600px);
+    width: 100%;
   }
 
   .infoRow {
@@ -1310,9 +1310,9 @@
   }
 
   .mapWrap {
-    width: min(100%, 600px);
+    width: 100%;
     aspect-ratio: 600 / 430;
-    justify-self: start;
+    justify-self: stretch;
   }
 
   .introMedia {
@@ -1632,12 +1632,12 @@
   }
 
   .infoGrid {
-    justify-items: center;
+    justify-items: stretch;
     gap: 32px;
   }
 
   .infoContent {
-    width: min(100%, 350px);
+    width: 100%;
   }
 
   .infoContent h2 {
@@ -1668,7 +1668,7 @@
   }
 
   .mapWrap {
-    width: min(100%, 350px);
+    width: 100%;
     aspect-ratio: 350 / 251;
   }
 }
