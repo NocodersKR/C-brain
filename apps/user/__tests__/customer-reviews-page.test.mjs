@@ -192,6 +192,19 @@ test("customer reviews page uses shared navigation and CTA", async () => {
   assert.doesNotMatch(pageSource, /reviewsCta/);
 });
 
+test("shared header switches to 64px when the mobile menu button is visible", async () => {
+  const stylesSource = await readFile(stylesPath, "utf8");
+
+  assert.match(
+    stylesSource,
+    /@media \(max-width: 1099px\)[\s\S]*?\.header\s*\{[\s\S]*?height: 64px;[\s\S]*?\}[\s\S]*?\.headerNoticePage\s*\{/,
+  );
+  assert.match(
+    stylesSource,
+    /@media \(min-width: 1100px\)[\s\S]*?\.mobileMenuButton\s*\{[\s\S]*?display: none;/,
+  );
+});
+
 test("customer reviews page includes responsive layout styles", async () => {
   const stylesSource = await readFile(stylesPath, "utf8");
 

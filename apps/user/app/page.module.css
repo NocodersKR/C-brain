@@ -3197,8 +3197,11 @@
 }
 
 @media (max-width: 1099px) {
-  .headerNoticePage {
+  .header {
     height: 64px;
+  }
+
+  .headerNoticePage {
     padding-left: 20px;
     padding-right: 20px;
   }
