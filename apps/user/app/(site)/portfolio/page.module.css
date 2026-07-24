@@ -108,7 +108,7 @@
 
 .heroText p {
   max-width: 538px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -139,7 +139,7 @@
 
 .workHeader h2 {
   max-width: 784px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 28px;
   font-weight: 700;
   line-height: 36px;
@@ -182,16 +182,16 @@
   height: 52px;
   padding: 0 16px;
   border: 0;
-  border-bottom: 2px solid transparent;
   border-radius: 12px 12px 0 0;
   background: transparent;
   color: var(--landing-gray-500);
+  position: relative;
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0;
@@ -219,9 +219,24 @@
 }
 
 .categoryButtonActive {
-  border-bottom-color: var(--landing-brand-500);
   color: var(--landing-brand-500);
   font-weight: 700;
+}
+
+.categoryButtonActive::after {
+  content: "";
+  height: 2px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(48, 186, 195, 0) 0%,
+    var(--landing-brand-500) 50%,
+    rgba(48, 186, 195, 0) 100%
+  );
+  pointer-events: none;
 }
 
 .portfolioGrid {
@@ -236,7 +251,7 @@
 .emptyState {
   min-height: 180px;
   color: var(--landing-gray-500);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 20px;
   display: flex;
@@ -302,7 +317,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 500;
   line-height: 13px;
@@ -317,7 +332,7 @@
 }
 
 .portfolioCardText p {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -326,7 +341,7 @@
 }
 
 .portfolioCardText h3 {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 26px;

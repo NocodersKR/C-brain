@@ -41,7 +41,7 @@ Add a dedicated style object without changing `textButtonStyle`, because that ob
 ```tsx
 const serviceButtonStyle: CSSProperties = {
   ...textButtonStyle,
-  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontFamily: "var(--font-sans)",
   letterSpacing: "-0.21px",
 };
 ```
@@ -96,7 +96,7 @@ Separate service-card rules from the grouped reason-card rules, then apply the F
 ```css
 .serviceCopy h3,
 .serviceMeta strong {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 26px;
@@ -104,7 +104,7 @@ Separate service-card rules from the grouped reason-card rules, then apply the F
 }
 
 .serviceCopy p {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;

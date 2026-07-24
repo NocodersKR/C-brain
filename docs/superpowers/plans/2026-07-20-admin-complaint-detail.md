@@ -17,7 +17,7 @@
 - 백엔드가 없으므로 `complaint-20260720-001` 한 건만 명시적인 fixture로 제공한다.
 - 목록에는 fixture 연락처를 표시하지 않고 `ComplaintRow`로 필요한 값만 투영한다.
 - 신규 dependency, icon, image asset은 추가하지 않는다.
-- `design.md`의 Pretendard, parent `gap`, form focus, currentColor 규칙과 현재 dirty worktree 변경을 보존한다.
+- `design.md`의 Pretendard GOV Variable, parent `gap`, form focus, currentColor 규칙과 현재 dirty worktree 변경을 보존한다.
 - 최종 Figma URL scan은 출력 없이 종료해야 한다.
 
 ---

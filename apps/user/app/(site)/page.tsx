@@ -32,7 +32,7 @@ export default function Home() {
         id="contact"
         secondaryAction={{
           label: "정찰제 가격 보기",
-          href: "/#services",
+          href: "/order",
         }}
         titleLines={[
           "실패 없는 홍보물 디자인 제작,",

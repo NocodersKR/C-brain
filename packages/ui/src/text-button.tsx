@@ -6,7 +6,6 @@ import {
 } from "react";
 
 export interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  fontFamily?: CSSProperties["fontFamily"];
   fontSize?: CSSProperties["fontSize"];
   fontWeight?: CSSProperties["fontWeight"];
   leftIcon?: ReactNode;
@@ -52,7 +51,6 @@ export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
       children,
       className,
       disabled,
-      fontFamily,
       fontSize,
       fontWeight,
       leftIcon,
@@ -77,7 +75,6 @@ export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
         style={{
           ...baseStyle,
           color: textColor ?? baseStyle.color,
-          fontFamily: fontFamily ?? baseStyle.fontFamily,
           fontSize: fontSize ?? baseStyle.fontSize,
           fontWeight: fontWeight ?? baseStyle.fontWeight,
           lineHeight: lineHeight ?? baseStyle.lineHeight,
@@ -87,6 +84,7 @@ export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
           textDecoration: underline ? "underline" : "none",
           textUnderlineOffset: underline ? 3 : undefined,
           ...style,
+          fontFamily: baseStyle.fontFamily,
         }}
       >
         {leftIcon ? <span style={iconStyle}>{leftIcon}</span> : null}

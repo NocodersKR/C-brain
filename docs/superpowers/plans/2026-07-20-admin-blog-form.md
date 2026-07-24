@@ -6,7 +6,7 @@
 
 **Architecture:** Add one page-local `BlogFormPage` that composes the existing `AdminFormLayout`, `AdminTypeCombobox`, and `AdminIcon` rather than introducing a new form, picker, uploader, or editor abstraction. Reuse the already-tested Portfolio slug/image validator under Blog-local aliases; the new page keeps all other state locally and navigates back to `/blog` after a valid client-only submit.
 
-**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, existing admin CSS variables, Pretendard, Node built-in test runner.
+**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, existing admin CSS variables, Pretendard GOV Variable, Node built-in test runner.
 
 ## Global Constraints
 
@@ -17,7 +17,7 @@
 - Use the Figma initial setting state and display copy exactly: landing `true` / `3개 등록됨`, banner `true` / `2개 등록됨`, featured post `false` / `5개 등록됨`.
 - Keep `thumbnail` local as one optional `File`; accept PNG, JPEG, and WEBP up to 50MB. Revoke its object URL on replace, clear, and unmount.
 - Import `getPortfolioImageError` and `isValidPortfolioSlug` under Blog-local names instead of cloning or renaming their implementation. Their rules exactly match this Figma form; generalize the helper only when a third content form requires it.
-- Apply `design.md`: Pretendard with `-0.015em` tracking, parent `gap` for normal layout spacing, `currentColor` SVG UI icons, no custom form focus styling, and no Figma MCP asset URL in application source. This screen needs no downloaded Figma asset because every referenced asset is a simple UI glyph already represented by local/native controls.
+- Apply `design.md`: Pretendard GOV Variable with `-0.015em` tracking, parent `gap` for normal layout spacing, `currentColor` SVG UI icons, no custom form focus styling, and no Figma MCP asset URL in application source. This screen needs no downloaded Figma asset because every referenced asset is a simple UI glyph already represented by local/native controls.
 - Preserve unrelated dirty worktree changes. `BlogPage.tsx` already links its bottom action to `/blog/new`, so leave it unchanged.
 
 ---

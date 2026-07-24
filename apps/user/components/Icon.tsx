@@ -13,6 +13,7 @@ import {
 } from "./icons";
 
 export type IconName =
+  | "arrow-down"
   | "arrow-left"
   | "arrow-right"
   | "book-open"
@@ -24,6 +25,7 @@ export type IconName =
   | "channel-message-typing"
   | "channel-naver-blog"
   | "channel-youtube"
+  | "check-01"
   | "chevron-down"
   | "credit-card"
   | "dots-horizontal"
@@ -62,6 +64,28 @@ type IconComponentProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
 };
 type IconComponent = (props: IconComponentProps) => ReactElement;
 
+function ArrowDownIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 16 16"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3.333 8.889L8 13.333L12.667 8.889M8 13.333V2.667"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
 function ArrowLeftIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
   return (
     <svg
@@ -90,17 +114,17 @@ function ArrowRightIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
       aria-hidden="true"
       fill="none"
       height={size}
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
       width={size}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M8.88889 12.6667L13.3333 8L8.88889 3.33333M13.3333 8L2.66667 8"
+        d="M12.8333 16.375L17 12L12.8333 7.625M17 12L7 12"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.5"
+        strokeWidth="2"
       />
     </svg>
   );
@@ -199,18 +223,24 @@ function CameraIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
     <svg
       aria-hidden="true"
       fill="none"
-      height={size}
-      viewBox="0 0 24 24"
-      width={size}
+      height={(size * 18) / 24}
+      viewBox="0 0 22 18"
+      width={(size * 22) / 24}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M8.5 7L10 5H14L15.5 7H18C19.1 7 20 7.9 20 9V18C20 19.1 19.1 20 18 20H6C4.9 20 4 19.1 4 18V9C4 7.9 4.9 7 6 7H8.5ZM12 16.5C14.21 16.5 16 14.71 16 12.5C16 10.29 14.21 8.5 12 8.5C9.79 8.5 8 10.29 8 12.5C8 14.71 9.79 16.5 12 16.5Z"
+        d="M14.0217 1.28239C13.7119 1.09757 13.3578 0.999995 12.997 1H9.004C8.64358 0.99998 8.28985 1.09734 7.98022 1.28178C7.67059 1.46623 7.41656 1.7309 7.245 2.04781L6.756 2.95165C6.58444 3.26856 6.33041 3.53323 6.02078 3.71768C5.71115 3.90212 5.35742 3.99948 4.997 3.99946H3C2.46957 3.99946 1.96086 4.21014 1.58579 4.58514C1.21071 4.96015 1 5.46876 1 5.9991V14.9975C1 15.5278 1.21071 16.0364 1.58579 16.4114C1.96086 16.7864 2.46957 16.9971 3 16.9971H19C19.5304 16.9971 20.0391 16.7864 20.4142 16.4114C20.7893 16.0364 21 15.5278 21 14.9975V5.9991C21 5.46876 20.7893 4.96015 20.4142 4.58514C20.0391 4.21014 19.5304 3.99946 19 3.99946H17.003C16.6422 3.99947 16.2881 3.90189 15.9783 3.71707C15.6684 3.53226 15.4144 3.26708 15.243 2.94965L14.757 2.04981C14.5856 1.73238 14.3316 1.4672 14.0217 1.28239Z"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
+        strokeWidth="2"
+      />
+      <circle
+        cx="11"
+        cy="10.5"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="2"
       />
     </svg>
   );
@@ -332,17 +362,39 @@ function FolderUp02Icon({ size = 24, ...props }: Omit<IconProps, "name">) {
       aria-hidden="true"
       fill="none"
       height={size}
-      viewBox="0 0 24 24"
+      viewBox="0 0 20 20"
       width={size}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M12 17V10M12 10L9.5 12.5M12 10L14.5 12.5M3.5 7.5V17.5C3.5 18.6 4.4 19.5 5.5 19.5H18.5C19.6 19.5 20.5 18.6 20.5 17.5V9.5C20.5 8.4 19.6 7.5 18.5 7.5H12.35L10.35 5.5H5.5C4.4 5.5 3.5 6.4 3.5 7.5Z"
+        d="M11.6883 16.4266L3.97816 16.4266C2.87358 16.4266 1.97816 15.5312 1.97817 14.4266L1.97824 6.82299C1.97825 6.06138 1.97796 4.97661 1.97772 4.19115C1.97755 3.63872 2.42533 3.19141 2.97776 3.19141H7.74294L10.0471 5.65277H16.9774C17.5297 5.65277 17.9774 6.10049 17.9774 6.65277V9.30908M18.0223 13.7526L16.0675 11.8091L14.0223 13.8446M16.0675 11.8091V16.8091"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.8"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function Check01Icon({ size = 20, ...props }: Omit<IconProps, "name">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      viewBox="0 0 20 20"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M14 7L8.03374 13L6 10.95476"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
     </svg>
   );
@@ -687,8 +739,10 @@ function PinIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
       {...props}
     >
       <path
-        d="m7.85 1.5 2.65 2.65-1.7.57-1.65 1.65.25 1.8-.72.72-1.78-1.8-2.68 2.68-.7-.7L4.2 6.39 2.4 4.61l.72-.72 1.8.25 1.65-1.65.58-1.7.7.71Z"
+        clipRule="evenodd"
+        d="M2.95239 4.83732C2.84946 4.73439 2.84404 4.56103 2.95239 4.45267L3.98716 3.41791C4.09551 3.30956 4.30138 3.2283 4.45307 3.2283H6.47926L8.12621 1.58134L7.93118 1.38631C7.61695 1.07209 7.61695 0.557415 7.93118 0.237776C8.2454 -0.0818628 8.76007 -0.0818628 9.07971 0.237776L11.7614 2.91949C12.0756 3.23371 12.0756 3.74839 11.7614 4.06802C11.4472 4.38766 10.9325 4.38766 10.6129 4.06802L10.4179 3.87299L8.7709 5.51994V7.54613C8.7709 7.69782 8.68422 7.90369 8.58129 8.01204L7.54653 9.04681C7.43817 9.15516 7.27023 9.15516 7.16187 9.04681L5.42282 7.30775L0.47113 11.929C0.362777 12.0319 0.183996 12.0265 0.0810618 11.9236C-0.0218728 11.8206 -0.0272904 11.6473 0.0756442 11.5335L4.69145 6.57638L2.95239 4.83732Z"
         fill="currentColor"
+        fillRule="evenodd"
       />
     </svg>
   );
@@ -716,6 +770,7 @@ function XCloseIcon({ size = 24, ...props }: Omit<IconProps, "name">) {
 }
 
 const icons = {
+  "arrow-down": ArrowDownIcon,
   "arrow-left": ArrowLeftIcon,
   "arrow-right": ArrowRightIcon,
   "book-open": BookOpenIcon,
@@ -727,6 +782,7 @@ const icons = {
   "channel-message-typing": ChannelMessageTypingIcon,
   "channel-naver-blog": ChannelNaverBlogIcon,
   "channel-youtube": ChannelYoutubeIcon,
+  "check-01": Check01Icon,
   "chevron-down": ChevronDownIcon,
   "credit-card": CreditCardIcon,
   "dots-horizontal": DotsHorizontalIcon,

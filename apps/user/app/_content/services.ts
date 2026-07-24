@@ -26,6 +26,10 @@ const directOrderServiceIds = Object.keys(
   orderProductRegistrations,
 ) as DirectOrderServiceId[];
 
+const quoteServiceIds = new Set<DirectOrderServiceId>([
+  "package-shopping-bag",
+]);
+
 const directServices = directOrderServiceIds.map((serviceId) => {
   const product = orderProductRegistrations[serviceId];
 
@@ -33,7 +37,7 @@ const directServices = directOrderServiceIds.map((serviceId) => {
     description: product.type,
     icon: serviceIcons[serviceId],
     id: product.id,
-    isQuote: false,
+    isQuote: quoteServiceIds.has(serviceId),
     price: `${formatOrderCurrency(product.design_print_estimate)} ~`,
     title: product.name,
   };

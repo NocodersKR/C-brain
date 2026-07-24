@@ -14,7 +14,7 @@
 - 공지사항 기준은 Figma 노드 455:2643이다.
 - 블로그 기준은 Figma 노드 232:4988이다.
 - 세 노드의 원본 크기는 모두 1360 × 590이며, 기존 포트폴리오의 26px topbar, 20px gap, 52px header/row, 8px row gap 구조를 그대로 쓴다.
-- design.md의 Pretendard, currentColor, gap 기반 간격 규칙을 유지한다.
+- design.md의 Pretendard GOV Variable, currentColor, gap 기반 간격 규칙을 유지한다.
 - 현재 작업 트리의 ProductPage.tsx, App.tsx, PortfolioPage.tsx, AdminDataTableSection.tsx, AdminDataTableSection.css 변경을 보존한다.
 - Figma에 표시된 공통 제목 “블로그 등록 현황”과 검색 placeholder “블로그 제목으로 검색해주세요.”는 인터뷰 · 후기와 공지사항 화면에서도 임의 교정하지 않는다.
 - 필터 dropdown, 검색 실행, 정렬, 페이지네이션, API/Supabase 연동은 범위 밖이다.

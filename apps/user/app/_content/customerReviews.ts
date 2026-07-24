@@ -1,11 +1,3 @@
-import {
-  getPublicAssetUrl,
-  getPublishedReview,
-  listPublishedReviews,
-} from "@repo/supabase";
-
-import { createUserSupabaseClient } from "../../lib/supabase";
-
 export const reviewHeroImage = "/figma-assets/review-hero-office.png";
 
 export const reviewInterviewImage =
@@ -517,10 +509,55 @@ export const customerTestimonials = [
     publishedAt: "2026-07-20T00:00:00+09:00",
     title: "공공기관 행사 홍보물 제작 후기",
   },
+  {
+    body: "분양 현장에서 사용할 브로슈어라 일정과 완성도가 모두 중요했습니다. 복잡한 입지 정보와 평면 자료를 보기 쉽게 정리해 주셨고, 인쇄와 납품 일정도 정확하게 맞춰주셨습니다.",
+    company: "부동산 개발사 · 분양 브로슈어 · 서울",
+    id: "real-estate-development-brochure-review",
+    name: "윤서* 실장님",
+    publishedAt: "2026-07-21T09:00:00+09:00",
+    title: "부동산 개발사 분양 브로슈어 제작 후기",
+  },
+  {
+    body: "환자분들이 검진 절차를 쉽게 이해할 수 있도록 안내책자의 정보 구조를 잘 정리해 주셨습니다. 수정 요청에도 빠르게 대응해 주셔서 원내 배포 일정에 맞춰 진행할 수 있었습니다.",
+    company: "지역 종합병원 · 의료기관 · 경기도 수원",
+    id: "general-hospital-health-guide-review",
+    name: "한지* 주임님",
+    publishedAt: "2026-07-21T13:00:00+09:00",
+    title: "지역 종합병원 건강검진 안내책자 제작 후기",
+  },
+  {
+    body: "연구 성과와 통계 자료가 많아 편집이 어려운 보고서였는데, 내용의 위계를 명확히 잡아주셔서 읽기 편한 결과물이 완성되었습니다. 교정 과정도 체계적이어서 안심하고 맡길 수 있었습니다.",
+    company: "정부출연 연구기관 · 연구보고서 · 대전",
+    id: "government-research-report-review",
+    name: "오승* 선임님",
+    publishedAt: "2026-07-22T09:00:00+09:00",
+    title: "정부출연 연구기관 연차보고서 제작 후기",
+  },
+  {
+    body: "제품 종류가 많고 사양도 복잡했지만 카테고리별로 한눈에 비교할 수 있도록 구성해 주셨습니다. 영업팀에서 고객 설명 자료로 활용하기 좋다는 반응이 많았습니다.",
+    company: "건축 자재 기업 · 제품 카탈로그 · 인천",
+    id: "building-material-catalog-review",
+    name: "조현* 팀장님",
+    publishedAt: "2026-07-22T15:00:00+09:00",
+    title: "건축 자재 기업 제품 카탈로그 제작 후기",
+  },
+  {
+    body: "공연 정보와 참여 단체 소개를 제한된 페이지 안에 효과적으로 배치해 주셨습니다. 현장 분위기와 잘 어울리는 디자인 덕분에 관람객 반응도 좋았습니다.",
+    company: "지역 문화재단 · 행사 프로그램북 · 부산",
+    id: "culture-foundation-program-book-review",
+    name: "임가* 담당자님",
+    publishedAt: "2026-07-23T10:00:00+09:00",
+    title: "지역 문화재단 행사 프로그램북 제작 후기",
+  },
+  {
+    body: "서비스의 장점을 짧고 명확하게 전달할 수 있도록 회사소개서의 흐름을 잡아주셨습니다. 미팅에서 바로 사용할 수 있는 PDF와 인쇄물을 함께 준비할 수 있어 효율적이었습니다.",
+    company: "IT 스타트업 · 회사소개서 · 판교",
+    id: "it-startup-company-profile-review",
+    name: "강민* 대표님",
+    publishedAt: "2026-07-24T09:00:00+09:00",
+    title: "IT 스타트업 회사소개서 제작 후기",
+  },
 ] as const satisfies readonly CustomerTestimonial[];
-
-type PublishedReview = Awaited<ReturnType<typeof listPublishedReviews>>[number];
-type ReviewClient = Parameters<typeof getPublicAssetUrl>[0];
 
 export type CustomerReviewPageData = {
   customerInterviews: CustomerInterviewCard[];
@@ -528,200 +565,14 @@ export type CustomerReviewPageData = {
   featuredCustomerInterview: FeaturedCustomerInterview | null;
 };
 
-async function loadPublishedReviews(client: ReviewClient) {
-  try {
-    return await listPublishedReviews(client);
-  } catch (error) {
-    console.error("Failed to load published reviews.", error);
-    return [];
-  }
-}
-
-function getPublishedAt(review: PublishedReview) {
-  return review.published_at ?? review.created_at;
-}
-
-function getReviewText(review: PublishedReview) {
-  const content =
-    review.content_mode === "html"
-      ? review.content
-          .replace(/<\s*(?:br\s*\/?|\/(?:p|div|li|h[1-6]))\s*>/gi, "\n")
-          .replace(/<[^>]*>/g, " ")
-      : review.content;
-
-  return content
-    .replace(/&(?:nbsp|#160);/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .split(/\n+/)
-    .map((line) => line.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
-}
-
-function getReviewVideoUrl(client: ReviewClient, review: PublishedReview) {
-  return review.video_path
-    ? getPublicAssetUrl(client, review.video_path)
-    : undefined;
-}
-
-function toPublishedInterviewDetail(
-  client: ReviewClient,
-  review: PublishedReview,
-): CustomerInterviewDetail | undefined {
-  const slug = review.slug?.trim();
-  if (review.kind !== "interview" || !slug) return undefined;
-
-  const paragraphs = getReviewText(review);
-  const content: CustomerInterviewContentBlock[] = (
-    paragraphs.length > 0 ? paragraphs : [review.company]
-  ).map((text, index) => ({
-    id: `${review.id}-paragraph-${index}`,
-    text,
-    type: "paragraph",
-  }));
-  const summary = paragraphs[0] ?? review.company;
-  const title = review.title?.trim() || `${review.company} 고객 인터뷰`;
-  const videoUrl = getReviewVideoUrl(client, review);
-
+export function getCustomerReviewPageData(): CustomerReviewPageData {
   return {
-    author: "씨브레인",
-    category: "고객 인터뷰",
-    company: review.company,
-    content,
-    keywords: ["씨브레인", "고객 인터뷰", review.company],
-    projectInfo: [
-      {
-        id: "client",
-        label: "의뢰처",
-        value: review.company,
-      },
-    ],
-    projectInfoTitle: "프로젝트 정보",
-    publishedAt: getPublishedAt(review),
-    seoDescription: review.seo_description?.trim() || summary,
-    slug,
-    thumbnail: reviewInterviewImage,
-    title,
-    videoAlt: review.video_alt?.trim() || `${title} 영상`,
-    ...(videoUrl ? { videoUrl } : {}),
+    customerInterviews: [...customerInterviews],
+    customerTestimonials: [...customerTestimonials],
+    featuredCustomerInterview,
   };
 }
 
-function toPublishedInterviewCard(
-  detail: CustomerInterviewDetail,
-  review: PublishedReview,
-): CustomerInterviewCard {
-  return {
-    category: detail.category,
-    company: detail.company,
-    detailSlug: detail.slug,
-    id: review.id,
-    meta: detail.company,
-    publishedAt: detail.publishedAt,
-    quote: detail.content[0]?.text ?? detail.seoDescription,
-    thumbnail: detail.thumbnail,
-    title: detail.title,
-    videoAlt: detail.videoAlt,
-  };
-}
-
-function toPublishedTestimonial(
-  review: PublishedReview,
-): CustomerTestimonial | undefined {
-  if (review.kind !== "testimonial") return undefined;
-
-  const body = getReviewText(review).join("\n").trim();
-
-  return {
-    body: body || review.company,
-    company: review.company,
-    id: review.id,
-    name: review.manager?.trim() || review.company,
-    publishedAt: getPublishedAt(review),
-    title: review.title?.trim() || `${review.company} 고객 후기`,
-  };
-}
-
-function toFeaturedInterview(
-  card: CustomerInterviewCard,
-  detail: CustomerInterviewDetail,
-): FeaturedCustomerInterview {
-  return {
-    ...card,
-    body: [
-      detail.content[0]?.text ?? detail.seoDescription,
-      "고객이 직접 말하는 결과",
-      detail.company,
-    ],
-    headlineLines: [card.quote],
-  };
-}
-
-export async function getCustomerReviewPageData(): Promise<CustomerReviewPageData> {
-  const client = await createUserSupabaseClient();
-
-  if (!client) {
-    return {
-      customerInterviews: [...customerInterviews],
-      customerTestimonials: [...customerTestimonials],
-      featuredCustomerInterview,
-    };
-  }
-
-  const reviews = await loadPublishedReviews(client);
-  const interviewEntries = reviews.flatMap((review) => {
-    const detail = toPublishedInterviewDetail(client, review);
-    return detail
-      ? [{ card: toPublishedInterviewCard(detail, review), detail }]
-      : [];
-  });
-  const publishedTestimonials = reviews.flatMap((review) => {
-    const testimonial = toPublishedTestimonial(review);
-    return testimonial ? [testimonial] : [];
-  });
-  const featuredEntry = interviewEntries[0];
-
-  return {
-    customerInterviews: interviewEntries.map(({ card }) => card),
-    customerTestimonials: publishedTestimonials,
-    featuredCustomerInterview: featuredEntry
-      ? toFeaturedInterview(featuredEntry.card, featuredEntry.detail)
-      : null,
-  };
-}
-
-export async function getPublishedCustomerInterviewDetailBySlug(
-  slug: string,
-): Promise<CustomerInterviewDetail | undefined> {
-  const client = await createUserSupabaseClient();
-  if (!client) return getCustomerInterviewDetailBySlug(slug);
-
-  try {
-    const review = await getPublishedReview(client, slug);
-    return review ? toPublishedInterviewDetail(client, review) : undefined;
-  } catch (error) {
-    console.error("Failed to load published review detail.", error);
-    return undefined;
-  }
-}
-
-export async function getLandingCustomerTestimonials(): Promise<
-  CustomerTestimonial[]
-> {
-  const client = await createUserSupabaseClient();
-  if (!client) return customerTestimonials.slice(0, 3);
-
-  const reviews = await loadPublishedReviews(client);
-
-  return reviews
-    .filter(
-      (review) => review.kind === "testimonial" && review.is_landing_enabled,
-    )
-    .flatMap((review) => {
-      const testimonial = toPublishedTestimonial(review);
-      return testimonial ? [testimonial] : [];
-    });
+export function getLandingCustomerTestimonials(): CustomerTestimonial[] {
+  return customerTestimonials.slice(0, 3);
 }

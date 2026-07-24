@@ -3,6 +3,10 @@ import { stat, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const pagePath = new URL("../app/(site)/reviews/page.tsx", import.meta.url);
+const testimonialListPath = new URL(
+  "../app/(site)/reviews/CustomerTestimonialList.tsx",
+  import.meta.url,
+);
 const contentPath = new URL(
   "../app/_content/customerReviews.ts",
   import.meta.url,
@@ -90,22 +94,32 @@ test("customer review content is shared by the reviews page", async () => {
   assert.match(pageSource, /featuredCustomerInterview/);
 });
 
-test("published reviews feed list, detail, and landing with fixture fallback", async () => {
+test("review list, detail, and landing stay fixture-only", async () => {
   const contentSource = await readFile(contentPath, "utf8");
   const pageSource = await readFile(pagePath, "utf8");
   const landingSource = await readFile(landingSectionPath, "utf8");
+  const detailSource = await readFile(
+    new URL("../app/(site)/reviews/[slug]/page.tsx", import.meta.url),
+    "utf8",
+  );
 
-  assert.match(contentSource, /createUserSupabaseClient/);
-  assert.match(contentSource, /listPublishedReviews/);
-  assert.match(contentSource, /getPublishedReview/);
-  assert.match(contentSource, /getPublicAssetUrl/);
-  assert.match(contentSource, /if \(!client\)/);
-  assert.match(contentSource, /review\.kind !== "interview"/);
-  assert.match(contentSource, /review\.kind !== "testimonial"/);
-  assert.match(contentSource, /review\.is_landing_enabled/);
-  assert.match(contentSource, /review\.content_mode === "html"/);
+  assert.doesNotMatch(contentSource, /@repo\/supabase/);
+  assert.doesNotMatch(contentSource, /createUserSupabaseClient/);
+  assert.doesNotMatch(contentSource, /listPublishedReviews/);
+  assert.doesNotMatch(contentSource, /getPublishedReview/);
+  assert.doesNotMatch(contentSource, /getPublicAssetUrl/);
+  assert.match(contentSource, /export function getCustomerReviewPageData/);
+  assert.match(contentSource, /customerInterviews: \[\.\.\.customerInterviews\]/);
+  assert.match(
+    contentSource,
+    /customerTestimonials: \[\.\.\.customerTestimonials\]/,
+  );
+  assert.match(contentSource, /return customerTestimonials\.slice\(0, 3\)/);
+  assert.doesNotMatch(contentSource, /getPublishedCustomerInterviewDetailBySlug/);
   assert.match(pageSource, /await getCustomerReviewPageData\(\)/);
   assert.match(landingSource, /await getLandingCustomerTestimonials\(\)/);
+  assert.match(detailSource, /getCustomerInterviewDetailBySlug/);
+  assert.doesNotMatch(detailSource, /getPublishedCustomerInterviewDetailBySlug/);
 });
 
 test("review list and landing render clear empty states", async () => {
@@ -122,19 +136,6 @@ test("review list and landing render clear empty states", async () => {
   assert.match(landingSource, /reviews\.length > 0/);
   assert.match(landingSource, /등록된 고객 후기가 없습니다\./);
   assert.match(stylesSource, /\.contentEmptyState/);
-});
-
-test("review loaders keep fixtures for missing env and fail closed on query errors", async () => {
-  const contentSource = await readFile(contentPath, "utf8");
-
-  assert.match(contentSource, /if \(!client\)[\s\S]*customerInterviews/);
-  assert.match(contentSource, /if \(!client\) return customerTestimonials\.slice/);
-  assert.match(contentSource, /async function loadPublishedReviews/);
-  assert.match(contentSource, /catch \(error\)/);
-  assert.match(contentSource, /console\.error\("Failed to load published reviews\./);
-  assert.match(contentSource, /console\.error\("Failed to load published review detail\./);
-  assert.match(contentSource, /return \[\]/);
-  assert.match(contentSource, /return undefined/);
 });
 
 test("customer reviews page keeps Figma image assets local", async () => {
@@ -393,36 +394,57 @@ test("customer interview data stays consistent for dynamic admin content", async
   );
 });
 
-test("customer reviews page renders all dynamic interviews and testimonials", async () => {
-  const pageSource = await readFile(pagePath, "utf8");
+test("customer reviews page progressively reveals testimonials after the first six", async () => {
+  const [pageSource, testimonialListSource] = await Promise.all([
+    readFile(pagePath, "utf8"),
+    readFile(testimonialListPath, "utf8"),
+  ]);
   const stylesSource = await readFile(stylesPath, "utf8");
 
   assert.match(pageSource, /customerInterviews\.map/);
-  assert.match(pageSource, /customerTestimonials\.map/);
+  assert.match(pageSource, /<CustomerTestimonialList testimonials=\{customerTestimonials\}/);
   assert.doesNotMatch(pageSource, /customerInterviews\.slice/);
-  assert.doesNotMatch(pageSource, /customerTestimonials\.slice/);
   assert.doesNotMatch(pageSource, /customerInterviews\.filter/);
-  assert.doesNotMatch(pageSource, /customerTestimonials\.filter/);
+  assert.match(testimonialListSource, /const TESTIMONIALS_PER_PAGE = 6/);
+  assert.match(
+    testimonialListSource,
+    /testimonials\.slice\(0, visibleCount\)/,
+  );
+  assert.match(testimonialListSource, /visibleTestimonials\.map/);
+  assert.match(
+    testimonialListSource,
+    /visibleCount < testimonials\.length/,
+  );
+  assert.match(testimonialListSource, />\s*더보기\s*<\/TextButton>/);
+  assert.match(testimonialListSource, /name="arrow-down" size=\{16\}/);
+  assert.match(
+    stylesSource,
+    /\.reviewsTestimonialList\s*\{[^}]*gap: 52px;/s,
+  );
   assert.doesNotMatch(stylesSource, /\.reviewsInterviewCard:nth-child/);
   assert.doesNotMatch(stylesSource, /\.reviewsTestimonialCard:nth-child/);
 });
 
 test("customer testimonials are ready for dynamic admin data", async () => {
   const contentSource = await readFile(contentPath, "utf8");
-  const pageSource = await readFile(pagePath, "utf8");
+  const testimonialListSource = await readFile(testimonialListPath, "utf8");
   const testimonialsBlock = extractConstArray(
     contentSource,
     "customerTestimonials",
   );
 
   assert.match(contentSource, /export type CustomerTestimonial/);
+  assert.equal(testimonialsBlock.match(/id: "/g)?.length, 12);
   assert.match(testimonialsBlock, /id: "/);
   assert.match(testimonialsBlock, /publishedAt: "/);
   assert.match(testimonialsBlock, /title: "/);
-  assert.match(pageSource, /key=\{review\.id\}/);
-  assert.match(pageSource, /aria-label=\{`\$\{review\.title\} 고객 후기`\}/);
+  assert.match(testimonialListSource, /key=\{review\.id\}/);
+  assert.match(
+    testimonialListSource,
+    /aria-label=\{`\$\{review\.title\} 고객 후기`\}/,
+  );
   assert.doesNotMatch(
-    pageSource,
+    testimonialListSource,
     /key=\{`\$\{review\.name\}-\$\{review\.company\}`\}/,
   );
 });

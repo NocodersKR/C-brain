@@ -27,11 +27,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: -0.015em;
   white-space: nowrap;
 }
 
@@ -43,11 +43,11 @@
 
 .titleGroup h1 {
   margin: 0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 18px;
+  font-family: var(--font-sans);
+  font-size: 20px;
   font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0;
+  line-height: 30px;
+  letter-spacing: -0.015em;
   color: var(--landing-gray-800);
   word-break: keep-all;
 }
@@ -58,11 +58,11 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0;
+  line-height: 21px;
+  letter-spacing: -0.015em;
 }
 
 .authorLine > span:first-child {
@@ -103,11 +103,11 @@
 
 .description {
   margin: 0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0;
+  line-height: 21px;
+  letter-spacing: -0.015em;
   color: var(--landing-gray-800);
   word-break: keep-all;
 }
@@ -128,11 +128,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0;
+  line-height: 21px;
+  letter-spacing: -0.015em;
 }
 
 .backLink:hover {
@@ -151,11 +151,11 @@
 
 .relatedSection h2 {
   margin: 0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  font-size: 18px;
+  font-family: var(--font-sans);
+  font-size: 20px;
   font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0;
+  line-height: 30px;
+  letter-spacing: -0.015em;
   color: var(--landing-gray-800);
 }
 
@@ -219,7 +219,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 500;
   line-height: 13px;
@@ -237,30 +237,30 @@
 .relatedText h3,
 .relatedText span {
   margin: 0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
-  letter-spacing: 0;
+  font-family: var(--font-sans);
+  letter-spacing: -0.015em;
   color: var(--landing-gray-800);
 }
 
 .relatedText p {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 19px;
+  line-height: 21px;
 }
 
 .relatedText h3 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 30px;
 }
 
 .relatedText span {
   margin-top: 8px;
   display: -webkit-box;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 21px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }

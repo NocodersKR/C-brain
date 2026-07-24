@@ -17,7 +17,7 @@
 - `NICEPAY_SECRET_KEY`, Basic credential, `authToken`, 카드정보를 브라우저·DB·로그에 노출하지 않는다.
 - 승인 결과가 불확실하면 거래 조회 후 망취소를 시도하고 결제를 성공으로 단정하지 않는다.
 - 새 의존성을 추가하지 않고 Node 표준 `crypto`, `fetch`, `AbortSignal.timeout()`을 사용한다.
-- UI는 `design.md`의 Pretendard, parent `gap`, focus, SVG/asset 규칙을 따른다.
+- UI는 `design.md`의 Pretendard GOV Variable, parent `gap`, focus, SVG/asset 규칙을 따른다.
 
 ---
 

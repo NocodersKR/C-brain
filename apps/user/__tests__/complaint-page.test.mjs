@@ -25,6 +25,10 @@ const companyContentPath = new URL(
   "../app/_content/company.ts",
   import.meta.url,
 );
+const contactContentPath = new URL(
+  "../app/_content/contact.ts",
+  import.meta.url,
+);
 const attachmentsPath = new URL(
   "../app/(site)/complaint/attachments.ts",
   import.meta.url,
@@ -41,6 +45,13 @@ const stylesPath = new URL("../app/page.module.css", import.meta.url);
 
 async function importTypescriptModule(path) {
   let source = await readFile(path, "utf8");
+  if (source.includes('from "./contact.ts"')) {
+    const contactSource = await readFile(contactContentPath, "utf8");
+    source = `${contactSource}\n${source.replace(
+      /import \{ KAKAO_CHANNEL_URL \} from "\.\/contact\.ts";\n/,
+      "",
+    )}`;
+  }
   if (source.includes('from "../../../constants/complaint"')) {
     const constantsSource = await readFile(complaintConstantsPath, "utf8");
     source = `${constantsSource}\n${source

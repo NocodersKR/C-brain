@@ -19,7 +19,7 @@
 - `payment_links`에는 공개 `anon` 읽기 정책을 만들지 않는다. 사용자 페이지는 후속 단계에서 서버 전용 접근을 추가한다.
 - 결제 기록 보존을 위해 관리자 삭제 기능과 DELETE RLS 정책을 만들지 않는다.
 - 기존 `AdminDataTableSection`, `AdminFormLayout`, `AdminIcon`, Supabase auth helper, 숫자 포맷 helper를 재사용한다.
-- UI 변경은 `design.md`의 Pretendard, SVG icon, parent `gap`, form focus 규칙을 따른다.
+- UI 변경은 `design.md`의 Pretendard GOV Variable, SVG icon, parent `gap`, form focus 규칙을 따른다.
 - Figma MCP asset URL이나 새 이미지 asset을 추가하지 않는다.
 
 ---

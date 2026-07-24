@@ -12,12 +12,20 @@ body {
   overflow-x: clip;
 }
 
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-sans);
+}
+
 body {
   min-height: 100svh;
   margin: 0;
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-sans);
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }

@@ -15,7 +15,7 @@
 - Use the public notice taxonomy exactly: `공지`, `이벤트`, `휴무 안내`, `서비스 변경`, `수상 · 소식`.
 - Use native `input type="date"` and native `pattern="[a-z0-9-]+"`; do not add picker or slug libraries.
 - Creation and editing are client-only until an API exists. Edit mode changes page/submit copy but does not fabricate persistence or duplicate public fixtures.
-- Follow `design.md`: Pretendard, parent `gap`, existing `currentColor` icons, no custom focus style, and no Figma API URL.
+- Follow `design.md`: Pretendard GOV Variable, parent `gap`, existing `currentColor` icons, no custom focus style, and no Figma API URL.
 - Preserve unrelated dirty worktree changes and do not commit unless requested.
 
 ---

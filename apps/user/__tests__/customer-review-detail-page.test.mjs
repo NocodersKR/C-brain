@@ -90,6 +90,10 @@ test("customer review detail page keeps semantic article markup and admin video 
     source,
     /<address[\s\S]*className=\{styles\.reviewDetailAuthorLine\}[\s\S]*itemProp="author"[\s\S]*itemScope[\s\S]*itemType="https:\/\/schema\.org\/Organization"/,
   );
+  assert.match(
+    source,
+    /<span>작성자<\/span>[\s\S]*<span className=\{styles\.reviewDetailAuthorIdentity\}>[\s\S]*reviewDetailAuthorIcon[\s\S]*itemProp="name"/,
+  );
   assert.match(source, /itemProp="name"/);
   assert.match(
     source,
@@ -197,6 +201,14 @@ test("customer review detail styles match the P/T/F/M responsive detail frame", 
 
   assert.match(styles, /width: min\(calc\(100% - 40px\), 640px\);/);
   assert.match(styles, /padding: 52px 0 72px;/);
+  assert.match(
+    styles,
+    /\.reviewDetailAuthorLine\s*\{[\s\S]*gap: 8px;/,
+  );
+  assert.match(
+    styles,
+    /\.reviewDetailAuthorIdentity\s*\{[\s\S]*gap: 4px;/,
+  );
   assert.match(styles, /\.reviewDetailVideo\s*\{[\s\S]*height: 233px;/);
   assert.match(
     styles,

@@ -1,9 +1,11 @@
 import type { IconName } from "../../components/Icon";
 
+import { KAKAO_CHANNEL_URL } from "./contact.ts";
+
 export const companyLinks = {
   homepage: "https://cbrain.kr",
   instagram: "https://instagram.com/cbrain_design_group",
-  kakao: "https://pf.kakao.com/_JAFAG",
+  kakao: KAKAO_CHANNEL_URL,
   naverBlog: "https://blog.naver.com/cbrain_design_group",
   youtube: "https://www.youtube.com/@CreateDesigngroup",
 } as const;

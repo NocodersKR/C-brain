@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { JsonLdScript } from "../../../_components/JsonLdScript";
 import {
   customerInterviewDetails,
-  getPublishedCustomerInterviewDetailBySlug as getCustomerInterviewDetailBySlug,
+  getCustomerInterviewDetailBySlug,
   getCustomerInterviewDetailSeo,
   reviewPlayLargeIcon,
 } from "../../../_content/customerReviews";
@@ -33,7 +33,7 @@ export async function generateMetadata({
   params,
 }: CustomerReviewDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const detail = await getCustomerInterviewDetailBySlug(slug);
+  const detail = getCustomerInterviewDetailBySlug(slug);
 
   if (!detail) {
     return {
@@ -80,7 +80,7 @@ export default async function CustomerReviewDetailPage({
   params,
 }: CustomerReviewDetailPageProps) {
   const { slug } = await params;
-  const detail = await getCustomerInterviewDetailBySlug(slug);
+  const detail = getCustomerInterviewDetailBySlug(slug);
 
   if (!detail) {
     notFound();
@@ -144,14 +144,16 @@ export default async function CustomerReviewDetailPage({
               itemType="https://schema.org/Organization"
             >
               <span>작성자</span>
-              <Image
-                alt=""
-                className={styles.reviewDetailAuthorIcon}
-                height={20}
-                src="/figma-assets/cbrain-author.svg"
-                width={20}
-              />
-              <span itemProp="name">{detail.author}</span>
+              <span className={styles.reviewDetailAuthorIdentity}>
+                <Image
+                  alt=""
+                  className={styles.reviewDetailAuthorIcon}
+                  height={20}
+                  src="/figma-assets/cbrain-author.svg"
+                  width={20}
+                />
+                <span itemProp="name">{detail.author}</span>
+              </span>
             </address>
           </div>
         </header>
