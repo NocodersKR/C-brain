@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
+import { Button, ButtonLink } from "@repo/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   type MouseEvent,
   type SyntheticEvent,
@@ -13,6 +13,7 @@ import {
 } from "react";
 
 import { Icon } from "../../components/Icon";
+import { KAKAO_CHANNEL_URL } from "../_content/contact";
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
@@ -36,6 +37,7 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
@@ -100,6 +102,10 @@ export function Header() {
 
   const handleOpenMenu = () => {
     setIsMenuOpen(true);
+  };
+
+  const handlePriceButtonClick = () => {
+    router.push("/order");
   };
 
   const handleOverlayClick = (event: MouseEvent<HTMLDialogElement>) => {
@@ -180,8 +186,17 @@ export function Header() {
       </div>
 
       <div className={styles.headerActions}>
-        <Button style={priceButtonStyle}>정찰제 가격 보기</Button>
-        <Button style={kakaoButtonStyle}>실시간 카톡상담</Button>
+        <Button onClick={handlePriceButtonClick} style={priceButtonStyle}>
+          정찰제 가격 보기
+        </Button>
+        <ButtonLink
+          href={KAKAO_CHANNEL_URL}
+          rel="noreferrer"
+          style={kakaoButtonStyle}
+          target="_blank"
+        >
+          실시간 카톡상담
+        </ButtonLink>
       </div>
 
       <button

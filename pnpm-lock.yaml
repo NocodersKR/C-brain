@@ -26,6 +26,9 @@ importers:
       '@repo/supabase':
         specifier: workspace:*
         version: link:../../packages/supabase
+      pretendard-gov:
+        specifier: ^1.3.9
+        version: 1.3.9
       react:
         specifier: ^19.2.7
         version: 19.2.7

@@ -6,7 +6,7 @@
 
 **Architecture:** Use one route-aware `ReviewFormPage` with a fixed `'' | '인터뷰' | '후기'` discriminator. The empty discriminator reproduces Figma node `332:3027`; `인터뷰` renders node `332:3639`; `후기` renders node `332:3972`. Keep the page state local, reuse the existing admin form shell, combobox, icons, editor styles, and client-side navigation conventions, and isolate the only new domain logic—type narrowing and video validation—in a pure helper with Node tests.
 
-**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, existing admin CSS variables and Pretendard tokens, Node built-in test runner.
+**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, existing admin CSS variables and Pretendard GOV Variable tokens, Node built-in test runner.
 
 ## Global Constraints
 
@@ -22,7 +22,7 @@
 - Video upload is optional because the design has no required marker. If supplied, accept one `.mp4` or `.mov` file (MIME `video/mp4` or `video/quicktime`) up to exactly 500MB; reject all other files before storing them in state.
 - Use a native `<input type="date">`; do not add a date-picker package or custom calendar glyph. Use the existing `AdminIcon` registry for chevron, check, folder-up, close, and arrow-right icons; no Figma URL is needed.
 - Reuse `AdminFormLayout`, `AdminTypeCombobox`, `AdminIcon`, and the current Blog content-control CSS. Do not introduce a generic form framework, rich-text package, uploader dependency, or type-specific page component.
-- Apply `design.md`: Pretendard typography, `-0.015em` tracking, parent `gap` for related spacing, `currentColor` SVG UI icons, and no custom input/select/textarea focus visuals.
+- Apply `design.md`: Pretendard GOV Variable typography, `-0.015em` tracking, parent `gap` for related spacing, `currentColor` SVG UI icons, and no custom input/select/textarea focus visuals.
 - The current admin project has no review table, read/create/update service, or storage endpoint. This plan delivers the same client-only create/edit scaffold as the existing Product, Portfolio, Blog, and Notice forms: valid submit navigates to `/reviews`, edit mode changes page/submit copy, and `임시저장` remains non-mutating until persistence is designed. Do not fabricate rows, API responses, or Supabase schema in this UI task.
 - When a persistence layer is later added, hydrate the same `ReviewFormState` from `reviewId`; do not replace the discriminator or split the form into separate pages.
 - Preserve unrelated dirty-worktree changes. Stage only the exact new files or modified hunks listed by each task; never use `git add -A`, and use patch staging for already-dirty files.

@@ -172,7 +172,7 @@ UI 작업 전에는 `design.md`를 먼저 확인합니다.
 
 - dark base
 - turquoise / green / purple accent
-- Pretendard typography 기준
+- Pretendard GOV Variable typography 기준
 - 8px 이하 radius 우선
 - card-in-card 레이아웃 지양
 

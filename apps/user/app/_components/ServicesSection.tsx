@@ -1,9 +1,10 @@
-import { Button } from "@repo/ui/button";
+import { Button, ButtonLink } from "@repo/ui/button";
 import { type CSSProperties } from "react";
 
 import { Icon } from "../../components/Icon";
 import type { IconName } from "../../components/Icon";
 import { SectionLayout } from "../../components/SectionLayout";
+import { KAKAO_CHANNEL_URL } from "../_content/contact";
 import styles from "../page.module.css";
 
 type ServiceCard = {
@@ -21,35 +22,35 @@ const services = [
     description:
       "기업소개, 제품 카탈로그 등 핵심 홍보물.\n기획부터 인쇄까지 원스톱",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "850,000원 ~",
   },
   {
     icon: "file-text",
     title: "리플렛 · 팜플렛",
     description: "단면, 양면, 접지 등 다양한 형태의 소책자 및 안내물 제작",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "370,000원 ~",
   },
   {
     icon: "megaphone",
     title: "포스터 · 전단지",
     description: "행사·이벤트·홍보용 포스터와 전단지. 빠른 납기 대응 가능.",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "130,000원 ~",
   },
   {
     icon: "flag",
     title: "배너 · 족자 · 현수막",
     description: "박람회, 매장, 행사장용 대형 출력물. 설치·운송 상담 가능.",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "80,000원 ~",
   },
   {
     icon: "credit-card",
     title: "명함 · 봉투",
     description: "소량 명함부터 기업용 봉투 · 레터헤드까지 정찰제 가격 제공.",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "50,000원 ~",
   },
   {
     icon: "pen-tool",
@@ -57,14 +58,14 @@ const services = [
     description:
       "브랜드의 첫인상을 결정하는 로고. 전략적 기획 + 감각적 디자인.",
     isQuote: false,
-    price: "160,000원 ~",
+    price: "50,000원 ~",
   },
   {
     icon: "package",
     title: "패키지 · 쇼핑백",
     description: "브랜드 아이덴티티를 담은 패키지 디자인 및 쇼핑백 제작.",
-    isQuote: false,
-    price: "160,000원 ~",
+    isQuote: true,
+    price: "상담 후 견적",
   },
   {
     icon: "camera",
@@ -94,18 +95,20 @@ const textButtonStyle: CSSProperties = {
 
 const serviceButtonStyle: CSSProperties = {
   ...textButtonStyle,
-  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontFamily: "var(--font-sans)",
+  fontWeight: 500,
   letterSpacing: "-0.21px",
 };
 
 const quoteButtonStyle: CSSProperties = {
   ...serviceButtonStyle,
-  color: "#43a0f5",
+  color: "var(--landing-info-500)",
+  lineHeight: "20px",
 };
 
 const consultButtonStyle: CSSProperties = {
   ...textButtonStyle,
-  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontFamily: "var(--font-sans)",
   fontWeight: 500,
   lineHeight: "20px",
   letterSpacing: "-0.21px",
@@ -129,7 +132,9 @@ export function ServicesSection() {
             <article className={styles.serviceCard} key={service.title}>
               <div className={styles.serviceContent}>
                 <span
-                  className={`${styles.serviceIcon} ${service.isQuote ? styles.serviceQuoteIcon : ""}`}
+                  className={`${styles.serviceIcon} ${
+                    service.isQuote ? styles.serviceQuoteIcon : ""
+                  }`}
                 >
                   <Icon name={service.icon} size={24} />
                 </span>
@@ -142,16 +147,24 @@ export function ServicesSection() {
                 className={`${styles.serviceMeta} ${service.isQuote ? styles.serviceMetaQuote : ""}`}
               >
                 {service.isQuote ? null : <strong>{service.price}</strong>}
-                <Button
-                  rightIcon={<Icon name="arrow-right" size={16} />}
-                  style={
-                    service.isQuote ? quoteButtonStyle : serviceButtonStyle
-                  }
-                >
-                  {service.isQuote
-                    ? "견적 후 주문(카카오톡)"
-                    : "정찰제 즉시결제"}
-                </Button>
+                {service.isQuote ? (
+                  <ButtonLink
+                    href={KAKAO_CHANNEL_URL}
+                    rel="noreferrer"
+                    rightIcon={<Icon name="arrow-right" size={16} />}
+                    style={quoteButtonStyle}
+                    target="_blank"
+                  >
+                    견적 후 주문(카카오톡)
+                  </ButtonLink>
+                ) : (
+                  <Button
+                    rightIcon={<Icon name="arrow-right" size={16} />}
+                    style={serviceButtonStyle}
+                  >
+                    정찰제 즉시결제
+                  </Button>
+                )}
               </div>
             </article>
           ))}
@@ -166,23 +179,29 @@ export function ServicesSection() {
                 <p>카카오톡으로 1:1 상담이 가능합니다.</p>
               </div>
             </div>
-            <Button
+            <ButtonLink
+              href={KAKAO_CHANNEL_URL}
+              rel="noreferrer"
               rightIcon={<Icon name="arrow-right" size={16} />}
               style={consultButtonStyle}
+              target="_blank"
             >
               실시간 카톡상담
-            </Button>
+            </ButtonLink>
           </article>
         </div>
 
         <div className={styles.consultBox}>
           <p className={styles.consultPrompt}>주문 전 상담이 필요하신가요?</p>
-          <Button
+          <ButtonLink
+            href={KAKAO_CHANNEL_URL}
+            rel="noreferrer"
             rightIcon={<Icon name="arrow-right" size={16} />}
             style={consultButtonStyle}
+            target="_blank"
           >
             실시간 카톡상담
-          </Button>
+          </ButtonLink>
         </div>
       </div>
     </SectionLayout>

@@ -101,7 +101,7 @@
 .description {
   width: min(100%, 538px);
   gap: 4px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -191,6 +191,7 @@
 
 .landing .title strong {
   color: var(--landing-brand-500);
+  font-weight: 700;
 }
 
 .landing .description {
@@ -304,7 +305,7 @@
   }
 
   .hero.landing {
-    min-height: 632px;
+    min-height: 608px;
   }
 
   .content {

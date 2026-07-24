@@ -22,8 +22,8 @@ Match every landing-page service card's hover and press appearance to Figma node
 ## Content Styling
 
 - Icon container: `40px` square, `12px` radius, brand-50 background, brand-500 icon.
-- Title and price: Pretendard GOV Bold, `18px/26px`, `-0.27px` letter spacing, white-text-1000 (`#f8fafc`).
-- Description: Pretendard GOV Medium, `14px/20px`, `-0.21px` letter spacing, gray-200 (`#e2e8f0`).
+- Title and price: Pretendard GOV Variable 700, `18px/26px`, `-0.27px` letter spacing, white-text-1000 (`#f8fafc`).
+- Description: Pretendard GOV Variable 500, `14px/20px`, `-0.21px` letter spacing, gray-200 (`#e2e8f0`).
 - Action label and arrow remain brand-500 (`#30bac3`).
 - Action arrow is `16px`.
 - Existing action text, including `자세히 보기`, remains unchanged.

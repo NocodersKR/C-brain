@@ -1,18 +1,4 @@
-@font-face {
-  font-family: 'Pretendard';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
-}
+@import 'pretendard-gov/dist/web/variable/pretendardvariable-gov.css';
 
 :root {
   --admin-brand-500: #30bac3;
@@ -54,9 +40,17 @@ body {
   margin: 0;
 }
 
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-sans);
+}
+
 body {
   min-height: 100svh;
-  font-family: var(--font-sans);
 }
 
 #root {

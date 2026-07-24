@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - 디자인 기준은 [Figma 상품_P 노드](https://www.figma.com/design/qZcNE6of4hWidBcayhacSI/%EC%94%A8%EB%B8%8C%EB%A0%88%EC%9D%B8_Design?node-id=227-6375&m=dev)다.
-- `design.md`의 Pretendard, SVG 아이콘, `currentColor`, `gap` 기반 간격 규칙을 유지한다.
+- `design.md`의 Pretendard GOV Variable, SVG 아이콘, `currentColor`, `gap` 기반 간격 규칙을 유지한다.
 - 현재 작업 트리의 `AdminDataTableSection.tsx`, `AdminDataTableSection.css`, `PortfolioPage.tsx` 미커밋 변경을 보존하고 수정하지 않는다.
 - 새 테이블 컴포넌트, CSS 파일, 아이콘, 이미지, 패키지, API/Supabase 연동을 추가하지 않는다.
 - 필터 dropdown, 검색 동작, 정렬, 페이지네이션, 상품 행 fixture는 범위 밖이다.

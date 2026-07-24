@@ -658,7 +658,9 @@ export function ComplaintForm() {
                 required
                 type="checkbox"
               />
-              <span className={styles.complaintConsentBox} />
+              <span className={styles.complaintConsentBox}>
+                <Icon name="check-01" size={20} />
+              </span>
               <span>개인정보 수집 및 이용 동의</span>
             </label>
             <details className={styles.complaintPrivacyDetails}>

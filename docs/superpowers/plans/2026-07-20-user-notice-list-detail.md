@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - 디자인 기준은 사용자가 첨부한 공지사항 리스트 이미지와 상세 이미지다.
-- 구현 또는 수정 전 확인한 `design.md`의 Pretendard typography, 공용 SVG `Icon`, `currentColor`, 부모 `gap` 기반 간격 규칙을 지킨다.
+- 구현 또는 수정 전 확인한 `design.md`의 Pretendard GOV Variable typography, 공용 SVG `Icon`, `currentColor`, 부모 `gap` 기반 간격 규칙을 지킨다.
 - 이미 구현된 `/notice`, `/notice/[id]`, `NoticeBoard`, `NoticeItem`, `NoticeDetailArticle`, 카테고리 query, 목록 scroll 복원 코드를 새 구조로 재작성하지 않는다.
 - 현재 미커밋 상태인 `apps/user/app/(site)/notice/_data/notices.ts`의 빈 adapter는 이 계획 실행 시 아래의 최소 fixture로 교체한다. 그 외 사용자·어드민 미커밋 변경은 건드리지 않는다.
 - Supabase schema/service, 어드민 CRUD, 페이지네이션, 검색, 무한 스크롤, 조회수는 이번 이미지 구현 범위 밖이다.

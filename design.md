@@ -1,10 +1,9 @@
 ---
 version: alpha
-name: Pretendard Type Scale
+name: Pretendard GOV Variable Type Scale
 description: Typography reference extracted from the provided design image.
 fontFamily:
-  base: Pretendard
-  fallback: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif
+  base: "Pretendard GOV Variable"
 weights:
   M: 500
   B: 700
@@ -13,28 +12,28 @@ weights:
 # Typography
 
 `M` = `500`, `B` = `700`.
-Letter spacing is fixed at `-1.5%` (`-0.015em`) for Pretendard text tokens.
+Letter spacing is fixed at `-1.5%` (`-0.015em`) for Pretendard GOV Variable text tokens.
 
 | Label | Token | Font | Weight | Size | Line height |
 | --- | --- | --- | ---: | ---: | ---: |
-| 프리텐다드 / M / 12 / 18 | `pretendard-medium-12` | Pretendard | 500 | 12px | 18px |
-| 프리텐다드 / B / 12 / 18 | `pretendard-bold-12` | Pretendard | 700 | 12px | 18px |
-| 프리텐다드 / M / 14 / 21 | `pretendard-medium-14` | Pretendard | 500 | 14px | 21px |
-| 프리텐다드 / B / 14 / 21 | `pretendard-bold-14` | Pretendard | 700 | 14px | 21px |
-| 프리텐다드 / M / 16 / 24 | `pretendard-medium-16` | Pretendard | 500 | 16px | 24px |
-| 프리텐다드 / B / 16 / 24 | `pretendard-bold-16` | Pretendard | 700 | 16px | 24px |
-| 프리텐다드 / M / 18 / 26 | `pretendard-medium-18` | Pretendard | 500 | 18px | 26px |
-| 프리텐다드 / B / 18 / 26 | `pretendard-bold-18` | Pretendard | 700 | 18px | 26px |
-| 프리텐다드 / M / 20 / 30 | `pretendard-medium-20` | Pretendard | 500 | 20px | 30px |
-| 프리텐다드 / B / 20 / 30 | `pretendard-bold-20` | Pretendard | 700 | 20px | 30px |
-| 프리텐다드 / M / 22 / 32 | `pretendard-medium-22` | Pretendard | 500 | 22px | 32px |
-| 프리텐다드 / B / 22 / 32 | `pretendard-bold-22` | Pretendard | 700 | 22px | 32px |
-| 프리텐다드 / M / 24 / 32 | `pretendard-medium-24` | Pretendard | 500 | 24px | 32px |
-| 프리텐다드 / B / 24 / 32 | `pretendard-bold-24` | Pretendard | 700 | 24px | 32px |
-| 프리텐다드 / M / 28 / 36 | `pretendard-medium-28` | Pretendard | 500 | 28px | 36px |
-| 프리텐다드 / B / 28 / 36 | `pretendard-bold-28` | Pretendard | 700 | 28px | 36px |
-| 프리텐다드 / M / 32 / 40 | `pretendard-medium-32` | Pretendard | 500 | 32px | 40px |
-| 프리텐다드 / B / 32 / 40 | `pretendard-bold-32` | Pretendard | 700 | 32px | 40px |
+| 프리텐다드 GOV Variable / M / 12 / 18 | `pretendard-medium-12` | Pretendard GOV Variable | 500 | 12px | 18px |
+| 프리텐다드 GOV Variable / B / 12 / 18 | `pretendard-bold-12` | Pretendard GOV Variable | 700 | 12px | 18px |
+| 프리텐다드 GOV Variable / M / 14 / 21 | `pretendard-medium-14` | Pretendard GOV Variable | 500 | 14px | 21px |
+| 프리텐다드 GOV Variable / B / 14 / 21 | `pretendard-bold-14` | Pretendard GOV Variable | 700 | 14px | 21px |
+| 프리텐다드 GOV Variable / M / 16 / 24 | `pretendard-medium-16` | Pretendard GOV Variable | 500 | 16px | 24px |
+| 프리텐다드 GOV Variable / B / 16 / 24 | `pretendard-bold-16` | Pretendard GOV Variable | 700 | 16px | 24px |
+| 프리텐다드 GOV Variable / M / 18 / 26 | `pretendard-medium-18` | Pretendard GOV Variable | 500 | 18px | 26px |
+| 프리텐다드 GOV Variable / B / 18 / 26 | `pretendard-bold-18` | Pretendard GOV Variable | 700 | 18px | 26px |
+| 프리텐다드 GOV Variable / M / 20 / 30 | `pretendard-medium-20` | Pretendard GOV Variable | 500 | 20px | 30px |
+| 프리텐다드 GOV Variable / B / 20 / 30 | `pretendard-bold-20` | Pretendard GOV Variable | 700 | 20px | 30px |
+| 프리텐다드 GOV Variable / M / 22 / 32 | `pretendard-medium-22` | Pretendard GOV Variable | 500 | 22px | 32px |
+| 프리텐다드 GOV Variable / B / 22 / 32 | `pretendard-bold-22` | Pretendard GOV Variable | 700 | 22px | 32px |
+| 프리텐다드 GOV Variable / M / 24 / 32 | `pretendard-medium-24` | Pretendard GOV Variable | 500 | 24px | 32px |
+| 프리텐다드 GOV Variable / B / 24 / 32 | `pretendard-bold-24` | Pretendard GOV Variable | 700 | 24px | 32px |
+| 프리텐다드 GOV Variable / M / 28 / 36 | `pretendard-medium-28` | Pretendard GOV Variable | 500 | 28px | 36px |
+| 프리텐다드 GOV Variable / B / 28 / 36 | `pretendard-bold-28` | Pretendard GOV Variable | 700 | 28px | 36px |
+| 프리텐다드 GOV Variable / M / 32 / 40 | `pretendard-medium-32` | Pretendard GOV Variable | 500 | 32px | 40px |
+| 프리텐다드 GOV Variable / B / 32 / 40 | `pretendard-bold-32` | Pretendard GOV Variable | 700 | 32px | 40px |
 
 # Iconography
 

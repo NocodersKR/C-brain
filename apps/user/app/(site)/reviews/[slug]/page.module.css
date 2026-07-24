@@ -83,8 +83,8 @@
   color: var(--landing-gray-800);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  gap: 8px;
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   font-style: normal;
@@ -94,6 +94,12 @@
 
 .reviewDetailAuthorLine > span:first-child {
   font-weight: 700;
+}
+
+.reviewDetailAuthorIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .reviewDetailAuthorIcon {
@@ -160,7 +166,7 @@
 .reviewDetailBody {
   gap: 20px;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -238,7 +244,7 @@
 .projectInfoItem dd {
   margin: 0;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.21px;

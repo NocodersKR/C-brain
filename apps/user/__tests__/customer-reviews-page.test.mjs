@@ -3,6 +3,10 @@ import { stat, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const pagePath = new URL("../app/(site)/reviews/page.tsx", import.meta.url);
+const testimonialListPath = new URL(
+  "../app/(site)/reviews/CustomerTestimonialList.tsx",
+  import.meta.url,
+);
 const contentPath = new URL(
   "../app/_content/customerReviews.ts",
   import.meta.url,
@@ -390,36 +394,57 @@ test("customer interview data stays consistent for dynamic admin content", async
   );
 });
 
-test("customer reviews page renders all dynamic interviews and testimonials", async () => {
-  const pageSource = await readFile(pagePath, "utf8");
+test("customer reviews page progressively reveals testimonials after the first six", async () => {
+  const [pageSource, testimonialListSource] = await Promise.all([
+    readFile(pagePath, "utf8"),
+    readFile(testimonialListPath, "utf8"),
+  ]);
   const stylesSource = await readFile(stylesPath, "utf8");
 
   assert.match(pageSource, /customerInterviews\.map/);
-  assert.match(pageSource, /customerTestimonials\.map/);
+  assert.match(pageSource, /<CustomerTestimonialList testimonials=\{customerTestimonials\}/);
   assert.doesNotMatch(pageSource, /customerInterviews\.slice/);
-  assert.doesNotMatch(pageSource, /customerTestimonials\.slice/);
   assert.doesNotMatch(pageSource, /customerInterviews\.filter/);
-  assert.doesNotMatch(pageSource, /customerTestimonials\.filter/);
+  assert.match(testimonialListSource, /const TESTIMONIALS_PER_PAGE = 6/);
+  assert.match(
+    testimonialListSource,
+    /testimonials\.slice\(0, visibleCount\)/,
+  );
+  assert.match(testimonialListSource, /visibleTestimonials\.map/);
+  assert.match(
+    testimonialListSource,
+    /visibleCount < testimonials\.length/,
+  );
+  assert.match(testimonialListSource, />\s*더보기\s*<\/TextButton>/);
+  assert.match(testimonialListSource, /name="arrow-down" size=\{16\}/);
+  assert.match(
+    stylesSource,
+    /\.reviewsTestimonialList\s*\{[^}]*gap: 52px;/s,
+  );
   assert.doesNotMatch(stylesSource, /\.reviewsInterviewCard:nth-child/);
   assert.doesNotMatch(stylesSource, /\.reviewsTestimonialCard:nth-child/);
 });
 
 test("customer testimonials are ready for dynamic admin data", async () => {
   const contentSource = await readFile(contentPath, "utf8");
-  const pageSource = await readFile(pagePath, "utf8");
+  const testimonialListSource = await readFile(testimonialListPath, "utf8");
   const testimonialsBlock = extractConstArray(
     contentSource,
     "customerTestimonials",
   );
 
   assert.match(contentSource, /export type CustomerTestimonial/);
+  assert.equal(testimonialsBlock.match(/id: "/g)?.length, 12);
   assert.match(testimonialsBlock, /id: "/);
   assert.match(testimonialsBlock, /publishedAt: "/);
   assert.match(testimonialsBlock, /title: "/);
-  assert.match(pageSource, /key=\{review\.id\}/);
-  assert.match(pageSource, /aria-label=\{`\$\{review\.title\} 고객 후기`\}/);
+  assert.match(testimonialListSource, /key=\{review\.id\}/);
+  assert.match(
+    testimonialListSource,
+    /aria-label=\{`\$\{review\.title\} 고객 후기`\}/,
+  );
   assert.doesNotMatch(
-    pageSource,
+    testimonialListSource,
     /key=\{`\$\{review\.name\}-\$\{review\.company\}`\}/,
   );
 });

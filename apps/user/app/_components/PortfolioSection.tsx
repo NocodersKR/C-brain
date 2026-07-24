@@ -12,7 +12,7 @@ import {
 import styles from "../page.module.css";
 import { createGradientBorderButtonStyle } from "./buttonStyles";
 
-const buttonStyle = createGradientBorderButtonStyle();
+const buttonStyle = createGradientBorderButtonStyle({ width: 184 });
 
 export function PortfolioSection() {
   return (
@@ -80,7 +80,11 @@ export function PortfolioSection() {
           style={buttonStyle}
         >
           <span>더 많은 포트폴리오</span>
-          <Icon name="arrow-right" size={16} />
+          <Icon
+            className={styles.moreButtonIcon}
+            name="arrow-right"
+            size={24}
+          />
         </Link>
       </div>
     </SectionLayout>

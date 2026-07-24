@@ -23,7 +23,7 @@
 .linkPayHeader h1 {
   margin: 0;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 28px;
@@ -33,7 +33,7 @@
 .linkPayHeader p {
   margin: 0;
   color: var(--landing-gray-600);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -52,7 +52,7 @@
 .paymentCard h2 {
   margin: 0;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -79,7 +79,7 @@
 .paymentDetailList dd,
 .paymentTotal span {
   margin: 0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -108,7 +108,7 @@
 
 .paymentTotal strong {
   color: var(--landing-brand-500);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 20px;
   font-weight: 700;
   line-height: 30px;
@@ -135,7 +135,7 @@
 
 .customerLabelRow label {
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -144,7 +144,7 @@
 
 .customerLabelRow span {
   color: var(--landing-gray-500);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -159,7 +159,7 @@
   background: #ffffff;
   padding: 0 20px;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -192,7 +192,7 @@
   align-items: center;
   gap: 8px;
   color: var(--landing-gray-800);
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -273,7 +273,7 @@
 
 .agreementViewButton {
   color: #64748b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -294,7 +294,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;

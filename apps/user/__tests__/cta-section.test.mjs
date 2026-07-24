@@ -54,7 +54,7 @@ test("landing page passes the landing CTA configuration explicitly", async () =>
   assert.match(source, /descriptionSize="md"/);
   assert.match(source, /id="contact"/);
   assert.match(source, /label: "정찰제 가격 보기"/);
-  assert.match(source, /href: "\/#services"/);
+  assert.match(source, /href: "\/order"/);
   assert.match(source, /실패 없는 홍보물 디자인 제작,/);
 });
 
