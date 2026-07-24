@@ -62,3 +62,13 @@ test("Pretendard GOV Variable is the only font family", async () => {
 
   assert.deepEqual(invalidDeclarations, []);
 });
+
+test("global text defaults keep Korean words together", async () => {
+  const globalsPath = join(repoRoot, "apps/user/app/globals.css");
+  const globals = await readFile(globalsPath, "utf8");
+
+  assert.match(
+    globals,
+    /html,\s*body,\s*button,\s*input,\s*select,\s*textarea\s*\{[\s\S]*?word-break:\s*keep-all;/,
+  );
+});

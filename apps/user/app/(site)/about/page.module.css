@@ -1432,9 +1432,29 @@
     line-height: 44px;
   }
 
+  .heroTitleMobileBreak {
+    display: block;
+  }
+
+  .heroTitleDesktopSeparator {
+    display: none;
+  }
+
   .heroDescription {
     font-size: 16px;
     line-height: 24px;
+  }
+
+  .heroDescriptionLine {
+    white-space: normal;
+  }
+
+  .heroDescriptionLineDesktop {
+    display: none;
+  }
+
+  .heroDescriptionLineMobile {
+    display: block;
   }
 
   .heroMetricPanel {
@@ -1685,23 +1705,7 @@
     line-height: 36px;
   }
 
-  .heroTitleMobileBreak {
-    display: block;
-  }
-
-  .heroTitleDesktopSeparator {
-    display: none;
-  }
-
   .heroDescription {
     width: min(100%, 334px);
-  }
-
-  .heroDescriptionLineDesktop {
-    display: none;
-  }
-
-  .heroDescriptionLineMobile {
-    display: block;
   }
 }

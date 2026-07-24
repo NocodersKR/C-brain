@@ -19,3 +19,45 @@ test("about intro heading follows the responsive type scale", async () => {
     /@media \(max-width:\s*1080px\)[\s\S]*?\.introCopy h2\s*\{[^}]*font-size:\s*24px[^}]*line-height:\s*32px/s,
   );
 });
+
+test("about hero title uses the mobile line break before the compact mobile breakpoint", async () => {
+  const stylesSource = await readFile(stylesUrl, "utf8");
+  const mobileStart = stylesSource.indexOf("@media (max-width: 699px)");
+  const compactMobileStart = stylesSource.indexOf(
+    "@media (max-width: 480px)",
+    mobileStart,
+  );
+
+  assert.notEqual(mobileStart, -1);
+  assert.notEqual(compactMobileStart, -1);
+
+  assert.match(
+    stylesSource.slice(mobileStart, compactMobileStart),
+    /\.heroTitleMobileBreak\s*\{[\s\S]*?display:\s*block;/,
+  );
+});
+
+test("about hero mobile description can wrap inside narrow screens", async () => {
+  const stylesSource = await readFile(stylesUrl, "utf8");
+  const mobileStart = stylesSource.indexOf("@media (max-width: 699px)");
+  const compactMobileStart = stylesSource.indexOf(
+    "@media (max-width: 480px)",
+    mobileStart,
+  );
+  const mobileStyles = stylesSource.slice(mobileStart, compactMobileStart);
+
+  assert.notEqual(mobileStart, -1);
+  assert.notEqual(compactMobileStart, -1);
+  assert.match(
+    mobileStyles,
+    /\.heroDescriptionLine\s*\{[\s\S]*?white-space:\s*normal;/,
+  );
+  assert.match(
+    mobileStyles,
+    /\.heroDescriptionLineDesktop\s*\{[\s\S]*?display:\s*none;/,
+  );
+  assert.match(
+    mobileStyles,
+    /\.heroDescriptionLineMobile\s*\{[\s\S]*?display:\s*block;/,
+  );
+});
