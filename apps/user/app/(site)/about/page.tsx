@@ -33,13 +33,17 @@ type TimelineTextPart =
 function renderTimelineText(text: string | readonly TimelineTextPart[]) {
   const parts = Array.isArray(text) ? text : [text];
 
-  return parts.map((part, index) => {
-    if (typeof part === "string") {
-      return <span key={`${part}-${index}`}>{part}</span>;
-    }
+  return (
+    <span className={styles.timelineTitle}>
+      {parts.map((part, index) => {
+        if (typeof part === "string") {
+          return <span key={`${part}-${index}`}>{part}</span>;
+        }
 
-    return <strong key={`${part.text}-${index}`}>{part.text}</strong>;
-  });
+        return <strong key={`${part.text}-${index}`}>{part.text}</strong>;
+      })}
+    </span>
+  );
 }
 
 function HistoryTimeline({
@@ -55,28 +59,44 @@ function HistoryTimeline({
         variant === "desktop" ? styles.timelineDesktop : styles.timelineCompact
       }`}
     >
-      {items.map((item, index) => (
-        <li
-          className={styles.timelineItem}
-          key={`${variant}-${item.year}-${index}`}
-        >
-          <time>{item.year}</time>
-          <span aria-hidden="true" className={styles.timelineDot} />
-          <div className={styles.timelineBody}>
-            <p>
-              {renderTimelineText(item.title)}
-              {"detail" in item ? (
-                <span className={styles.timelineDetail}>{item.detail}</span>
+      {items.map((item, index) => {
+        const detailLineBreak =
+          "detailLineBreak" in item && item.detailLineBreak === true;
+        const detailPrefix =
+          "detailPrefix" in item && typeof item.detailPrefix === "string"
+            ? item.detailPrefix
+            : " ";
+
+        return (
+          <li
+            className={styles.timelineItem}
+            key={`${variant}-${item.year}-${index}`}
+          >
+            <time>{item.year}</time>
+            <span aria-hidden="true" className={styles.timelineDot} />
+            <div className={styles.timelineBody}>
+              <p>
+                {renderTimelineText(item.title)}
+                {"detail" in item ? (
+                  <span
+                    className={`${styles.timelineDetail} ${
+                      detailLineBreak ? styles.timelineDetailBreak : ""
+                    }`}
+                  >
+                    {detailLineBreak ? null : detailPrefix}
+                    {item.detail}
+                  </span>
+                ) : null}
+              </p>
+              {"tag" in item ? (
+                <span className={styles.timelineTag}>
+                  <span>{item.tag}</span>
+                </span>
               ) : null}
-            </p>
-            {"tag" in item ? (
-              <span className={styles.timelineTag}>
-                <span>{item.tag}</span>
-              </span>
-            ) : null}
-          </div>
-        </li>
-      ))}
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }
