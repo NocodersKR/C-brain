@@ -12,7 +12,7 @@
 
 - 기준 디자인은 Figma qZcNE6of4hWidBcayhacSI, 노드 232:3174이다. 브라우저 chrome과 footer는 구현 범위가 아니며 현재 AdminHeader와 admin shell을 사용한다.
 - 폼의 PC 폭은 640px, 페이지 상단 여백은 52px, 컨트롤 높이는 52px, 컨트롤 반경은 16px, 필드 간격은 20px, 하단 액션 간격은 52px이다.
-- design.md의 Pretendard 타이포그래피, 부모 gap 기반 간격, input/select/textarea의 추가 focus 스타일 금지 규칙을 따른다.
+- design.md의 Pretendard GOV Variable 타이포그래피, 부모 gap 기반 간격, input/select/textarea의 추가 focus 스타일 금지 규칙을 따른다.
 - 제품 UI 아이콘은 공유 아이콘 컴포넌트로 렌더링하고 currentColor를 사용한다. Figma MCP URL을 소스에 넣지 않는다.
 - Figma의 이미지 영역은 동적 사용자 업로드 입력이다. 새 Figma 이미지 asset은 추가하지 않으며 PNG/JPEG/WEBP, 각 50MB 이하만 클라이언트에서 허용한다.
 - 필수값은 포트폴리오 유형, 제목, Slug, 기업명, 내용이다. 활성 이미지 슬롯은 파일을 선택했을 때만 형식·크기를 검사하며, 이미지 자체는 필수가 아니다.

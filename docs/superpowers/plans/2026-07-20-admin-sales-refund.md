@@ -4,7 +4,7 @@
 
 **Goal:** `/sales`에 Figma의 데이터 있음/없음 매출 대시보드를 구현하고, 환불 버튼에서 환불 확인 팝업과 환불 완료 팝업으로 이어지는 접근 가능한 로컬 UI 흐름을 제공한다.
 
-**Architecture:** 매출 fixture와 금액·차트·환불 순수 함수는 `salesData.ts`에 모으고, 요약 카드·차트·거래 테이블·환불 dialog는 각자 전용 컴포넌트로 분리한다. `SalesPage`는 URL 미리보기 상태와 선택된 거래, 로컬 환불 상태만 조정하며 실제 PG 요청은 수행하지 않는다. 기존 `AdminHeader`, Pretendard 토큰, `AdminIcon` 패턴은 재사용하고 기존 범용 콘텐츠 테이블은 매출 전용 툴바/차트 구조와 맞지 않으므로 변경하지 않는다.
+**Architecture:** 매출 fixture와 금액·차트·환불 순수 함수는 `salesData.ts`에 모으고, 요약 카드·차트·거래 테이블·환불 dialog는 각자 전용 컴포넌트로 분리한다. `SalesPage`는 URL 미리보기 상태와 선택된 거래, 로컬 환불 상태만 조정하며 실제 PG 요청은 수행하지 않는다. 기존 `AdminHeader`, Pretendard GOV Variable 토큰, `AdminIcon` 패턴은 재사용하고 기존 범용 콘텐츠 테이블은 매출 전용 툴바/차트 구조와 맞지 않으므로 변경하지 않는다.
 
 **Tech Stack:** React 19, TypeScript 6, React Router 7, Vite 8, CSS, Node test runner
 
@@ -21,7 +21,7 @@
 - 날짜 범위는 Figma 원문 `26. 02. 10 ~ 26. 03. 09`를 표시한다. 날짜 선택 동작은 별도 디자인과 API 계약이 없으므로 추가하지 않는다.
 - 상품 selector는 `브로슈어·카탈로그` 한 옵션과 선택 chip 제거 동작만 제공한다. 검색, 다중 상품 API 조회, 기간별 재조회는 범위 밖이다.
 - 차트의 원 수치는 Figma 벡터에 데이터로 노출되지 않으므로, 선 모양과 표시된 tooltip 값 `1,245,500원`을 재현하는 명시적 12포인트 fixture를 사용한다. 이를 실제 매출 수치로 해석하지 않는다.
-- `design.md`의 Pretendard, `currentColor`, SVG 아이콘 registry, 부모 `gap`, form focus 규칙을 따른다. 컴포넌트 내부 일반 간격에 child margin을 추가하지 않는다.
+- `design.md`의 Pretendard GOV Variable, `currentColor`, SVG 아이콘 registry, 부모 `gap`, form focus 규칙을 따른다. 컴포넌트 내부 일반 간격에 child margin을 추가하지 않는다.
 - 현재 작업 트리의 `apps/admin` 미커밋 변경은 사용자 소유다. 특히 `AdminHeader`, `AdminIcon`, `App.tsx`, 공용 테이블 컴포넌트 변경을 보존하면서 이 계획에 명시된 줄만 수정한다.
 - UI 아이콘은 기존 `AdminIcon`을 확장해 렌더링한다. Figma MCP asset URL이나 만료되는 원격 asset을 source에 남기지 않는다.
 - 신규 패키지와 차트 라이브러리를 설치하지 않는다. 차트는 데이터 기반 inline SVG로 구현한다.

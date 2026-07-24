@@ -3,7 +3,7 @@
 import { Button, ButtonLink } from "@repo/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   type MouseEvent,
   type SyntheticEvent,
@@ -37,6 +37,7 @@ const kakaoButtonStyle = createGradientBorderButtonStyle({
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeNavHref, setActiveNavHref] = useState<string | null>(null);
@@ -101,6 +102,10 @@ export function Header() {
 
   const handleOpenMenu = () => {
     setIsMenuOpen(true);
+  };
+
+  const handlePriceButtonClick = () => {
+    router.push("/order");
   };
 
   const handleOverlayClick = (event: MouseEvent<HTMLDialogElement>) => {
@@ -181,7 +186,9 @@ export function Header() {
       </div>
 
       <div className={styles.headerActions}>
-        <Button style={priceButtonStyle}>정찰제 가격 보기</Button>
+        <Button onClick={handlePriceButtonClick} style={priceButtonStyle}>
+          정찰제 가격 보기
+        </Button>
         <ButtonLink
           href={KAKAO_CHANNEL_URL}
           rel="noreferrer"

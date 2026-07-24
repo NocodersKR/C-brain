@@ -4,11 +4,11 @@
 
 **Architecture:** 하나의 `ProductFormPage`가 생성/수정 모드와 Step 1/2 상태를 함께 관리한다. Step 1의 용지·페이지·수량은 활성 입력 행과 마지막 비활성 추가 행으로 표현하고, 추가 행을 누르면 빈 필수 입력이 하나 늘어난다. Step 2는 Step 1 값을 탭과 단가 행으로 재사용하며 가격 상태를 용지×페이지×수량 조합별로 보존한다.
 
-**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, 기존 admin CSS 및 Pretendard 토큰
+**Tech Stack:** React 19, TypeScript, React Router 7, Vite 8, 기존 admin CSS 및 Pretendard GOV Variable 토큰
 
 ## Constraints
 
-- `design.md`의 Pretendard, inline SVG/currentColor, 부모 `gap` 간격 규칙을 따른다.
+- `design.md`의 Pretendard GOV Variable, inline SVG/currentColor, 부모 `gap` 간격 규칙을 따른다.
 - Figma의 브라우저 chrome과 footer는 기존 상품 리스트와 동일하게 외곽 프레임으로 보고, 기존 `AdminHeader`와 흰색 admin page shell을 재사용한다.
 - Figma 예시 가격 `1,040`, `700`, `520`, `463` 및 예시 용지·페이지·수량은 목데이터로 넣지 않는다.
 - 상품 유형 외 모든 Step 2 선택지는 Step 1 입력값에서 만든다.

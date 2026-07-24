@@ -19,7 +19,7 @@ const textButtonStyle: CSSProperties = {
 
 const serviceButtonStyle: CSSProperties = {
   ...textButtonStyle,
-  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontFamily: "var(--font-sans)",
   letterSpacing: "-0.21px",
 };
 
@@ -30,7 +30,7 @@ const quoteButtonStyle: CSSProperties = {
 
 const consultButtonStyle: CSSProperties = {
   ...textButtonStyle,
-  fontFamily: '"Pretendard GOV Variable", var(--font-sans)',
+  fontFamily: "var(--font-sans)",
   fontWeight: 500,
   lineHeight: "20px",
   letterSpacing: "-0.21px",

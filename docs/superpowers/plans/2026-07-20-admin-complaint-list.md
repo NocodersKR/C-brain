@@ -20,7 +20,7 @@
 - 필터와 검색은 현재 공유 테이블과 동일한 표시용 native control로 둔다. 실제 filtering, sorting, pagination은 조회 API가 생길 때 함께 구현한다.
 - 샘플 개인정보나 가짜 접수 행을 만들지 않는다.
 - 신규 dependency, 이미지, SVG, 아이콘, 페이지 전용 CSS 파일을 추가하지 않는다.
-- `design.md`의 Pretendard, `-0.015em` 자간, parent `gap`, `currentColor` 아이콘, form focus 규칙을 유지한다.
+- `design.md`의 Pretendard GOV Variable, `-0.015em` 자간, parent `gap`, `currentColor` 아이콘, form focus 규칙을 유지한다.
 - 현재 dirty worktree의 기존 변경을 보존하고 아래 명시된 파일만 수정한다.
 - 최종 `rg "figma.com/api/mcp/asset|https://www.figma.com/api" apps packages`는 출력 없이 종료해야 한다.
 

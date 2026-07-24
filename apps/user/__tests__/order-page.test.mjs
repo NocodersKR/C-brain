@@ -256,7 +256,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(methodSelectorSource, /onQuoteSelect\?\.\(\)/);
   assert.match(methodSelectorSource, /methodCardActiveQuote/);
   assert.match(optionSelectionSource, /"use client"/);
-  assert.match(optionSelectionSource, /requireOrderOptionConfig\(service\.id\)/);
+  assert.match(
+    optionSelectionSource,
+    /requireOrderOptionConfig\(service\.id\)/,
+  );
   assert.match(optionSelectionSource, /getOrderOptionConfig\(serviceId\)/);
   assert.match(optionSelectionSource, /getOrderQuantityOptions/);
   assert.match(optionSelectionSource, /selectedPageId/);
@@ -276,7 +279,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(optionSelectionSource, /pageId:\s*selectedPage\.id/);
   assert.match(optionSelectionSource, /paperId:\s*selectedPaper\.id/);
   assert.match(optionSelectionSource, /quantityId:\s*selectedQuantity\.id/);
-  assert.match(optionSelectionSource, /unitPrice:\s*selectedQuantity\.unitPriceAmount/);
+  assert.match(
+    optionSelectionSource,
+    /unitPrice:\s*selectedQuantity\.unitPriceAmount/,
+  );
   assert.match(optionSelectionSource, /hasPlanning,/);
   assert.match(optionSelectionSource, /handlePaymentStart/);
   assert.match(optionSelectionSource, /onClick=\{handlePaymentStart\}/);
@@ -305,6 +311,24 @@ test("order page route, content, responsive styles, and navigation are wired", (
     /const koreanMobilePhonePattern = \/\^01\[016789\]\\d\{7,8\}\$\//,
   );
   assert.match(customerInfoSource, /function normalizeCustomerPhoneNumber/);
+  assert.match(customerInfoSource, /function formatCustomerPhoneNumber/);
+  assert.match(
+    customerInfoSource,
+    /normalizeCustomerPhoneNumber\(value\)\.slice\(0, 11\)/,
+  );
+  assert.match(customerInfoSource, /function sanitizeCustomerEmail/);
+  assert.match(customerInfoSource, /function formatCustomerFieldValue/);
+  assert.match(customerInfoSource, /inputMode:\s*"numeric"/);
+  assert.match(customerInfoSource, /maxLength:\s*13/);
+  assert.match(customerInfoSource, /placeholder:\s*"010-1234-1234"/);
+  assert.match(
+    customerInfoSource,
+    /inputMode=\{"inputMode" in field \? field\.inputMode : undefined\}/,
+  );
+  assert.match(
+    customerInfoSource,
+    /maxLength=\{"maxLength" in field \? field\.maxLength : undefined\}/,
+  );
   assert.match(customerInfoSource, /isCustomerInfoFieldValid/);
   assert.match(customerInfoSource, /fieldName === "customerPhone"/);
   assert.match(
@@ -319,7 +343,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
     /scrollIntoView\(\{\s*behavior:\s*"smooth",\s*block:\s*"center",?\s*\}\)/s,
   );
   assert.match(customerInfoSource, /focus\(\{\s*preventScroll:\s*true\s*\}\)/s);
-  assert.match(customerInfoSource, /if \(firstInvalidTarget\) \{[\s\S]*?return;/);
+  assert.match(
+    customerInfoSource,
+    /if \(firstInvalidTarget\) \{[\s\S]*?return;/,
+  );
   assert.match(customerInfoSource, /onPaymentSubmit\?\.\(\{/);
   assert.match(customerInfoSource, /summary,/);
   assert.match(customerInfoSource, /customer:\s*fieldValues/);
@@ -366,9 +393,11 @@ test("order page route, content, responsive styles, and navigation are wired", (
     customerInfoSource,
     /data-invalid=\{isTargetInvalid\(item\.id\)\}/,
   );
-  assert.match(customerInfoSource, /function AgreementCheckIcon/);
+  assert.doesNotMatch(customerInfoSource, /function AgreementCheckIcon/);
   assert.match(customerInfoSource, /agreementCheckboxIcon/);
-  assert.match(customerInfoSource, /M10\.6 1L3\.44048 8\.2L1 5\.74572/);
+  assert.match(customerInfoSource, /name="check-01"/);
+  assert.match(customerInfoSource, /size=\{20\}/);
+  assert.match(customerInfoSource, /agreementDetailList/);
   assert.doesNotMatch(customerInfoSource, /href="#"/);
   assert.match(customerInfoSource, /href=\{item\.href\}/);
   assert.match(customerInfoSource, /target="_blank"/);
@@ -391,8 +420,14 @@ test("order page route, content, responsive styles, and navigation are wired", (
     serviceCardsSource,
     /<button[\s\S]*className=\{`\$\{styles\.serviceCard\}/,
   );
-  assert.doesNotMatch(serviceCardsSource, /role=\{cardClickHandler \? "button" : undefined\}/);
-  assert.doesNotMatch(serviceCardsSource, /tabIndex=\{cardClickHandler \? 0 : undefined\}/);
+  assert.doesNotMatch(
+    serviceCardsSource,
+    /role=\{cardClickHandler \? "button" : undefined\}/,
+  );
+  assert.doesNotMatch(
+    serviceCardsSource,
+    /tabIndex=\{cardClickHandler \? 0 : undefined\}/,
+  );
   assert.match(dialogSource, /role="dialog"/);
   assert.match(dialogSource, /aria-modal="true"/);
   assert.match(dialogSource, /handleOverlayMouseDown/);
@@ -454,6 +489,14 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(
     stylesSource,
     /\.heroTitleDesktopSpace\s*\{[^}]*display:\s*none/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.heroBadge\s*\{[^}]*border:\s*1px solid transparent[^}]*background-color:\s*rgba\(48,\s*186,\s*195,\s*0\.1\)[^}]*color:\s*var\(--landing-brand-500\)/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.heroBadge::before\s*\{[^}]*background-image:\s*var\(--landing-brand-border-end\),\s*var\(--landing-brand-border-start\)/s,
   );
   assert.match(
     stylesSource,
@@ -587,6 +630,7 @@ test("order page route, content, responsive styles, and navigation are wired", (
     stylesSource,
     /\.orderSummary\s*\{[^}]*background:\s*var\(--landing-gray-50\)/s,
   );
+  assert.match(stylesSource, /\.orderSummary h3\s*\{[^}]*font-size:\s*16px/s);
   assert.match(
     stylesSource,
     /\.summaryList\s*\{[^}]*background-image:\s*repeating-linear-gradient\([^}]*var\(--landing-gray-100\) 0 2px,[^}]*transparent 2px 4px/s,
@@ -623,6 +667,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
   );
   assert.match(
     stylesSource,
+    /\.customerPaymentCard h3\s*\{[^}]*font-size:\s*16px[^}]*line-height:\s*24px/s,
+  );
+  assert.match(
+    stylesSource,
     /\.customerSummaryDivider\s*\{[^}]*background-image:\s*repeating-linear-gradient\([^}]*var\(--landing-gray-100\) 0 2px,[^}]*transparent 2px 4px/s,
   );
   assert.match(stylesSource, /\.customerInput\s*\{[^}]*height:\s*52px/s);
@@ -645,28 +693,33 @@ test("order page route, content, responsive styles, and navigation are wired", (
   );
   assert.match(
     stylesSource,
+    /\.agreementCheckboxMark\s*\{[^}]*width:\s*24px[^}]*height:\s*24px[^}]*background:\s*var\(--landing-gray-400\)/s,
+  );
+  assert.match(
+    stylesSource,
     /\.agreementCheckboxMark\s*\{[^}]*border-radius:\s*8px/s,
   );
   assert.match(
     stylesSource,
     /\.agreementCheckboxMark\s*\{[^}]*display:\s*inline-flex[^}]*align-items:\s*center[^}]*justify-content:\s*center/s,
   );
-  assert.match(stylesSource, /\.agreementCheckboxIcon\s*\{[^}]*opacity:\s*0/s);
   assert.match(
     stylesSource,
-    /\.agreementCheckboxInput:checked\s*\+\s*\.agreementCheckboxMark\s*\.agreementCheckboxIcon\s*\{[^}]*opacity:\s*1/s,
+    /\.agreementCheckboxIcon\s*\{[^}]*display:\s*block/s,
   );
   assert.match(
     stylesSource,
-    /\.agreementRow\[data-invalid="true"\] \.agreementCheckboxMark\s*\{[^}]*border-color:\s*#ef4444/s,
+    /\.agreementRow\[data-invalid="true"\] \.agreementCheckboxMark\s*\{[^}]*outline:\s*2px solid #ef4444/s,
   );
   assert.match(
     stylesSource,
-    /\.agreementDivider\s*\{[^}]*background:\s*var\(--landing-gray-100\)/s,
+    /\.agreementDivider::before\s*\{[^}]*background:\s*var\(--landing-gray-100\)/s,
   );
+  assert.match(stylesSource, /\.agreementList\s*\{[^}]*gap:\s*8px/s);
+  assert.match(stylesSource, /\.agreementDetailRow\s*\{[^}]*padding:\s*8px 0/s);
   assert.match(
     stylesSource,
-    /\.agreementViewButton\s*\{[^}]*text-decoration:\s*underline/s,
+    /\.agreementViewButton\s*\{[^}]*font-size:\s*12px[^}]*line-height:\s*16px[^}]*text-decoration:\s*underline/s,
   );
   assert.match(
     stylesSource,
@@ -736,7 +789,10 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(contentSource, /paperId:\s*string/);
   assert.match(contentSource, /quantityId: string/);
   assert.match(contentSource, /unitPrice: number/);
-  assert.doesNotMatch(contentSource, /orderOptionCatalog\["brochure-catalog"\]/);
+  assert.doesNotMatch(
+    contentSource,
+    /orderOptionCatalog\["brochure-catalog"\]/,
+  );
   assert.match(
     contentSource,
     /const defaultPageSectionTitle = "III\. 페이지 수 선택"/,
@@ -750,8 +806,14 @@ test("order page route, content, responsive styles, and navigation are wired", (
   assert.match(contentSource, /"package-shopping-bag"/);
   assert.match(contentSource, /디자인 \+ 인쇄/);
   assert.match(contentSource, /formatOrderQuantity/);
-  assert.match(contentSource, /standardOrderQuantities = \[500, 1000, 2000, 3000\]/);
-  assert.match(servicesSource, /const directServices = directOrderServiceIds\.map/);
+  assert.match(
+    contentSource,
+    /standardOrderQuantities = \[500, 1000, 2000, 3000\]/,
+  );
+  assert.match(
+    servicesSource,
+    /const directServices = directOrderServiceIds\.map/,
+  );
   assert.match(servicesArraySource, /\.\.\.directServices/);
   assert.equal(countMatches(servicesArraySource, /title:/g), 2);
   assert.equal(countMatches(servicesArraySource, /id:/g), 2);

@@ -82,7 +82,11 @@ export function FaqSection({
       {moreHref ? (
         <a className={styles.faqMoreButton} href={moreHref}>
           {moreLabel}
-          <Icon name="arrow-right" size={16} />
+          <Icon
+            className={styles.moreButtonIcon}
+            name="arrow-right"
+            size={24}
+          />
         </a>
       ) : null}
     </SectionLayout>

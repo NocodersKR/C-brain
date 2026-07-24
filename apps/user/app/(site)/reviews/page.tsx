@@ -12,6 +12,7 @@ import {
 } from "../../_content/customerReviews";
 import { createPageMetadata } from "../../_content/seo";
 import styles from "../../page.module.css";
+import { CustomerTestimonialList } from "./CustomerTestimonialList";
 
 export const metadata = createPageMetadata("reviews");
 
@@ -227,31 +228,7 @@ export default async function CustomerReviewsPage() {
             </div>
 
             {customerTestimonials.length > 0 ? (
-              <ul className={styles.reviewsTestimonialGrid}>
-                {customerTestimonials.map((review) => (
-                  <li className={styles.reviewsTestimonialCard} key={review.id}>
-                    <article
-                      aria-label={`${review.title} 고객 후기`}
-                      className={styles.reviewsTestimonialArticle}
-                    >
-                      <div className={styles.reviewsTestimonialContent}>
-                        <p className={styles.reviewsStars} aria-label="별점 5점">
-                          ★★★★★
-                        </p>
-                        <blockquote>{review.body}</blockquote>
-                      </div>
-                      <span
-                        className={styles.reviewsDivider}
-                        aria-hidden="true"
-                      />
-                      <footer className={styles.reviewsTestimonialMeta}>
-                        <p>{review.name}</p>
-                        <span>{review.company}</span>
-                      </footer>
-                    </article>
-                  </li>
-                ))}
-              </ul>
+              <CustomerTestimonialList testimonials={customerTestimonials} />
             ) : (
               <p className={styles.contentEmptyState} role="status">
                 등록된 고객 후기가 없습니다.

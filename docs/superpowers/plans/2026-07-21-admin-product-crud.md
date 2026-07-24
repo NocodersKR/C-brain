@@ -12,7 +12,7 @@
 
 - Do not add a runtime dependency. Use the installed Supabase, React, React Router, Sonner, and Node test runner packages.
 - Preserve the current page shell, table layout, two-step form layout, existing admin icons, and local Figma asset paths. Add only the product-name field and functional loading/error states needed by CRUD.
-- Read design.md before changing any admin JSX/CSS. Keep Pretendard tokens, existing AdminIcon usage, parent gap spacing, and no custom focus styling.
+- Read design.md before changing any admin JSX/CSS. Keep Pretendard GOV Variable tokens, existing AdminIcon usage, parent gap spacing, and no custom focus styling.
 - Product lifecycle is exactly `draft` (label: 임시저장) and `published` (label: 게시됨). A draft requires the complete step-one configuration but may have incomplete unit prices; a published product requires every paper/page/quantity unit price.
 - A product has a required name and type. 상품가 in the list is the lowest entered unit price; show `-` when a draft has no unit price.
 - Unit prices are stored as a JSON object keyed by `paperIndex:pageIndex:quantityIndex`. Paper types retain their input order; page counts and quantities are positive integers.
@@ -461,7 +461,7 @@ if (profileError || profile?.role !== "admin") {
 navigate("/products", { replace: true });
 ~~~
 
-Create the matching CSS with the existing `--admin-*` colors, 16px radius, Pretendard classes, flex column parents with `gap`, and no custom input focus state. It needs only a centered 400px form, native inputs, error text, and a 52px submit button.
+Create the matching CSS with the existing `--admin-*` colors, 16px radius, Pretendard GOV Variable classes, flex column parents with `gap`, and no custom input focus state. It needs only a centered 400px form, native inputs, error text, and a 52px submit button.
 
 - [x] **Step 5: Protect the current route tree and add sign-out**
 

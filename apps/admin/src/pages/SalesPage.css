@@ -313,7 +313,7 @@
 .admin-sales-chart-tooltip__label,
 .admin-sales-chart-tooltip__value {
   fill: var(--admin-text-inverse);
-  font-family: 'Pretendard', sans-serif;
+  font-family: var(--font-sans);
 }
 
 .admin-sales-chart-tooltip__label {

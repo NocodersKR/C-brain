@@ -1,4 +1,7 @@
+"use client";
+
 import { Button, ButtonLink } from "@repo/ui/button";
+import { useRouter } from "next/navigation";
 
 import { Icon } from "../../components/Icon";
 import { PageHero } from "../../components/PageHero";
@@ -19,6 +22,12 @@ const priceButtonStyle = {
 };
 
 export function Hero() {
+  const router = useRouter();
+
+  const handlePriceButtonClick = () => {
+    router.push("/order");
+  };
+
   return (
     <PageHero
       actions={
@@ -35,6 +44,7 @@ export function Hero() {
           </ButtonLink>
           <Button
             className={styles.heroGradientButton}
+            onClick={handlePriceButtonClick}
             rightIcon={<Icon name="arrow-right" size={16} />}
             style={priceButtonStyle}
           >
@@ -50,13 +60,13 @@ export function Hero() {
         <>
           <p>
             1:1 전담 디자이너가 제작부터 납품까지,
-            <br className={styles.heroMobileBreak} /> 처음부터 끝까지 빠른 소통으로
-            책임집니다.
+            <br className={styles.heroMobileBreak} /> 처음부터 끝까지 빠른
+            소통으로 책임집니다.
           </p>
           <p className={styles.heroAudience}>
             박람회 · 전시회 참가 기업 / 신규 브랜드 런칭
-            <br className={styles.heroMobileBreak} /> 기업 IR 제안서 · 브로슈어 제작이
-            필요한 모든 기업에
+            <br className={styles.heroMobileBreak} /> 기업 IR 제안서 · 브로슈어
+            제작이 필요한 모든 기업에
           </p>
         </>
       }

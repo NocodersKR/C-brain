@@ -358,7 +358,7 @@ const standardOrderQuantities = [500, 1000, 2000, 3000];
 
 export const orderProductRegistrations = {
   "brochure-catalog": createAdminOrderProduct({
-    design_print_estimate: 160000,
+    design_print_estimate: 850000,
     id: "brochure-catalog",
     name: "브로슈어 · 카탈로그",
     order_quantities: standardOrderQuantities,
@@ -369,7 +369,7 @@ export const orderProductRegistrations = {
     unitPricesByQuantity: [1040, 700, 520, 463],
   }),
   "leaflet-pamphlet": createAdminOrderProduct({
-    design_print_estimate: 160000,
+    design_print_estimate: 370000,
     id: "leaflet-pamphlet",
     name: "리플렛 · 팜플렛",
     order_quantities: standardOrderQuantities,
@@ -380,7 +380,7 @@ export const orderProductRegistrations = {
     unitPricesByQuantity: [840, 560, 410, 363],
   }),
   "poster-flyer": createAdminOrderProduct({
-    design_print_estimate: 160000,
+    design_print_estimate: 130000,
     id: "poster-flyer",
     name: "포스터 · 전단지",
     order_quantities: [100, 300, 500, 1000],
@@ -391,7 +391,7 @@ export const orderProductRegistrations = {
     unitPricesByQuantity: [3000, 1333, 960, 680],
   }),
   "banner-display": createAdminOrderProduct({
-    design_print_estimate: 160000,
+    design_print_estimate: 80000,
     id: "banner-display",
     name: "배너 · 족자 · 현수막",
     order_quantities: [1, 3, 5, 10],
@@ -402,7 +402,7 @@ export const orderProductRegistrations = {
     unitPricesByQuantity: [250000, 123333, 96000, 72000],
   }),
   "business-card-envelope": createAdminOrderProduct({
-    design_print_estimate: 160000,
+    design_print_estimate: 50000,
     id: "business-card-envelope",
     name: "명함 · 봉투",
     order_quantities: [200, 500, 1000, 2000],
@@ -413,7 +413,7 @@ export const orderProductRegistrations = {
     unitPricesByQuantity: [1150, 560, 370, 260],
   }),
   logo: createAdminOrderProduct({
-    design_print_estimate: 360000,
+    design_print_estimate: 50000,
     id: "logo",
     name: "로고",
     order_quantities: [1, 2, 3, 4],

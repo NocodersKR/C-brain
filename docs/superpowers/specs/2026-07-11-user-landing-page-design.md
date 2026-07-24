@@ -66,7 +66,7 @@ Keep landing-only data arrays close to the page or in section files. Promote cod
 
 Follow `design.md` and `design-system.css`.
 
-- Use Pretendard typography classes or equivalent CSS values.
+- Use Pretendard GOV Variable typography classes or equivalent CSS values.
 - Use project color tokens where they match. Add page-local CSS variables only for Figma colors not yet present in `design-system.css`, such as the turquoise brand used in this landing design.
 - Use parent `gap` for layout spacing instead of child margins.
 - Use SVG icons through `apps/user/components/Icon.tsx` when they are product UI icons.

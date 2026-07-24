@@ -130,7 +130,7 @@
   border-color: transparent;
   background: rgba(255, 255, 255, 0.1);
   color: #f8fafc;
-  font-family: Pretendard, var(--font-sans);
+  font-family: var(--font-sans);
   line-height: 21px;
   white-space: nowrap;
 }
@@ -222,7 +222,7 @@
 .heroDescription {
   width: min(100%, 648px);
   color: #f8fafc;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -331,7 +331,7 @@
 .heroMetric p,
 .heroMetricDescription {
   color: rgba(255, 255, 255, 0.72);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 18px;
 }
@@ -342,7 +342,7 @@
 
 .heroMetric strong {
   color: #ffffff;
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   line-height: 32px;
 }
@@ -392,6 +392,14 @@
 .infoContent h2 {
   font-size: 32px;
   line-height: 42px;
+}
+
+.introCopy h2 {
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -0.015em;
 }
 
 .bodyCopy {
@@ -448,7 +456,7 @@
 }
 
 .channelSection .sectionHeading h2 {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -462,7 +470,7 @@
   background-color: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
   color: #30bac3;
-  font-family: "Noto Sans KR", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: normal;
@@ -523,7 +531,7 @@
   background: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
   color: #30bac3;
-  font-family: "Pretendard", "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0;
@@ -534,7 +542,7 @@
 
 .reasonSection .sectionBadge > span {
   color: var(--_500, #30bac3);
-  font-family: "Pretendard";
+  font-family: var(--font-sans);
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -582,7 +590,7 @@
 .reasonSection .sectionHeading h2 {
   margin: 0;
   color: #1e293b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -592,7 +600,7 @@
 .reasonSection .sectionHeading p {
   margin: 0;
   color: #1e293b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -631,7 +639,7 @@
   background: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
   color: #30bac3;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -647,7 +655,7 @@
 .reasonCard h3 {
   margin: 0;
   color: #1e293b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -656,7 +664,7 @@
 
 .reasonCard p {
   color: #475569;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -676,7 +684,7 @@
   background: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
   color: #30bac3;
-  font-family: "Noto Sans KR", "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: normal;
@@ -703,7 +711,7 @@
 
 .historyHeading h2 {
   color: #f8fafc;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 28px;
   letter-spacing: -0.015em;
   line-height: 36px;
@@ -711,7 +719,7 @@
 
 .historyHeading p {
   color: #f8fafc;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -725,7 +733,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   background-clip: padding-box;
   color: #f8fafc;
-  font-family: "Pretendard", "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: 21px;
@@ -791,7 +799,7 @@
 
 .historyCallout strong {
   color: #30bac3;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -821,7 +829,7 @@
 
 .historyCallout li {
   color: #f8fafc;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -861,7 +869,7 @@
   align-items: start;
   gap: 0;
   color: #e2e8f0;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -927,7 +935,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   background-clip: padding-box;
   color: #f8fafc;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.015em;
@@ -989,7 +997,7 @@
 
 .channelText strong {
   color: #1e293b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -998,7 +1006,7 @@
 
 .channelText span {
   color: #475569;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -1007,7 +1015,7 @@
 
 .channelLink {
   color: #30bac3;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
@@ -1024,7 +1032,7 @@
   background-color: rgba(48, 186, 195, 0.1);
   background-clip: padding-box;
   color: #30bac3;
-  font-family: "Pretendard", "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 700;
   line-height: 21px;
@@ -1070,7 +1078,7 @@
 }
 
 .infoContent h2 {
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -1112,7 +1120,7 @@
 .infoRow dd {
   margin: 0;
   color: #1e293b;
-  font-family: "Pretendard GOV Variable", var(--font-sans);
+  font-family: var(--font-sans);
   font-size: 14px;
   letter-spacing: -0.015em;
   line-height: 24px;
@@ -1361,6 +1369,22 @@
   }
 }
 
+@media (max-width: 1080px) {
+  .heroMetric p,
+  .heroMetricDescription {
+    font-size: 14px;
+  }
+
+  .heroMetric strong {
+    font-size: 28px;
+  }
+
+  .introCopy h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
 @media (max-width: 699px) {
   .sectionInner,
   .historyInner {
@@ -1440,7 +1464,7 @@
   }
 
   .heroMetric strong {
-    font-size: 24px;
+    font-size: 28px;
     line-height: 30px;
   }
 
@@ -1458,6 +1482,10 @@
   .infoContent h2 {
     font-size: 22px;
     line-height: 32px;
+  }
+
+  .introCopy h2 {
+    font-size: 24px;
   }
 
   .bodyCopy,
@@ -1652,7 +1680,7 @@
   }
 
   .heroCopy h1 {
-    font-family: "Pretendard GOV Variable", var(--font-sans);
+    font-family: var(--font-sans);
     font-size: 28px;
     line-height: 36px;
   }
